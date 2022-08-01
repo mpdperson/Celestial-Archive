@@ -110,14 +110,14 @@
     })(), (() => {
         r.f = {}, r.e = e => Promise.all(Object.keys(r.f).reduce(((t, n) => (r.f[n](e, t), t)), []))
     })(), (() => {
-        r.u = e => "js/" + e + "." + {
+        r.u = e => "builder/js/" + e + "." + {
             193: "381d75f4",
             230: "92cabe33",
             372: "7867eb5e",
             885: "c56b943f"
         } [e] + ".js"
     })(), (() => {
-        r.miniCssF = e => "css/vendor.51a978b7.css"
+        r.miniCssF = e => "builder/css/vendor.51a978b7.css"
     })(), (() => {
         r.g = function() {
             if ("object" === typeof globalThis) return globalThis;

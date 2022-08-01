@@ -1,1 +1,0 @@
-var studies = ["Gamma Radiation","Wormhole Physics","Modular Design","Efficiency","Single Use","Biology","Vehicles","Mobility","Neurology","Multi-Dimensions","Cryogenics","Wavelengths","Nanotech"];

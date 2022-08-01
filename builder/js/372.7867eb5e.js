@@ -247,7 +247,7 @@
 				debug: !0,
 				state: (0, m.qj)({
 					displayValue: {
-						domain: "One of twelve clusters of conceptually similar perks",
+						domain: "Clusters of conceptually similar perks",
 						id: "Unique perk reference, format: domain#(.)perk#",
 						title: "Selected perk title (currently none)",
 						source: "Media property from which perk originates",
@@ -305,13 +305,13 @@
                     class: "row"
 				},
                 _ = {
-                    class: "col-12 col-md-2 q-pa-md"
+                    class: "col-12 col-md-set q-pa-md"
 				},
                 q = {
-                    class: "col-12 col-md-2 q-pa-md"
+                    class: "col-12 col-md-set2 q-pa-md"
 				},
                 P = {
-                    class: "col-12 col-md-8 q-pa-md"
+                    class: "col-12 col-md-set3 q-pa-md"
 				};
 				
 				function I(e, t, o, i, s, r) {
@@ -455,7 +455,6 @@
 		},
         7148: e => {
             "use strict";
-			//console.log("starts",starts);
 			e.exports = convertForge();
 		}
 	}

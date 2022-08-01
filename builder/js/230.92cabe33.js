@@ -57,7 +57,7 @@
             })
         },
         8767: (e, n, t) => {
-            e.exports = t.p + "img/forgemaster.2eece65c.jpeg"
+            e.exports = t.p + "builder/img/forgemaster.2eece65c.jpeg"
         }
     }
 ]);

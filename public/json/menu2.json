@@ -59,62 +59,6 @@ menu2 = {
       "childs": 3
     },
     {
-      "path": "C:\\Users\\Arthur\\Documents\\Wenestim\\celestial-archive\\public\\icons",
-      "name": "icons",
-      "children": [
-        {
-          "path": "C:\\Users\\Arthur\\Documents\\Wenestim\\celestial-archive\\public\\icons\\favicon-128x128.png",
-          "name": "favicon-128x128.png",
-          "mode": 33206,
-          "mtime": "2022-07-29T17:02:43.903Z",
-          "size": 12324,
-          "type": "file",
-          "extension": ".png",
-          "collapsed": true,
-          "childs": 0
-        },
-        {
-          "path": "C:\\Users\\Arthur\\Documents\\Wenestim\\celestial-archive\\public\\icons\\favicon-16x16.png",
-          "name": "favicon-16x16.png",
-          "mode": 33206,
-          "mtime": "2022-07-29T17:02:43.912Z",
-          "size": 859,
-          "type": "file",
-          "extension": ".png",
-          "collapsed": true,
-          "childs": 0
-        },
-        {
-          "path": "C:\\Users\\Arthur\\Documents\\Wenestim\\celestial-archive\\public\\icons\\favicon-32x32.png",
-          "name": "favicon-32x32.png",
-          "mode": 33206,
-          "mtime": "2022-07-29T17:02:43.919Z",
-          "size": 2039,
-          "type": "file",
-          "extension": ".png",
-          "collapsed": true,
-          "childs": 0
-        },
-        {
-          "path": "C:\\Users\\Arthur\\Documents\\Wenestim\\celestial-archive\\public\\icons\\favicon-96x96.png",
-          "name": "favicon-96x96.png",
-          "mode": 33206,
-          "mtime": "2022-07-29T17:02:43.926Z",
-          "size": 9643,
-          "type": "file",
-          "extension": ".png",
-          "collapsed": true,
-          "childs": 0
-        }
-      ],
-      "mode": 16822,
-      "mtime": "2022-07-29T17:07:47.405Z",
-      "size": 24865,
-      "type": "directory",
-      "collapsed": true,
-      "childs": 4
-    },
-    {
       "path": "C:\\Users\\Arthur\\Documents\\Wenestim\\celestial-archive\\public\\img",
       "name": "img",
       "children": [
@@ -206,9 +150,9 @@ menu2 = {
     }
   ],
   "mode": 16822,
-  "mtime": "2022-08-01T13:57:56.701Z",
-  "size": 1274962,
+  "mtime": "2022-08-01T19:41:57.439Z",
+  "size": 1250097,
   "type": "directory",
   "collapsed": false,
-  "childs": 7
+  "childs": 6
 }

@@ -2,6 +2,10 @@ var currentTitles = [];
 var trimPerks = [];
 var para = new RegExp(/\s*\(.*?\)\s*/g);
 var totalForge = 0;
+var celestial_forge = [];
+$.getJSON('public/json/celestial_forge.json', function(data) {
+    celestial_forge = data;
+});
 
 function convertPerk(res) {
 	var desc = res.Description;
@@ -752,3 +756,15 @@ function download(content, fileName, contentType) {
 	a.download = fileName;
 	a.click();
 }
+
+$(document).ready(function() {
+	console.log("Page loaded...");
+	var url = window.location.href;
+	url = url.replace("http://127.0.0.1:3000","");
+	url = url.replace("http://195.88.25.143","");
+	if(url=="/builder#/Builder") {
+		if(isNull(celestial_forge)) {
+			window.location.href = "/builder";
+		}
+	}
+});

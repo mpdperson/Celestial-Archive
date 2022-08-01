@@ -9,7 +9,7 @@
             const n = (0, a.Uk)(" Craft "),
                 r = (0, a.Wm)("div", null, " Craft v0.0.1", -1),
                 u = (0, a.Uk)(" Links "),
-                o = (0, a.Wm)("div", null, " Copyright © 2021 Zeroem ", -1);
+                o = (0, a.Wm)("div", null, " Copyright © 2022 Stained.Glass ", -1);
 
             function i(e, t, l, i, c, s) {
                 const p = (0, a.up)("q-btn"),
@@ -150,10 +150,10 @@
             });
             var Z = l(1959);
             const W = [{
-                    title: "Gitlab",
-                    caption: "gitlab.com/zeroem/craft",
+                    title: "Github",
+                    caption: "github.com/mpdperson/Celestial-Archive",
                     icon: "code",
-                    link: "https://gitlab.com/zeroem/craft"
+                    link: "https://github.com/mpdperson/Celestial-Archive"
                 }],
                 q = (0, a.aZ)({
                     name: "MainLayout",

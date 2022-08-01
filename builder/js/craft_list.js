@@ -1,1 +1,0 @@
-var craft_list = ["Brewing","Chemistry","Carpentry","Engraving","Jewelcrafting","Painting","Smithing","Tailoring"];
