@@ -19,7 +19,7 @@ var cpath = process.cwd();
 const HOST = "127.0.0.1";
 var port = process.env.PORT || 3000;
 if(hostname=="KZJmTO6d3d"){
-	port = 80;
+	//port = 80;
 }
 var cpath = process.cwd();
 console.log("hostname",hostname);
