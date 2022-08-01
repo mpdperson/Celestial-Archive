@@ -40,28 +40,6 @@ $.getJSON('public/json/source_origins.json', function(data) {
     source_origins = data;
 });
 
-//Dictionaries
-var common_phrases = [];
-$.getJSON('public/dictionaries/common_phrases.json', function(data) {
-    common_phrases = data;
-});
-var commons = [];
-$.getJSON('public/dictionaries/commons.json', function(data) {
-    commons = data;
-});
-var ending = [];
-$.getJSON('public/dictionaries/ending.json', function(data) {
-    ending = data;
-});
-var morewords = [];
-$.getJSON('public/dictionaries/morewords.json', function(data) {
-    morewords = data;
-});
-var wordList = [];
-$.getJSON('public/dictionaries/wordList.json', function(data) {
-    wordList = data;
-});
-
 var allSkills = magic_skills.concat(science_skills);
 allSkills = allSkills.sort();
 allSkills = [...new Set(allSkills)];
@@ -69,6 +47,7 @@ allSkills = [...new Set(allSkills)];
 var body = document.body;
 var html = document.documentElement;
 
+var checkDomain		= [];
 var allRollCount	= 0;
 var loadedJson		= {};
 var doRerolls		= false;
@@ -133,6 +112,18 @@ function toggleCosts(obj) {
 	}
 	else {
 		toggleCost.push(obj);
+	}
+}
+
+function toggleOverDomain(obj) {
+	var dList = allDomains[obj];
+	obj = obj.replaceAll(":","").replaceAll(" ","_");
+	var isCheck = $("#"+obj).prop('checked');
+	for(var d of dList) {
+		var id = d.replace(reg,"_");
+		id = id.split(" ").join("_");
+		$("#"+id).prop('checked', isCheck);
+		toggleDomain[domainNumber[d]] = isCheck;
 	}
 }
 
@@ -965,10 +956,6 @@ function fillDrop2() {
 		}
 		//selectDom2.value = optionsUnder[0];
 	}
-}
-
-function findWord(txt) {
-	return wordList.includes(txt);
 }
 
 function inForge(res) {
@@ -1901,7 +1888,6 @@ function addOrigin(obj) {
 }
 
 function saveOrigins() {
-	//source_origins
 	source_origins.sort(function(a, b) {
 		if (a.Source.toLowerCase() < b.Source.toLowerCase()) {
 			return -1;
@@ -2006,77 +1992,107 @@ function isDupe(obj) {
 }
 
 function selectAllDomain() {
+	$("#noDomain").prop('checked', false);
 	toggleDomain.forEach(function(p,idx,theArr) {
 		theArr[idx] = true;
 	});
-	var dm = qs("#roll")[2].children[2].children;
-	if(dm[0].checked) {
-		dm[3].checked = false;
-		for (var i = 4; i < dm.length; i++) {
-			if(dm[i].nodeName === "INPUT") {
-				dm[i].checked = true;
-			}
+	checkDomain.forEach(function(p) {
+		$("#"+p).prop('checked', true);
+	});
+	var keys = Object.keys(allDomains);
+	for(var key of keys) {
+		if(allDomains[key].length>1) {
+			var id = key.replaceAll(":","").replaceAll(" ","_");
+			$("#"+id+"_").prop('checked', true);
 		}
 	}
 }
 
 function selectAllCost() {
+	$("#noCost").prop('checked', false);
 	toggleCost = saveCost;
-	var pr = qs("#roll")[2].children[1].children;
-	if(pr[0].checked) {
-		pr[3].checked = false;
-		for (i = 4; i < pr.length; i++) {
-			if(pr[i].nodeName === "INPUT") {
-				pr[i].checked = true;
-			}
-		}
-	}
+	toggleCost.forEach(function(p) {
+		$("#c"+p).prop('checked', true);
+	});
 }
 
 function selectNoDomain() {
+	$("#allDomain").prop('checked', false);
 	toggleDomain.forEach(function(p,idx,theArr) {
 		theArr[idx] = false;
 	});
-	var dm = qs("#roll")[2].children[2].children;
-	if(dm[3].checked) {
-		dm[0].checked = false;
-		for (i = 4; i < dm.length; i++) {
-			if(dm[i].nodeName === "INPUT") {
-				dm[i].checked = false;
-			}
+	checkDomain.forEach(function(p) {
+		$("#"+p).prop('checked', false);
+	});
+	var keys = Object.keys(allDomains);
+	for(var key of keys) {
+		if(allDomains[key].length>1) {
+			var id = key.replaceAll(":","").replaceAll(" ","_");
+			$("#"+id+"_").prop('checked', false);
 		}
 	}
 }
 
 function selectNoCost() {
+	$("#allCost").prop('checked', false);
 	toggleCost = [];
-	var pr = qs("#roll")[2].children[1].children;
-	if(pr[3].checked) {
-		pr[0].checked = false;
-		for (i = 4; i < pr.length; i++) {
-			if(pr[i].nodeName === "INPUT") {
-				pr[i].checked = false;
-			}
-		}
-	}
+	saveCost.forEach(function(p) {
+		$("#c"+p).prop('checked', false);
+	});
 }
 
-var colapseable = false;
+var colapseable = true;
 function redoPerkCheckList() {
 	qs("#dmn").innerHTML = "";
 	
-	qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" onclick="selectAllDomain()" checked value=""><label>Select All</label><br>';
-	qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" onclick="selectNoDomain()" value=""><label>Select None</label><br>';
+	qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" onclick="selectAllDomain()" checked value="" id="allDomain"><label>Select All</label><br>';
+	qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" onclick="selectNoDomain()" value="" id="noDomain"><label>Select None</label><br>';
 	
 	toggleDomain = [];
 	var dNum = 0;
+	var setFirst = false;
+	var lastDomain = "";
+	var lastDiv = null;
 	celestial_forge.forEach(function(d) {
 		domainNumber[d.Domain] = dNum;
 		toggleDomain.push(true);
 		perksNum[d.Domain]=d.Perks.length;
 		var id = d.Domain.replace(reg,"_");
 		id = id.split(" ").join("_");
-		qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" checked onclick=toggleDomains("'+d.Domain+'") value="'+d.Domain+'"><label id="'+id+'">'+d.Domain+' ('+perksNum[d.Domain]+')</label><br>';
+		checkDomain.push(id);
+		if(colapseable) {
+			var newDomain = d.Over_Domain.replaceAll(":","").replaceAll(" ","_");
+			if(lastDomain!=newDomain) {
+				lastDomain = newDomain;
+				if(setFirst) {
+					if(!isNull(lastDiv)) lastDiv.innerHTML += '<br/>';
+					qs("#dmn").innerHTML += '</div>';
+				}
+				if(!isNull(lastDomain)) {
+					qs("#dmn").innerHTML += '<div class="collapsible" id="section1">'+d.Over_Domain+'<span></span></div>';
+					qs("#dmn").innerHTML += '<div class="container" id="content'+dNum+'">';
+					if(allDomains[lastDomain].length>1) {
+						//toggleOverDomain
+						qs("#content"+dNum).innerHTML += '<input type="checkbox" name="dmn" checked onclick=toggleOverDomain("'+d.Over_Domain+'") value="'+d.Over_Domain+'" id="'+lastDomain+'_"><label>'+d.Over_Domain+'</label><br>';
+						lastDiv = qs("#content"+dNum);
+						lastDiv.innerHTML += '<input type="checkbox" name="dmn" checked onclick=toggleDomains("'+d.Domain+'") value="'+d.Domain+'" id="'+id+'"><label>'+d.Domain+' ('+perksNum[d.Domain]+')</label><br>';
+					}
+					else {
+						qs("#content"+dNum).innerHTML += '<input type="checkbox" name="dmn" checked onclick=toggleDomains("'+d.Domain+'") value="'+d.Domain+'" id="'+id+'"><label>'+d.Domain+' ('+perksNum[d.Domain]+')</label><br>';
+						lastDiv = qs("#content"+dNum);
+					}
+					setFirst = true;
+				}
+			}
+			else {
+				if(!isNull(lastDiv)) {
+					lastDiv.innerHTML += '<input type="checkbox" name="dmn" checked onclick=toggleDomains("'+d.Domain+'") value="'+d.Domain+'" id="'+id+'"><label>'+d.Domain+' ('+perksNum[d.Domain]+')</label><br>';
+				}
+			}
+		}
+		else {
+			qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" checked onclick=toggleDomains("'+d.Domain+'") value="'+d.Domain+'"><label id="'+id+'">'+d.Domain+' ('+perksNum[d.Domain]+')</label><br>';
+		}
 		dNum++;
 	});
 	saveDomain = toggleDomain;
@@ -2092,18 +2108,18 @@ function redoPerkCheckList() {
 	prcs = [...new Set(prcs)];
 	
 	prcs.sort(function(a, b) {
-		return a - b
+		return a - b;
 	});
 	
 	qs("#prc").innerHTML = "";
 	
-	qs("#prc").innerHTML += '<input type="checkbox" name="prc" onclick="selectAllCost()" checked value=""><label>Select All</label><br>';
-	qs("#prc").innerHTML += '<input type="checkbox" name="prc" onclick="selectNoCost()" value=""><label>Select None</label><br>';
+	qs("#prc").innerHTML += '<input type="checkbox" name="prc" onclick="selectAllCost()" checked value="" id="allCost"><label>Select All</label><br>';
+	qs("#prc").innerHTML += '<input type="checkbox" name="prc" onclick="selectNoCost()" value="" id="noCost"><label>Select None</label><br>';
 	
 	toggleCost = [];
 	prcs.forEach(function(d) {
 		toggleCost.push(""+d);
-		qs("#prc").innerHTML += '<input type="checkbox" name="prc" onclick=toggleCosts("'+d+'") value ="' + d + '" checked><label>' + d + '</label><br>';
+		qs("#prc").innerHTML += '<input type="checkbox" name="prc" onclick=toggleCosts("'+d+'") value ="' + d + '" id="c' + d + '" checked><label>' + d + '</label><br>';
 	});
 	saveCost = toggleCost;
 	
@@ -2354,7 +2370,7 @@ function attemptPrereq(res) {
 				}
 				qs("#cur_cost").innerText = "" + resCost;
 				
-				if(!havePrereq(prereqPerk) && haveRestrict(e)) {
+				if(!havePrereq(prereqPerk) && haveRestrict(res)) {
 					addCurrent = attemptPrereq(prereqPerk);
 				}
 				else if(currentCP >= resCost && addCurrent) {
@@ -2484,7 +2500,7 @@ function doRoll(rollCount, isReroll) {
 	gained = false;
 	var prereqPerk = findPrereq(res);
 	
-	if(currentCP >= resCost && havePrereq(res) && canDoRoll && haveRestrict(e)) {
+	if(currentCP >= resCost && havePrereq(res) && canDoRoll && haveRestrict(res)) {
 		temp = trimPerk(res);
 		var ct = res.Title+"-"+res.Upper_Source;
 		if(!trimPerks.includes(temp) && !currentTitles.includes(ct)) {
@@ -2618,16 +2634,6 @@ function doRoll(rollCount, isReroll) {
 	}
 	
 	return gained;
-}
-
-function endingReplace(txt) {
-	var spacer = "(\\.|\\?|\\!| |\\,|\\\"|'|:|;|”|’)";
-	for(var i=0; i<ending.length; i++) {
-		var noDash = ending[i].replace(/\-/g,"");
-		txt = txt.replace(RegExp(" \\"+ending[i]+spacer),ending[i]+"$1");
-		txt = txt.replace(RegExp(" "+noDash+spacer),noDash+"$1");
-	}
-	return txt;
 }
 
 var lastSeenPerk = null;
@@ -3134,7 +3140,7 @@ function pickThisPerk() {
 		}
 	}
 	
-	if(currentCP >= resCost && havePrereq(res) && haveRestrict(e)) {
+	if(currentCP >= resCost && havePrereq(res) && haveRestrict(res)) {
 		currentCP -= resCost;
 		addPerk(res,qs("#Freebies").checked);
 	}
@@ -3622,16 +3628,6 @@ function doFree(perk) {
 		});
 	});
 	return freebies;
-}
-
-function endingReplace(txt) {
-	var spacer = "(\\.|\\?|\\!| |\\,|\\\"|'|:|;|”|’)";
-	for(var i=0; i<ending.length; i++) {
-		var noDash = ending[i].replace(/\-/g,"");
-		txt = txt.replace(RegExp(" \\"+ending[i]+spacer),ending[i]+"$1");
-		txt = txt.replace(RegExp(" "+noDash+spacer),noDash+"$1");
-	}
-	return txt;
 }
 
 function download(content, fileName, contentType) {

@@ -41,7 +41,10 @@
 }
 
 .collapse-open span {
+    display:block;
+    float:right;
     background:url("images/minus.png") center center no-repeat;
+    padding:10px;
 }
 
 .collapse-close span {

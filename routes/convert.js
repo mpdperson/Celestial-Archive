@@ -528,6 +528,22 @@ function writeToFile2(data,name) {
 	});
 }
 
+function writeToFilePath(data, name, path, begin, end) {
+	if(isNull(begin)) begin = "";
+	if(isNull(end)) end = "";
+	console.log("writeToFile2",name);
+	name = path + name;
+	if(typeof(data) != 'string') {
+		data = JSON.stringify(data,null,2);
+	}
+	fs.writeFile(name, begin+data+end, (err) => {
+		if (err) {
+			throw err;
+		}
+		console.log("JSON data is saved.");
+	});
+}
+
 function writeToFile6(data,name) {
 	console.log("writeToFile6",name);
 	name = './public/dictionaries/'+name;
@@ -1984,6 +2000,7 @@ function parseFile(importFile) {
 			trimedPerk = emptyPerk();
 		}
 	}
+	writeToFilePath(toAdd,"addPerks.json","./public/json/");
 	return toAdd;
 }
 
