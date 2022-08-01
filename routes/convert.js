@@ -18,6 +18,7 @@ var dictionary = require('../public/dictionaries/new_dict.js');
 var dict = new spelling(dictionary);
 var wordList = require('../public/dictionaries/wordList.json');
 var ending = require('../public/dictionaries/ending.json');
+var celestial_forge = require('../public/json/celestial_forge.json');
 var XRegExp = require('xregexp');
 
 const {GoogleAuth} = require('google-auth-library');
@@ -45,6 +46,11 @@ var seeConsole = false;
 var count = 0;
 var doc = "";
 var files = [];
+
+var allDomains = [];
+var allFandoms = [];
+var allSources = [];
+var allUpper = {};
 
 //“”
 //‘’
@@ -217,6 +223,29 @@ router.post('/', (req, res, next) => {
 	});
 });
 
+router.post('/file', (req, res, next) => {
+	console.log("\nFilenames in directory:");
+	var form = new formidable.IncomingForm();
+	form.parse(req, function (err, fields, files) {
+		console.log("fields", JSON.stringify(fields, null, 2));
+		console.log("files", JSON.stringify(files, null, 2));
+		var title = "File Uploaded";
+		var result = [];
+		
+		if (!files.myFile.length) {
+			var file = files.myFile;
+			result = processFile(file);
+		}
+		else {
+			files.myFile.forEach(function(d) {
+				result.push(processFile(d));
+			});
+		}
+		
+		res.send(result);
+	});
+});
+
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -330,6 +359,28 @@ async function uploadFile(file) {
 	}
 }
 
+function processFile(file) {
+	var isValid = isFileValid(file);
+	var fileName = encodeURIComponent(file.originalFilename.replace(/\s/g, "_"));//
+	var finalTxt = "";
+	
+	if(isValid) {
+		var oldPath = file.filepath;
+		var extension = file.originalFilename.split(".").pop();
+		var newPath = path.join(__dirname, '../public/converted')+ '/'+fileName;
+		var rawData = fs.readFileSync(oldPath)
+		
+		switch(extension) {
+			case "pdf":
+				return pdfToTxtFinal(file);
+				break;
+			case "txt":
+				return readFileTxtFinal(file);
+				break;
+		}
+	}
+}
+
 function readFileTxt(file) {
 	console.log("readFileTxt");
 	var oldPath = file.filepath;
@@ -354,6 +405,29 @@ function readFileTxt(file) {
 		var txt = data;
 		txt = parseTxt(data,fileName);
 		writeToFile(txt,fileName+".txt");
+	});
+}
+
+function readFileTxtFinal(file) {
+	console.log("readFileTxt");
+	var oldPath = file.filepath;
+	var fileName = file.originalFilename.split(".")[0];
+	var nameAdd = fileName.replace(/_/g, " ");
+	nameAdd = nameAdd.replace(/ ([ ]+)/g," ");
+	
+	addWords(nameAdd);
+	addWords(fileName);
+	
+	fs.readFile(oldPath, 'utf8', function(err, data) {
+		if (err) {
+			console.log(err);
+		}
+		doc = data;
+		data = data.replace(/​/g,"").replace(/–/g,"-").replace(/"([^"\n]+)"/g,"“$1”").replace(//g,"●")
+			.replace(/…./g,"…");
+		var txt = data;
+		txt = parseTxt(data,fileName);
+		return parseFile(txt);
 	});
 }
 
@@ -410,42 +484,33 @@ function pdfToTxt(file) {
 	addWords(nameAdd);
 	addWords(fileName);
 	
-	/*
-		new PdfReader().parseFileItems(oldPath, (err, item) => {
-		if (err) console.error("error:", err);
-		else if (!item) console.warn("end of file");
-		else if (item.text) console.log(item.text);
-		doc = item.text;
-		writeToFile(item.text,"original.txt");
-		console.log("Finished Writing pdfToTxt");
-		var txt = parseTxt(item.text,fileName);
-		writeToFile(txt,fileName+".txt");
-		});
-	//*/
-	
-	//*
 	var dataBuffer = fs.readFileSync(oldPath);
 	pdf(dataBuffer,options).then(function(data) {
-		// number of pages
-		//console.log(data.numpages);
-		// number of rendered pages
-		//console.log(data.numrender);
-		// PDF info
-		//console.log(data.info);
-		// PDF metadata
-		//console.log(data.metadata);
-		// PDF.js version
-		// check https://mozilla.github.io/pdf.js/getting_started/
-		//console.log(data.version);
-		// PDF text
-		//console.log(data.text);
 		doc = data.text;
 		writeToFile(data.text,"original.txt");
 		console.log("Finished Writing pdfToTxt");
 		var txt = parseTxt(data.text,fileName);
 		writeToFile(txt,fileName+".txt");
+		return txt;
 	});
-	//*/
+}
+
+function pdfToTxtFinal(file) {
+	console.log("readFileTxt");
+	var oldPath = file.filepath;
+	var fileName = file.originalFilename.split(".")[0];
+	var nameAdd = fileName.replace(/_/g, " ");
+	nameAdd = nameAdd.replace(/ ([ ]+)/g," ");
+	
+	addWords(nameAdd);
+	addWords(fileName);
+	
+	var dataBuffer = fs.readFileSync(oldPath);
+	pdf(dataBuffer,options).then(function(data) {
+		doc = data.text;
+		var txt = parseTxt(data.text,fileName);
+		return parseFile(txt);
+	});
 }
 
 function writeToFile2(data,name) {
@@ -1736,6 +1801,575 @@ async function exportPdf(fileId,auth) {
 		isAuth = false;
 		console.log("Error",err);
 	}
+}
+
+
+var sourceReg		= new RegExp(/<([^>\n]+)>/g);
+var titleReg		= new RegExp(/^([^<\n]+)/g);
+function parseFile(importFile) {
+	console.log("parseFile");
+	var toAdd = [];
+	if(importFile.length == 0) {
+		return toAdd;
+	}
+	var nOver_Domain = "";
+	var trimedPerk = emptyPerk();
+	for(var i=0; i<importFile.length; i++) {
+		var parseLine = importFile[i].trim();
+		parseLine = parseLine.replaceAll("\\r","<br/>");
+		if(isDomain(parseLine)) {
+			nOver_Domain = parseLine.replaceAll("=","");
+			if(nOver_Domain == "Unknown") nOver_Domain = "";
+			trimedPerk = emptyPerk();
+		}
+		else if(isTitle(parseLine)) {
+			var titleMatch = parseLine.match(titleReg);
+			var sourceMatch = parseLine.match(sourceReg);
+			var title = titleMatch[0];
+			title = title.trim();
+			
+			var source = sourceMatch[0];
+			source = source.replaceAll("<","");
+			source = source.replaceAll(">","");
+			source = source.trim();
+			
+			var overSource = findBestMatch(source);
+			
+			var cost = parseLine.match(costReg)[0].trim();
+			cost = cost.replaceAll("{","");
+			cost = cost.replaceAll("}","");
+			cost = parseInt(cost);
+			
+			if(cost < 50 && cost < 30) { cost = 0;}
+			if(cost < 50 && cost >= 30) { cost = 50;}
+			title = capitalSentance(title);
+			
+			trimedPerk["Cost"] = cost;
+			trimedPerk["Title"] = title;
+			trimedPerk["Source"] = source;
+			trimedPerk["Over_Domain"] = nOver_Domain;
+			trimedPerk["Upper_Source"] = overSource;
+		}
+		else if(isBullet(parseLine)) {
+			if(isNull(trimedPerk["Description"])) {
+				trimedPerk["Description"] = parseLine.trim();
+				if(getMulti(trimedPerk["Description"])) {
+					trimedPerk["Retake"] = true;
+				}
+			}
+			else {
+				trimedPerk["Description"] = trimedPerk["Description"] + " \r&emsp; " + parseLine.trim();
+				if(getMulti(trimedPerk["Description"])) {
+					trimedPerk["Retake"] = true;
+				}
+			}
+		}
+		else if(multiReq(parseLine)) {
+			if(isNull(trimedPerk["Description"])) {
+				trimedPerk["Description"] = parseLine.trim();
+				if(prereqReg1.test(parseLine)) {
+					if(isNull(trimedPerk["Prereq_Title"])) {
+						trimedPerk["Prereq_Title"] = parseLine.match(prereqReg1)[1].trim();
+					}
+					else {
+						trimedPerk["Prereq_Title"] = trimedPerk["Prereq_Title"] + " && " + parseLine.match(prereqReg1)[1].trim();
+					}
+					trimedPerk["Prereq"] = true;
+				}
+				if(freereqReg1.test(parseLine)) {
+					if(isNull(trimedPerk["Free_Title"])) {
+						trimedPerk["Free_Title"] = parseLine.match(freereqReg1)[1].trim();
+					}
+					else {
+						trimedPerk["Free_Title"] = trimedPerk["Free_Title"] + " && " + parseLine.match(freereqReg1)[1].trim();
+					}
+					trimedPerk["Free"] = true;
+				}
+				if(discountreqReg1.test(parseLine)) {
+					if(isNull(trimedPerk["Discount_Title"])) {
+						trimedPerk["Discount_Title"] = parseLine.match(discountreqReg1)[1].trim();
+					}
+					else {
+						trimedPerk["Discount_Title"] = trimedPerk["Discount_Title"] + " && " + parseLine.match(discountreqReg1)[1].trim();
+					}
+					trimedPerk["Discount"] = true;
+				}
+				if(restrictreqReg1.test(parseLine)) {
+					if(isNull(trimedPerk["Restrict_Title"])) {
+						trimedPerk["Restrict_Title"] = parseLine.match(restrictreqReg1)[1].trim();
+					}
+					else {
+						trimedPerk["Restrict_Title"] = trimedPerk["Restrict_Title"] + " && " + parseLine.match(restrictreqReg1)[1].trim();
+					}
+					trimedPerk["Restrict"] = true;
+				}
+				if(excludereqReg1.test(parseLine)) {
+					if(isNull(trimedPerk["Exclude_Title"])) {
+						trimedPerk["Exclude_Title"] = parseLine.match(excludereqReg1)[1].trim();
+					}
+					else {
+						trimedPerk["Exclude_Title"] = trimedPerk["Exclude_Title"] + " && " + parseLine.match(excludereqReg1)[1].trim();
+					}
+					trimedPerk["Restrict"] = true;
+				}
+				if(getMulti(trimedPerk["Description"])) {
+					trimedPerk["Retake"] = true;
+				}
+			}
+			else {
+				trimedPerk["Description"] = trimedPerk["Description"] + " \\r&emsp; " + parseLine.trim();
+				if(prereqReg1.test(parseLine)) {
+					if(isNull(trimedPerk["Prereq_Title"])) {
+						trimedPerk["Prereq_Title"] = parseLine.match(prereqReg1)[1].trim();
+					}
+					else {
+						trimedPerk["Prereq_Title"] = trimedPerk["Prereq_Title"] + " && " + parseLine.match(prereqReg1)[1].trim();
+					}
+					trimedPerk["Prereq"] = true;
+				}
+				if(freereqReg1.test(parseLine)) {
+					if(isNull(trimedPerk["Prereq_Title"])) {
+						trimedPerk["Free_Title"] = parseLine.match(freereqReg1)[1].trim();
+					}
+					else {
+						trimedPerk["Free_Title"] = trimedPerk["Free_Title"] + " && " + parseLine.match(freereqReg1)[1].trim();
+					}
+					trimedPerk["Free"] = true;
+				}
+				if(discountreqReg1.test(parseLine)) {
+					if(isNull(trimedPerk["Prereq_Title"])) {
+						trimedPerk["Discount_Title"] = parseLine.match(discountreqReg1)[1].trim();
+					}
+					else {
+						trimedPerk["Discount_Title"] = trimedPerk["Discount_Title"] + " && " + parseLine.match(discountreqReg1)[1].trim();
+					}
+					trimedPerk["Discount"] = true;
+				}
+				if(getMulti(trimedPerk["Description"])) {
+					trimedPerk["Retake"] = true;
+				}
+			}
+		}
+		else if(parseLine != '') {
+			if(isNull(trimedPerk["Description"])) {
+				trimedPerk["Description"] = parseLine.trim();
+				if(getMulti(trimedPerk["Description"])) {
+					trimedPerk["Retake"] = true;
+				}
+			}
+			else {
+				trimedPerk["Description"] = trimedPerk["Description"] + " " + parseLine.trim();
+				if(getMulti(trimedPerk["Description"])) {
+					trimedPerk["Retake"] = true;
+				}
+			}
+		}
+		else {
+			if(!isNull(trimedPerk.Discount_Title)) {
+				if(trimedPerk.Discount_Title.includes("&&") || trimedPerk.Discount_Title.includes("||")) {
+					trimedPerk.Discount_Title = "("+trimedPerk.Discount_Title+")";
+				}
+			}
+			if(!isNull(trimedPerk.Free_Title)) {
+				if(trimedPerk.Free_Title.includes("&&") || trimedPerk.Free_Title.includes("||")) {
+					trimedPerk.Free_Title = "("+trimedPerk.Free_Title+")";
+				}
+			}
+			if(!isNull(trimedPerk.Prereq_Title)) {
+				if(trimedPerk.Prereq_Title.includes("&&") || trimedPerk.Prereq_Title.includes("||")) {
+					trimedPerk.Prereq_Title = "("+trimedPerk.Prereq_Title+")";
+				}
+			}
+			toAdd.push(trimedPerk);
+			trimedPerk = emptyPerk();
+		}
+	}
+	return toAdd;
+}
+
+var prereqReg1		= new RegExp(/\[?Requires:? ([^\n\]]+)\]/);
+var freereqReg1		= new RegExp(/\[?Free:? ([^\n\]]+)\]/);
+var discountreqReg1	= new RegExp(/\[?Discounte?d?:? ([^\n\]]+)\]/);
+var restrictreqReg1	= new RegExp(/\[?Restricte?d?:? ([^\n\]]+)\]/);
+var excludereqReg1	= new RegExp(/\[?Excluded?:? ([^\n\]]+)\]/);
+function multiReq(txt) {
+	console.log("multiReq");
+	
+	return (
+		prereqReg1.test(txt) 
+		|| freereqReg1.test(txt) 
+		|| discountreqReg1.test(txt) 
+		|| restrictreqReg1.test(txt)
+		|| excludereqReg1.test(txt)
+	);
+}
+
+function findBestMatch(res) {
+	console.log("findBestMatch");
+	var bMatch = "";
+	var lm = 0;
+	var matched = {};
+	for(var pm of allFandoms) {
+		var per = similarity(pm,res);
+		if(per.as>lm) {
+			lm = per.as;
+			bMatch = pm;
+			matched = per;
+			matched["source"] = pm;
+		}
+	}
+	if(lm = 0) {
+		bMatch = res;
+	}
+	return bMatch;
+}
+
+function similarity(a, b) {
+	a = stripString(a);
+	b = stripString(b);
+	var ld = ldPercent(a,b);
+	var cs = textCosineSimilarity(a, b);
+	var jw = JaroWrinker(a, b);
+	var as = arraySimilar(a, b);
+	return {"ld":ld, "cs":cs, "jw":jw, "as":as};
+}
+
+function stripString(a) {
+	a = a.toLowerCase();
+	a = a.replace(/[^a-z\- ]/g, '');
+	a = a.replace(/\s+/g, ' ');
+	a = a.trim();
+	return a;
+}
+
+function ldPercent(a, b) {
+	var difference = LevenshteinDistance(a, b);
+	var max = (a.length > b.length) ? a.length : b.length;
+	var ld = ((max - difference) / max);
+	return ld;
+}
+
+function LevenshteinDistance(a, b) {
+	if(a.length == 0) return b.length;
+	if(b.length == 0) return a.length;
+	var matrix = [];
+	// increment along the first column of each row
+	var i;
+	for(i = 0; i <= b.length; i++){
+		matrix[i] = [i];
+	}
+	// increment each column in the first row
+	var j;
+	for(j = 0; j <= a.length; j++){
+		matrix[0][j] = j;
+	}
+	// Fill in the rest of the matrix
+	for(i = 1; i <= b.length; i++){
+		for(j = 1; j <= a.length; j++){
+			if(b.charAt(i-1) == a.charAt(j-1)){
+				matrix[i][j] = matrix[i-1][j-1];
+			}
+			else {
+				matrix[i][j] = Math.min(
+					matrix[i-1][j-1] + 1, // substitution
+					Math.min(matrix[i][j-1] + 1, // insertion
+					matrix[i-1][j] + 1) // deletion
+				);
+			}
+		}
+	}
+	return matrix[b.length][a.length];
+}
+
+function textCosineSimilarity(strA, strB) {
+	var termFreqA = termFreqMap(strA);
+	var termFreqB = termFreqMap(strB);
+	var dict = {};
+  
+	addKeysToDict(termFreqA, dict);
+	addKeysToDict(termFreqB, dict);
+  
+	var termFreqVecA = termFreqMapToVector(termFreqA, dict);
+	var termFreqVecB = termFreqMapToVector(termFreqB, dict);
+	return cosineSimilarity(termFreqVecA, termFreqVecB);
+}
+
+function JaroWrinker(s1, s2) {
+	var m = 0;
+	// Exit early if either are empty.
+	if (s1.length === 0 || s2.length === 0) {
+		return 0;
+	}
+	// Exit early if they're an exact match.
+	if (s1 === s2) {
+		return 1;
+	}
+	var range = (Math.floor(Math.max(s1.length, s2.length) / 2)) - 1;
+	var s1Matches = new Array(s1.length);
+	var s2Matches = new Array(s2.length);
+	for (i = 0; i < s1.length; i++) {
+		var low	= (i >= range) ? i - range : 0;
+    var high = (i + range <= s2.length) ? (i + range) : (s2.length - 1);
+		for (j = low; j <= high; j++) {
+			if (s1Matches[i] !== true && s2Matches[j] !== true && s1[i] === s2[j]) {
+				++m;
+				s1Matches[i] = s2Matches[j] = true;
+				break;
+			}
+		}
+	}
+	// Exit early if no matches were found.
+	if (m === 0) {
+		return 0;
+	}
+	// Count the transpositions.
+	var k = n_trans = 0;
+	for (i = 0; i < s1.length; i++) {
+		if (s1Matches[i] === true) {
+			for (j = k; j < s2.length; j++) {
+				if (s2Matches[j] === true) {
+					k = j + 1;
+					break;
+				}
+			}
+			if (s1[i] !== s2[j]) {
+				++n_trans;
+			}
+		}
+	}
+	var weight = (m / s1.length + m / s2.length + (m - (n_trans / 2)) / m) / 3;
+	var l = 0;
+	var p = 0.1;
+	if (weight > 0.7) {
+		while (s1[l] === s2[l] && l < 4) {
+			++l;
+		}
+		weight = weight + l * p * (1 - weight);
+	}
+	return weight;
+}
+
+function arraySimilar(a,b) {
+	a = stripCommon(a);
+	b = stripCommon(b);
+	var m = a.split(" ");
+	var n = b.split(" ");
+	m = [...new Set(m)];
+	n = [...new Set(n)];
+	var c = m.concat(n);
+	c = [...new Set(c)];
+	var o = (c.length / (m.length + n.length));
+	o = 1 - o;
+	return o;
+}
+
+function createNotes() {
+	console.log("createNotes");
+	allDomains = [];
+	allFandoms = [];
+	allSources = [];
+	allUpper = {};
+	sortForge();
+	var count = 0;
+	var dcount = 0;
+	celestial_forge.forEach(function(d) {
+		if(!minDomains.hasOwnProperty(d.Domain)) {
+			minDomains[d.Domain] = count;
+			count++;
+		}
+		if(!allDomains.hasOwnProperty(d.Over_Domain)) {
+			allDomains[d.Over_Domain] = [];
+			allDomains[d.Over_Domain].push(d.Domain);
+		}
+		else {
+			allDomains[d.Over_Domain].push(d.Domain);
+		}
+		var pcount = 0;
+		d.Perks.forEach(function(p) {
+			p["Domain_Number"] = dcount;
+			p["Perk_Number"] = pcount;
+			if(!allSources.includes(p.Source)) {
+				allSources.push(p.Source);
+			}
+			if(!allFandoms.includes(p.Upper_Source)) {
+				allFandoms.push(p.Upper_Source);
+			}
+			if(!allUpper.hasOwnProperty(p.Source) && !isNull(p.Upper_Source)) {
+				//allUpper[p.Source] = p.Upper_Source;
+				allUpper[p.Source] = isNull(p.Upper_Sources) ? [p.Upper_Source] : p.Upper_Sources.sort();
+			}
+			else if(!isNull(p.Upper_Source)) {
+				allUpper[p.Source].concat(isNull(p.Upper_Sources) ? [p.Upper_Source] : p.Upper_Sources.sort());
+				allUpper[p.Source] = [...new Set(allUpper[p.Source])];
+				allUpper[p.Source] = allUpper[p.Source].sort();
+			}
+			pcount++;
+		});
+		dcount++;
+	});
+	allUpper = Object.keys(allUpper).sort().reduce(
+		(obj, key) => { 
+			obj[key] = allUpper[key]; 
+			return obj;
+		}, 
+		{}
+	);
+	allFandoms.sort(function(a, b) {
+		if (a.toLowerCase() < b.toLowerCase()) {
+			return -1;
+		}
+		if (a.toLowerCase() > b.toLowerCase()) {
+			return 1;
+		}
+		return 0;
+	});
+	allSources.sort(function(a, b) {
+		if (a.toLowerCase() < b.toLowerCase()) {
+			return -1;
+		}
+		if (a.toLowerCase() > b.toLowerCase()) {
+			return 1;
+		}
+		return 0;
+	});
+}
+
+function sortForge() {
+	console.log("sortForge");
+	celestial_forge.sort(function(a, b) {
+		if (a.Domain.toLowerCase() < b.Domain.toLowerCase()) {
+			return -1;
+		}
+		if (a.Domain.toLowerCase() > b.Domain.toLowerCase()) {
+			return 1;
+		}
+		return 0;
+	});
+	var simP = [];
+	var domainCount = 0;
+	celestial_forge.forEach(function(d) {
+		totalForge+=d.Perks.length;
+		var perkCount = 0;
+		d.Perks = d.Perks.sort(function(a, b) {
+			if (a.Title.toLowerCase() < b.Title.toLowerCase()) {
+				return -1;
+			}
+			if (a.Title.toLowerCase() > b.Title.toLowerCase()) {
+				return 1;
+			}
+			return 0;
+		});
+		d.Perks.forEach(function(p,idx,theArr) {
+			p.Domain_Number = domainCount;
+			p.Perk_Number = perkCount;
+			var tmpP = Object.keys(p).sort().reduce(
+				(obj, key) => { 
+					obj[key] = p[key]; 
+					return obj;
+				}, 
+				{}
+			);
+			var tTitle = tmpP.Title;
+			var tTaken = tmpP.Taken;
+			var newP = {};
+			newP["Title"] = tTitle;
+			var keys = Object.keys(tmpP);
+			for(var i=0; i<keys.length; i++) {
+				if(keys[i]!="Title" && keys[i]!="Taken") {
+					newP[keys[i]] = tmpP[keys[i]];
+				}
+			}
+			newP["Domain"] = d.Domain;
+			newP["Taken"] = tTaken;
+			theArr[idx] = newP;
+			perkCount++;
+			if(d.Over_Domain=="Origins") {
+				addOrigin(newP);
+			}
+		});
+		d.Perks = d.Perks.filter(function(p) {
+			return (!isNull(p));
+		});
+		domainCount++;
+	});
+	sameTitleDomain();
+}
+
+function sameTitleDomain() {
+	console.log("sameTitleDomain");
+	var titleArray = [];
+	var uniqueArray = [];
+	var matchArray = [];
+	var perks = [];
+	$.each(celestial_forge, function(index, item) {
+		$.each(item.Perks, function(idx,value) {
+			if(!isNull(value)) {
+				if ($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
+					titleArray.push(value.Title.toLowerCase()+"_"+value.Source.toLowerCase());
+					uniqueArray.push(value);
+				}
+				else {
+					matchArray.push(titleArray.findIndex(value.Title.toLowerCase()+"_"+value.Source.toLowerCase()));
+					perks.push(value);
+				}
+			}
+		});
+	});
+	perks.sort(function(a, b) {
+		if(a.Domain_Number < b.Domain_Number) return 1;
+		else if(a.Domain_Number > b.Domain_Number) return -1;
+		else if(a.Perk_Number < b.Perk_Number) return 1;
+		else if(a.Perk_Number > b.Perk_Number) return -1;
+		else return 0;
+	});
+	for(var i=0; i<perks.length; i++) {
+		var deleteMe = getSmallerIndex(uniqueArray[matchArray[i]],perks[i]);
+		delete celestial_forge[deleteMe.Domain_Number].Perks[deleteMe.Perk_Number];
+	}
+	celestial_forge = celestial_forge.filter(function(p) {
+		return (!isNull(p));
+	});
+	celestial_forge.forEach(function(d) {
+		d.Perks = d.Perks.filter(function(p) {
+			return (!isNull(p));
+		});
+	});
+}
+
+function getSmallerIndex(a,b) {
+	var result = {"Domain_Number":b.Domain_Number,"Perk_Number":b.Perk_Number};
+	var aKeys = Object.keys(a);
+	var bKeys = Object.keys(b);
+	if(aKeys.length>bKeys.length) {
+		return {"Domain_Number":b.Domain_Number,"Perk_Number":b.Perk_Number};
+	}
+	if(bKeys.length>aKeys.length) {
+		return {"Domain_Number":a.Domain_Number,"Perk_Number":a.Perk_Number};
+	}
+	if(bKeys.length==aKeys.length) {
+		for(var i=0; i<aKeys.length; i++) {
+			if(typeof a[aKeys[i]] == "string") {
+				if(a[aKeys[i]].length>b[abKeys[i]].length) {
+					return {"Domain_Number":b.Domain_Number,"Perk_Number":b.Perk_Number};
+				}
+				if(b[abKeys[i]].length>a[aKeys[i]].length) {
+					return {"Domain_Number":a.Domain_Number,"Perk_Number":a.Perk_Number};
+				}
+			}
+		}
+	}
+	return result;
+}
+
+function emptyPerk() {
+	console.log("emptyPerk");
+	var meh = {
+		"Title":"",
+		"Source":"",
+		"Cost":"",
+		"Description":""
+	}
+	return meh;
 }
 
 //updateCommons();

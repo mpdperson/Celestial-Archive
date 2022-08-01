@@ -1,79 +1,64 @@
 //Forge JSON
 var addPerks = [];
 $.getJSON('public/json/addPerks.json', function(data) {
-	console.log("addPerks",data);
     addPerks = data;
 });
 var body_mod = [];
 $.getJSON('public/json/body_mod.json', function(data) {
-	console.log("body_mod",data);
     body_mod = data;
 });
 var celestial_forge = [];
 $.getJSON('public/json/celestial_forge.json', function(data) {
-	console.log("celestial_forge",data);
     celestial_forge = data;
 });
 var craft_list = [];
 $.getJSON('public/json/craft_list.json', function(data) {
-	console.log("craft_list",data);
     craft_list = data;
 });
 var deities = [];
 $.getJSON('public/json/deities.json', function(data) {
-	console.log("deities",data);
     deities = data;
 });
 var magic_skills = [];
 $.getJSON('public/json/magic_skills.json', function(data) {
-	console.log("magic_skills",data);
     magic_skills = data;
 });
 var reality_mod = [];
 $.getJSON('public/json/reality_mod.json', function(data) {
-	console.log("reality_mod",data);
     reality_mod = data;
 });
 var science_skills = [];
 $.getJSON('public/json/science_skills.json', function(data) {
-	console.log("science_skills",data);
     science_skills = data;
 });
 var sciences = [];
 $.getJSON('public/json/sciences.json', function(data) {
-	console.log("sciences",data);
     sciences = data;
 });
 var source_origins = [];
 $.getJSON('public/json/source_origins.json', function(data) {
-	console.log("source_origins",data);
     source_origins = data;
 });
 
 //Dictionaries
 var common_phrases = [];
 $.getJSON('public/dictionaries/common_phrases.json', function(data) {
-	console.log("common_phrases",data);
     common_phrases = data;
 });
 var commons = [];
 $.getJSON('public/dictionaries/commons.json', function(data) {
-	console.log("commons",data);
     commons = data;
 });
 var ending = [];
 $.getJSON('public/dictionaries/ending.json', function(data) {
-	console.log("ending",data);
     ending = data;
 });
 var morewords = [];
 $.getJSON('public/dictionaries/morewords.json', function(data) {
-	console.log("morewords",data);
     morewords = data;
 });
 var wordList = [];
 $.getJSON('public/dictionaries/wordList.json', function(data) {
-	console.log("wordList",data);
     wordList = data;
 });
 
@@ -142,7 +127,6 @@ var reg				= new RegExp(/:? /g);
 var reloadStarters	= true;
 
 function toggleCosts(obj) {
-	console.log("toggleCosts");
 	obj = obj;
 	if(toggleCost.includes(obj)) {
 		toggleCost = toggleCost.filter(function(n){ return n != obj});
@@ -153,13 +137,11 @@ function toggleCosts(obj) {
 }
 
 function toggleDomains(obj) {
-	console.log("toggleDomains");
 	obj = obj.replaceAll("_"," ");
 	toggleDomain[domainNumber[obj]] = !toggleDomain[domainNumber[obj]];
 }
 
 function loadProgress() {
-	console.log("loadProgress");
 	if(!isNull(loadedJson)) {
 		var extra = document.getElementById("extra");
 		var perks = document.getElementById("perks");
@@ -226,7 +208,6 @@ function loadProgress() {
 }
 
 function updatePerk(obj) {
-	console.log("updatePerk");
 	var tmp = null;
 	celestial_forge.forEach(function(d) {
 		d.Perks.forEach(function(p) {
@@ -261,7 +242,6 @@ function changeWait() {
 }
 
 function getFileName() {
-	console.log("getFileName");
 	var fullPath = document.getElementById('myFile').value;
 	if(fullPath) {
 		var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
@@ -275,7 +255,6 @@ function getFileName() {
 }
 
 function getTxtFile(fileName) {
-	console.log("getTxtFile");
 	var client = new XMLHttpRequest();
 	client.open('GET', fileName);
 	client.onreadystatechange = function() {
@@ -405,26 +384,25 @@ function nextPerk() {
 
 document.onkeydown = function(e) {
 	e = e || window.event;
-	//console.log(e.which,e.keyCode);
 	var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
 	if(document.activeElement.nodeName!="INPUT" && document.activeElement.nodeName!="TEXTAREA") {
 		switch (event.keyCode) {
 			case 37:
-			//alert('Left key pressed');
+			//Left key pressed
 			prevPerk();
 			break;
 			case 38:
-			//alert('Up key pressed');
+			//Up key pressed
 			break;
 			case 39:
-			//alert('Right key pressed');
+			//Right key pressed'
 			nextPerk();
 			break;
 			case 40:
-			//alert('Down key pressed');
+			//Down key pressed
 			break;
 			case 13:
-			//alert('Enter key pressed');
+			//Enter key pressed
 			saveCurrentPerk();
 			break;
 		}
@@ -432,7 +410,6 @@ document.onkeydown = function(e) {
 };
 
 function saveCurrentPerk() {
-	console.log("saveCurrentPerk");
 	var od2 = document.getElementById('Add_Over_Domains');
 	if(od2.value.trim()!="") {
 		addOverDomain(od2.value.trim());
@@ -491,7 +468,6 @@ function resetAdds(obj) {
 }
 
 function showPerk() {
-	console.log("showPerk");
 	var tmp_perk = toAdd[currentPerk];
 	if(isNull(tmp_perk)) return;
 	tmp_perk = checkPerk(tmp_perk,tmp_perk.Over_Domain);
@@ -541,7 +517,6 @@ function showPerk() {
 }
 
 function getOverDomain(obj) {
-	console.log("getOverDomain");
 	var keys = Object.keys(allDomains);
 	for(var i=0; i<keys.length; i++) {
 		for(var j=0; j<allDomains[keys[i]].length; j++) {
@@ -554,13 +529,11 @@ function getOverDomain(obj) {
 }
 
 function cancelProcess() {
-	console.log("cancelProcess");
 	var tmp = document.getElementById("popUp");
 	tmp.classList.add('hidden');
 }
 
 function showPerk2() {
-	console.log("showPerk2");
 	var tmp_perk = toAdd[currentPerk];
 	if(isNull(tmp_perk)) return;
 	$("#Title2").val(isNull(tmp_perk.Title) ? "" : tmp_perk.Title);
@@ -597,14 +570,12 @@ function toggleHidden() {
 }
 
 function reloadPage() {
-	console.log("reloadPage");
 	sleep(6000).then(() => {
 		window.location.reload(true);
 	});
 }
 
 function sendJSON(jsonObj,name) {
-	console.log("sendJSON");
 	let xhr = new XMLHttpRequest();
 	let url = "/file";
 	
@@ -623,7 +594,6 @@ function sendJSON(jsonObj,name) {
 }
 
 function savePerks() {
-	console.log("savePerks");
 	if(isEdit && isEditAll) {
 		celestial_forge = [];
 		var keys = Object.keys(minDomains);
@@ -651,15 +621,6 @@ function savePerks() {
 				celestial_forge[minDomains[tmpD]].Perks[i] = toAdd[i];
 			}
 			
-		}
-		if($("#Filter_Domain").val()!="") {
-			var tmpD = $("#Filter_Domain").val();
-			/*/
-				toAdd = toAdd.filter(function(p) {
-				return (p.Domain!=tmpD);
-				});
-			//*/
-			//celestial_forge[minDomains[tmpD]].Perks[i]
 		}
 	}
 	for(var perk of toAdd) {
@@ -731,7 +692,6 @@ function savePerks() {
 }
 
 function doUnder(meh) {
-	console.log("doUnder");
 	meh = isNull(meh) ? "" : meh;
 	selectDom.innerHTML = "";
 	if(isNull(allDomains[meh])) {
@@ -753,7 +713,6 @@ function doUnder(meh) {
 }
 
 function doUnder2(meh) {
-	console.log("doUnder2");
 	meh = isNull(meh) ? "" : meh;
 	selectDom2.innerHTML = "";
 	if(isNull(allDomains[meh])) {
@@ -779,7 +738,6 @@ function qs(q) {
 }
 
 function getAllNotes() {
-	console.log("getAllNotes");
 	createNotes();
 	saveJson(allDomains,"all_domains.js");
 	saveJson(allFandoms,"all_fandoms.js");
@@ -788,7 +746,6 @@ function getAllNotes() {
 }
 
 function createNotes() {
-	console.log("createNotes");
 	allDomains = [];
 	allFandoms = [];
 	allSources = [];
@@ -859,21 +816,18 @@ function createNotes() {
 }
 
 function saveForge() {
-	console.log("saveForge");
 	sortForge();
 	resetForge();
 	saveJson(celestial_forge,"celestial_forge.js");
 }
 
 function saveNotes() {
-	console.log("saveNotes");
 	saveJson(allFandoms,"allFandoms");
 	saveJson(allSources,"allSources");
 	saveJson(celestial_forge,"celestial_forge");
 }
 
 function addOverDomain(txt) {
-	console.log("addOverDomain");
 	if(!allDomains.hasOwnProperty(txt)) {
 		allDomains[txt] = [txt];
 		celestial_forge.push({"Domain":txt,"Over_Domain":txt,"Perks":[]});
@@ -881,7 +835,6 @@ function addOverDomain(txt) {
 }
 
 function addDomain(over, txt) {
-	console.log("addDomain");
 	if(!allDomains.hasOwnProperty(over)) {
 		allDomains[over] = [txt];
 		celestial_forge.push({"Domain":txt,"Over_Domain":over,"Perks":[]});
@@ -901,7 +854,6 @@ Filter_Over_Domain.onchange = function() {
 };
 
 function fillFilterUpperDrop() {
-	console.log("fillFilterUpperDrop");
 	Filter_Over_Domain.innerHTML = "";
 	
 	var tmpOpt2 = document.createElement("option");
@@ -920,7 +872,6 @@ function fillFilterUpperDrop() {
 }
 
 function fillFilterDrop() {
-	console.log("fillFilterDrop");
 	var Filter_Domain = document.getElementById("Filter_Domain");
 	Filter_Domain.innerHTML = "";
 	
@@ -955,7 +906,6 @@ function fillFilterDrop() {
 }
 
 function fillDrop() {
-	console.log("fillDrop");
 	selectOver.innerHTML = "";
 	selectDom.innerHTML = "";
 	var tmpOpt = document.createElement("option");
@@ -987,7 +937,6 @@ function fillDrop() {
 }
 
 function fillDrop2() {
-	console.log("fillDrop2");
 	selectOver2.innerHTML = "";
 	selectDom2.innerHTML = "";
 	var tmpOpt = document.createElement("option");
@@ -1023,7 +972,6 @@ function findWord(txt) {
 }
 
 function inForge(res) {
-	console.log("inForge");
 	var margin = .9;
 	var shouldSkip = false;
 	celestial_forge.forEach(function(d) {
@@ -1047,7 +995,6 @@ function sourceOrginRoller(str) {
 }
 
 function getMulti(obj) {
-	console.log("getMulti");
 	obj = obj.toLowerCase();
 	if(obj.includes("purchased multiple times")) {
 		return true;
@@ -1068,7 +1015,6 @@ function getMulti(obj) {
 }
 
 function uniqueTitles(obj) {
-	console.log("uniqueTitles");
 	var titleArray = [];
 	var perks = [];
 	$.each(obj.Perks, function(index, value) {
@@ -1081,7 +1027,6 @@ function uniqueTitles(obj) {
 }
 
 function sameTitles(obj) {
-	console.log("sameTitles");
 	var titleArray = [];
 	var perks = [];
 	$.each(obj.Perks, function(index, value) {
@@ -1121,7 +1066,6 @@ function getSmallerIndex(a,b) {
 }
 
 function sameTitleDomain() {
-	console.log("sameTitleDomain");
 	var titleArray = [];
 	var uniqueArray = [];
 	var matchArray = [];
@@ -1162,7 +1106,6 @@ function sameTitleDomain() {
 }
 
 function sameTitleUpper() {
-	console.log("sameTitleUpper");
 	sortForge();
 	var titleArray = [];
 	var perks = [];
@@ -1288,7 +1231,6 @@ function checkPerk(jsonObj,overStr) {
 }
 
 function checkPerks() {
-	console.log("checkPerks");
 	celestial_forge.forEach(function(d) {
 		d.Perks.forEach(function(p,idx,theArr) {
 			theArr[idx] = checkPerk(p,d.Over_Domain);
@@ -1297,7 +1239,6 @@ function checkPerks() {
 }
 
 function similarTitleDomain() {
-	console.log("similarTitleDomain");
 	sortForge();
 	var titleArray = [];
 	var perks = [];
@@ -1322,7 +1263,6 @@ function similarTitleDomain() {
 }
 
 function parseFile() {
-	console.log("parseFile");
 	toAdd = [];
 	if(importFile.length == 0) {
 		return toAdd;
@@ -1551,7 +1491,6 @@ function parseFile() {
 }
 
 function checkAdds() {
-	console.log("checkAdds");
 	var meh = [];
 	for(var i=0; i<toAdd.length; i++) {
 		meh.push(toAdd[i]);
@@ -1561,13 +1500,11 @@ function checkAdds() {
 }
 
 function isDomain(txt) {
-	console.log("isDomain");
 	var regex = new RegExp(/^\=([^=\n\r]+)\=/g);
 	return regex.test(txt);
 }
 
 function isTitle(txt) {
-	console.log("isTitle");
 	var regex = new RegExp(/\{([0-9\+\-\/\\]+)\}/g);
 	if((txt.endsWith("}") && txt.includes("{")) && (txt.includes(">") && txt.includes("<"))) {
 		return regex.test(txt);
@@ -1577,7 +1514,6 @@ function isTitle(txt) {
 }
 
 function multiReq(txt) {
-	console.log("multiReq");
 	return (
 		prereqReg1.test(txt) 
 		|| freereqReg1.test(txt) 
@@ -1588,7 +1524,6 @@ function multiReq(txt) {
 }
 
 function isPrereq(txt) {
-	console.log("isPrereq");
 	if(txt.startsWith("[Require")) {
 		return true;
 	}
@@ -1597,7 +1532,6 @@ function isPrereq(txt) {
 }
 
 function isRestrict(txt) {
-	console.log("isRestrict");
 	if(txt.startsWith("[Restrict")) {
 		return true;
 	}
@@ -1606,7 +1540,6 @@ function isRestrict(txt) {
 }
 
 function isFreereq(txt) {
-	console.log("isFreereq");
 	if(txt.startsWith("[Free")) {
 		return true;
 	}
@@ -1615,7 +1548,6 @@ function isFreereq(txt) {
 }
 
 function isDiscountreq(txt) {
-	console.log("isDiscountreq");
 	if(txt.startsWith("[Discount")) {
 		return true;
 	}
@@ -1624,7 +1556,6 @@ function isDiscountreq(txt) {
 }
 
 function isBullet(txt) {
-	console.log("isBullet");
 	if(txt.startsWith("-") || txt.startsWith("+") || txt.startsWith("●") || txt.startsWith("*")) {
 		return true;
 	}
@@ -1633,7 +1564,6 @@ function isBullet(txt) {
 }
 
 function findBestMatch(res) {
-	console.log("findBestMatch");
 	var bMatch = "";
 	var lm = 0;
 	var matched = {};
@@ -1653,7 +1583,6 @@ function findBestMatch(res) {
 }
 
 function emptyPerk() {
-	console.log("emptyPerk");
 	var meh = {
 		"Title":"",
 		"Source":"",
@@ -1670,7 +1599,6 @@ qs("#cur_cost").innerText = "" + 0;
 
 function doStarters() {
 	if(isNull(celestial_forge)) return;
-	console.log("doStarters");
 	var extra = document.getElementById("extra");
 	var perks = document.getElementById("perks");
 	perks.innerHTML = "";
@@ -1714,7 +1642,6 @@ function doStarters() {
 }
 
 function addPerk(res,doFrees,isLoad,addCount) {
-	console.log("addPerk");
 	if(isNull(isLoad)) isLoad = false;
 	if(isNull(addCount)) addCount = 0;
 	if(isNull(res)) return;
@@ -1825,7 +1752,6 @@ function addPerk(res,doFrees,isLoad,addCount) {
 			}
 		}
 		
-		console.log("subTitle",subTitle);
 		var title = res.Title + " [" + res.Domain + "] (" + res.Source + ") (" + res.Cost + "CP)";
 		if(subTitle!="") {
 			title = res.Title + ": "+subTitle+" [" + res.Domain + "] (" + res.Source + ") (" + res.Cost + "CP)";
@@ -1865,7 +1791,6 @@ function addPerk(res,doFrees,isLoad,addCount) {
 }
 
 function isNull(meh) {
-	console.log("isNull");
 	if(meh == null || meh == undefined) {
 		return true;
 	}
@@ -1913,7 +1838,6 @@ function capital(txt) {
 }
 
 function capitalSentance(txt) {
-	console.log("capitalSentance");
 	var tmpTxt = stripString(txt);
 	var regex = new RegExp(/^([A-Z ]+)/g);
 	if(regex.test(tmpTxt) && tmpTxt.length!=1) {
@@ -2011,7 +1935,6 @@ function saveOrigins() {
 }
 
 function sortForge() {
-	console.log("sortForge");
 	celestial_forge.sort(function(a, b) {
 		if (a.Domain.toLowerCase() < b.Domain.toLowerCase()) {
 			return -1;
@@ -2072,7 +1995,6 @@ function sortForge() {
 }
 
 function isDupe(obj) {
-	console.log("isDupe");
 	for(var d of celestial_forge) {
 		for(var p of d.Perks) {
 			if(p.Title.toLowerCase() == obj.Title.toLowerCase() && p.Source.toLowerCase() == obj.Source.toLowerCase()) {
@@ -2084,7 +2006,6 @@ function isDupe(obj) {
 }
 
 function selectAllDomain() {
-	console.log("selectAllDomain");
 	toggleDomain.forEach(function(p,idx,theArr) {
 		theArr[idx] = true;
 	});
@@ -2100,7 +2021,6 @@ function selectAllDomain() {
 }
 
 function selectAllCost() {
-	console.log("selectAllCost");
 	toggleCost = saveCost;
 	var pr = qs("#roll")[2].children[1].children;
 	if(pr[0].checked) {
@@ -2114,7 +2034,6 @@ function selectAllCost() {
 }
 
 function selectNoDomain() {
-	console.log("selectNoDomain");
 	toggleDomain.forEach(function(p,idx,theArr) {
 		theArr[idx] = false;
 	});
@@ -2130,7 +2049,6 @@ function selectNoDomain() {
 }
 
 function selectNoCost() {
-	console.log("selectNoCost");
 	toggleCost = [];
 	var pr = qs("#roll")[2].children[1].children;
 	if(pr[3].checked) {
@@ -2145,46 +2063,23 @@ function selectNoCost() {
 
 var colapseable = false;
 function redoPerkCheckList() {
-	console.log("redoPerkCheckList");
 	qs("#dmn").innerHTML = "";
 	
-	//*/
 	qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" onclick="selectAllDomain()" checked value=""><label>Select All</label><br>';
 	qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" onclick="selectNoDomain()" value=""><label>Select None</label><br>';
-	//*/
 	
-	/*/
-		var keys = Object.keys(allDomains);
-		for(var i=0; i<keys.length; i++) {
-		qs("#dmn").innerHTML += '<div class="collapsible" id="section1">'+keys[i]+'<span></span></div>';
-		qs("#dmn").innerHTML += '<div class="container">';
-		for(var j=0; j<allDomains[keys[i]].length; j++) {
-		var d = celestial_forge[minDomains[allDomains[keys[i]][j]]];
-		perksNum[d.Domain]=d.Perks.length;
-		if(isNull(d.Domain)) console.log(d);
-		var id = d.Domain.replace(reg,"_");
-		id = id.split(" ").join("_");
-		qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" checked value="'+d.Domain+'"><label id="'+id+'">'+d.Domain+' ('+perksNum[d.Domain]+')</label><br>';
-		}
-		qs("#dmn").innerHTML += '</div>';
-		}
-	//*/
-	
-	//*/
 	toggleDomain = [];
 	var dNum = 0;
 	celestial_forge.forEach(function(d) {
 		domainNumber[d.Domain] = dNum;
 		toggleDomain.push(true);
 		perksNum[d.Domain]=d.Perks.length;
-		if(isNull(d.Domain)) console.log(d);
 		var id = d.Domain.replace(reg,"_");
 		id = id.split(" ").join("_");
 		qs("#dmn").innerHTML += '<input type="checkbox" name="dmn" checked onclick=toggleDomains("'+d.Domain+'") value="'+d.Domain+'"><label id="'+id+'">'+d.Domain+' ('+perksNum[d.Domain]+')</label><br>';
 		dNum++;
 	});
 	saveDomain = toggleDomain;
-	//*/
 	
 	prcs = [];
 	
@@ -2202,10 +2097,8 @@ function redoPerkCheckList() {
 	
 	qs("#prc").innerHTML = "";
 	
-	//*/
 	qs("#prc").innerHTML += '<input type="checkbox" name="prc" onclick="selectAllCost()" checked value=""><label>Select All</label><br>';
 	qs("#prc").innerHTML += '<input type="checkbox" name="prc" onclick="selectNoCost()" value=""><label>Select None</label><br>';
-	//*/
 	
 	toggleCost = [];
 	prcs.forEach(function(d) {
@@ -2231,7 +2124,6 @@ function validateMyForm() {
 }
 
 function processFile(bypass) {
-	console.log("processFile");
 	if(isNull(bypass)) bypass = false;
 	var meh = true;
 	if(!bypass) meh = parseFile();
@@ -2249,7 +2141,6 @@ function processFile(bypass) {
 }
 
 function setForgeEdit() {
-	console.log("setForgeEdit");
 	toAdd = [];
 	var tmpD = $("#Filter_Domain").val();
 	if(tmpD=="") {
@@ -2274,7 +2165,6 @@ var isEditSet = false;
 var isEdit = false;
 var isEditAll = false;
 function editForge() {
-	console.log("editForge");
 	setForgeEdit();
 	currentPerk = 0;
 	
@@ -2293,7 +2183,6 @@ function editForge() {
 }
 
 function compairTwo(o1,o2) {
-	console.log("compairTwo");
 	var k1 = Object.keys(o1).sort();
 	var k2 = Object.keys(o2).sort();
 	var missed = [];
@@ -2321,7 +2210,6 @@ function compairTwo(o1,o2) {
 }
 
 function compairMany(a1,o1,isList) {
-	console.log("compairMany");
 	if(isNull(isList)) {
 		isList = false;
 	}
@@ -2351,7 +2239,6 @@ function compairMany(a1,o1,isList) {
 }
 
 function roll(dmf,pf) {
-	console.log("roll");
 	pl = [];
 	for (i = 0; i < dmf.length; i++) {
 		if (dmf[i]) {
@@ -2380,7 +2267,6 @@ qs("#pickPerks").onsubmit = function(e) {
 }
 
 function trimPerk(res) {
-	console.log("trimPerk");
 	if(isNull(res)) return null;
 	var desc = stripString(res.Description);
 	var meh = {
@@ -2400,7 +2286,6 @@ function stripString(str) {
 }
 
 function findPrereq(obj) {
-	console.log("findPrereq");
 	var found = false;
 	var tmp = [];
 	var titleMatch = [];
@@ -2430,7 +2315,6 @@ function findPrereq(obj) {
 }
 
 function roundCost(obj) {
-	console.log("roundCost");
 	var value = Math.round(obj);
 	var remainder = obj % 50;
 	remainder = Math.floor(remainder);
@@ -2439,7 +2323,6 @@ function roundCost(obj) {
 }
 
 function getMultiplier(multiplier,times) {
-	console.log("getMultiplier");
 	if(multiplier==1) {
 		return 1;
 	}
@@ -2451,7 +2334,6 @@ function getMultiplier(multiplier,times) {
 }
 
 function attemptPrereq(res) {
-	console.log("attemptPrereq");
 	var prereqPerk = findPrereq(res);
 	if(!isNull(prereqPerk)) {
 		var result = true;
@@ -2529,7 +2411,6 @@ function attemptPrereq(res) {
 
 function doRoll(rollCount, isReroll) {
 	if(isNull(celestial_forge)) return;
-	console.log("doRoll");
 	var canDoRoll = true;
 	if(isNull(isReroll)) isReroll = false;
 	if(isNull(rollCount)) rollCount = 0;
@@ -2551,7 +2432,6 @@ function doRoll(rollCount, isReroll) {
 	tp2.innerHTML = totalPerks;
 	
 	if(!isReroll) {
-		console.log("doRoll");
 		currentCP+=100;
 	}
 	
@@ -2567,25 +2447,7 @@ function doRoll(rollCount, isReroll) {
 	else {
 		doRerolls = false;
 	}
-	/*/
-		for (i = 0; i < dm.length; i++) {
-		if(dm[i].nodeName === "INPUT" && dm[i].value!= "") {
-		mn.push(dm[i].checked);
-		}
-		}
-		
-		for (i = 0; i < pr.length; i++) {
-		if(pr[i].nodeName === "INPUT" && pr[i].checked && pr[i].value!= "") {
-		rc.push(pr[i].value);
-		}
-		}
-		
-		if(isNull(rc) || isNull(mn)) {
-		return;
-		}
-		console.log("mn",mn);
-		console.log("rc",rc);
-	//*/
+	
 	var res = roll(toggleDomain,toggleCost);
 	
 	//Check if need Reroll
@@ -2744,10 +2606,8 @@ function doRoll(rollCount, isReroll) {
 	qs("#ptext").innerHTML = res.Description;
 	qs("#points").innerText = "" + currentCP;
 	
-	//*
 	var finished = 0;
 	
-	//perksNum
 	var count = Object.keys(perksNum);
 	for(var i=0; i<count.length; i++) {
 		finished+=perksNum[count[i]];
@@ -2756,13 +2616,11 @@ function doRoll(rollCount, isReroll) {
 	if(finished==0) {
 		qs("#finish").innerText="Finished Perks:";
 	}
-	//*/
 	
 	return gained;
 }
 
 function endingReplace(txt) {
-	console.log("endingReplace");
 	var spacer = "(\\.|\\?|\\!| |\\,|\\\"|'|:|;|”|’)";
 	for(var i=0; i<ending.length; i++) {
 		var noDash = ending[i].replace(/\-/g,"");
@@ -2775,7 +2633,6 @@ function endingReplace(txt) {
 var lastSeenPerk = null;
 var lastTitle = "";
 function createTitle(res,retaken) {
-	console.log("createTitle");
 	if(isNull(retaken)) {
 		retaken = false;
 	}
@@ -2799,7 +2656,6 @@ function createTitle(res,retaken) {
 }
 
 function findPerk(obj,recheck) {
-	console.log("findPerk");
 	if(isNull(recheck)) recheck == false;
 	if(isNull(celestial_forge[obj.Domain_Number]) || recheck) {
 		if(isNull(minDomains[obj.Domain]) || recheck) {
@@ -2852,7 +2708,6 @@ function findPerk(obj,recheck) {
 }
 
 function getDiceList(obj,isLoad) {
-	console.log("getDiceList");
 	var perk = findPerk(obj);
 	if(isNull(perk)) return [];
 	if(isLoad) {
@@ -2875,7 +2730,6 @@ function getDiceList(obj,isLoad) {
 }
 
 function addFreebies(res,frees,isLoad) {
-	console.log("addFreebies");
 	if(isNull(isLoad)) isLoad = false;
 	var extra = document.getElementById("extra");
 	var perks = document.getElementById("perks");
@@ -2898,7 +2752,6 @@ function addFreebies(res,frees,isLoad) {
 				"Over_Domain":res.Over_Domain
 			};
 			
-			console.log("tempPerk",tempPerk);
 			if(d.title != "" && !trimPerks.includes(tempPerk) && !currentTitles.includes(ct)) {
 				if(tempPerk.Dice != "1d1") {
 					var Dice_List = getDiceList(tempPerk);
@@ -2915,7 +2768,6 @@ function addFreebies(res,frees,isLoad) {
 					currentPerks.push(d);
 					currentTitles.push(d.Title+"-"+d.Upper_Source);
 					perksNum[d.Domain]--;
-					if(isNull(d.Domain)) console.log(d);
 					var id = d.Domain.replace(reg,"_");
 					id = id.split(" ").join("_");
 					qs("#"+id).innerText = d.Domain+" ("+perksNum[d.Domain]+")";
@@ -2926,7 +2778,6 @@ function addFreebies(res,frees,isLoad) {
 					isAdd = true;
 				}
 				else if(d.Retake) {
-					if(isNull(d.Domain)) console.log(d);
 					var id = d.Domain.replace(reg,"_");
 					id = id.split(" ").join("_");
 					qs("#"+id).innerText = d.Domain+" ("+perksNum[d.Domain]+")";
@@ -2957,7 +2808,6 @@ function addFreebies(res,frees,isLoad) {
 				var isAdd = false;
 				
 				if(d.Retake) {
-					if(isNull(d.Domain)) console.log(d);
 					var id = d.Domain.replace(reg,"_");
 					id = id.split(" ").join("_");
 					qs("#"+id).innerText = d.Domain+" ("+perksNum[d.Domain]+")";
@@ -2980,7 +2830,6 @@ function addFreebies(res,frees,isLoad) {
 }
 
 function addThisPerk(res,retaken) {
-	console.log("addThisPerk");
 	if(isNull(retaken)) {
 		retaken = false;
 	}
@@ -3040,7 +2889,6 @@ function addThisPerk(res,retaken) {
 				
 				if(!d.Taken) {
 					perksNum[d.Domain]--;
-					if(isNull(d.Domain)) console.log(d);
 					var id = d.Domain.replace(reg,"_");
 					id = id.split(" ").join("_");
 					qs("#"+id).innerText = d.Domain+" ("+perksNum[d.Domain]+")";
@@ -3083,7 +2931,6 @@ function isNull(meh) {
 }
 
 function doSubRoll(res,TakenList) {
-	console.log("doSubRoll");
 	if(isNull(TakenList)) TakenList = [];
 	var result = "";
 	switch(res.Dice) {
@@ -3123,7 +2970,6 @@ function doSubRoll(res,TakenList) {
 }
 
 function getListLength(obj) {
-	console.log("getListLength");
 	switch(obj) {
 		case "all_skills":
 		return allSkills.length;
@@ -3156,7 +3002,6 @@ function getListLength(obj) {
 }
 
 function getDice(res) {
-	console.log("getDice");
 	var dice = res.Dice;
 	var result = rollDice(dice);
 	if(!isNull(result)) {
@@ -3169,7 +3014,6 @@ function getDice(res) {
 }
 
 function rollDice(dice) {
-	console.log("rollDice");
 	var diceForm = new RegExp(/^([0-9]+)d([0-9]+)/);
 	//Dice Format 1d1b1
 	if(!diceForm.test(dice)) {
@@ -3197,13 +3041,11 @@ function rollDice(dice) {
 }
 
 function getRandom(list) {
-	console.log("getRandom");
 	var idx = Math.floor(Math.random() * (list.length - 1));
 	return list[idx];
 }
 
 function doRun() {
-	console.log("doRun");
 	if(!isRunning) {
 		isRunning = true;
 		canRun = true;
@@ -3218,7 +3060,6 @@ function doRun() {
 }
 
 function run() {
-	console.log("run");
 	var finished = 0;
 	
 	//perksNum
@@ -3240,7 +3081,6 @@ function run() {
 }
 
 function pickPerk() {
-	console.log("pickPerk");
 	$("#perkPick").toggleClass("hidden");
 	var perkPick = document.getElementById('perkPick');
 	if(!perkPick.classList.contains('hidden')) {
@@ -3249,13 +3089,11 @@ function pickPerk() {
 }
 
 function clearSearch() {
-	console.log("clearSearch");
 	$('#pickPerks').trigger("reset");
 	fillDrop2();
 }
 
 function cancelPerk() {
-	console.log("cancelPerk");
 	$("#perkPick").toggleClass("hidden");
 	toAdd = [];
 	prevPerk();
@@ -3263,7 +3101,6 @@ function cancelPerk() {
 }
 
 function searchArchive() {
-	console.log("searchArchive");
 	var search = $("#Search").val();
 	var filters = {
 		"Source": $("#Source2").val(),
@@ -3277,7 +3114,6 @@ function searchArchive() {
 
 var chargeForge = false;
 function pickThisPerk() {
-	console.log("pickThisPerk");
 	$("#perkPick").toggleClass("hidden");
 	var res = toAdd[currentPerk];
 	
@@ -3324,7 +3160,6 @@ function pickThisPerk() {
 }
 
 function searchPerk(search,filters,att,margin) {
-	console.log("searchPerk",search);
 	if(isNull(margin)) {
 		//60% seems a decent threshold
 		margin = .6;
@@ -3422,7 +3257,6 @@ function searchPerk(search,filters,att,margin) {
 }
 
 function checkCommon(search) {
-	console.log("checkCommon",search);
 	search = search.toLowerCase();
 	common.every(function(d) {
 		search = search.replaceAll(d,"");
@@ -3435,7 +3269,6 @@ function checkCommon(search) {
 }
 
 function compairThis(a,b,margin) {
-	console.log("compairThis");
 	if(isNull(margin)) {
 		//60% seems a decent threshold
 		margin = .6;
@@ -3454,7 +3287,6 @@ function compairThis(a,b,margin) {
 }
 
 function matchAnds(arr) {
-	console.log("matchAnds");
 	for(var i=0; i<arr.length; i++) {
 		if(arr[i]!="true" && arr[i]!="false") {
 			if(!currentTitles.includes(arr[i])) {
@@ -3469,7 +3301,6 @@ function matchAnds(arr) {
 }
 
 function matchOrs(arr) {
-	console.log("matchOrs");
 	for(var i=0; i<arr.length; i++) {
 		if(arr[i]!="true" && arr[i]!="false") {
 			if(currentTitles.includes(arr[i])) {
@@ -3484,7 +3315,6 @@ function matchOrs(arr) {
 }
 
 function evalTitles(obj,matchStr,titleType) {
-	console.log("evalTitles");
 	if(matchStr.includes("&&") && matchStr.includes("||")) {
 		var preTitles = matchStr.split("||");
 		for(var i=0; i<preTitles.length; i++) {
@@ -3527,7 +3357,6 @@ function evalTitles(obj,matchStr,titleType) {
 }
 
 function evalTrues(obj,evalStr) {
-	console.log("evalTrues");
 	if(evalStr.includes("&&") && evalStr.includes("||")) {
 		var preTitles = evalStr.split("||");
 		for(var i=0; i<preTitles.length; i++) {
@@ -3586,22 +3415,18 @@ function evalTrues(obj,evalStr) {
 //var para = new RegExp(/\(([^\(\)]+)\)/);
 var para = new RegExp(/\s*\(.*?\)\s*/g);
 function havePrereq(obj) {
-	console.log("havePrereq");
 	return haveTitle(obj,"Prereq_Title")
 }
 
 function haveExclude(obj) {
-	console.log("haveExclude");
 	return haveTitle(obj,"Exclude_Title");
 }
 
 function haveRestrict(obj) {
-	console.log("haveRestrict");
 	return haveTitle(obj,"Restrict_Title");
 }
 
 function haveTitle(obj,title) {
-	console.log("haveTitle");
 	var base = title.split("_")[0];
 	if(obj[base]) {
 		if(!obj[title].includes("&&") && !obj[title].includes("||")) {
@@ -3638,7 +3463,6 @@ function haveTitle(obj,title) {
 }
 
 function haveFree(perk) {
-	console.log("haveFree");
 	if(perk.Free_Req) {
 		if(perk.Free_Title.toLowerCase() == "drop-in" || perk.Free_Title.toLowerCase() == "drop in") {
 			return true;
@@ -3660,7 +3484,6 @@ function haveFree(perk) {
 }
 
 function haveDiscount(perk) {
-	console.log("haveDiscount");
 	if(perk.Discount) {
 		if(perk.Discount_Title.toLowerCase() == "drop-in" || perk.Discount_Title.toLowerCase() == "drop in") {
 			return true;
@@ -3682,7 +3505,6 @@ function haveDiscount(perk) {
 }
 
 function doFree(perk) {
-	console.log("doFree");
 	if(!qs("#Freebies").checked) {
 		return [];
 	}
@@ -3803,7 +3625,6 @@ function doFree(perk) {
 }
 
 function endingReplace(txt) {
-	console.log("endingReplace");
 	var spacer = "(\\.|\\?|\\!| |\\,|\\\"|'|:|;|”|’)";
 	for(var i=0; i<ending.length; i++) {
 		var noDash = ending[i].replace(/\-/g,"");
@@ -3814,7 +3635,6 @@ function endingReplace(txt) {
 }
 
 function download(content, fileName, contentType) {
-	console.log("download");
 	var a = document.createElement("a");
 	var file = new Blob([content], {type: contentType});
 	a.href = URL.createObjectURL(file);
@@ -3823,7 +3643,6 @@ function download(content, fileName, contentType) {
 }
 
 function saveJson(jsonData, fileName, isVar) {
-	console.log("saveJson");
 	if(isNull(isVar)) isVar = true;
 	var ext = fileName.split(".").pop();
 	var varName = fileName.split(".")[0];
@@ -3836,7 +3655,6 @@ function saveJson(jsonData, fileName, isVar) {
 }
 
 function convertToJson(jsonData) {
-	console.log("convertToJson");
 	var arr = [].constructor;
 	var json = {}.constructor;
 	var obj = jsonData.constructor;
@@ -3888,7 +3706,6 @@ function doLoads() {
 rObserver.observe(document.body);
 
 function resetForge() {
-	console.log("resetForge");
 	celestial_forge.forEach(function(d) {
 		d.Perks.forEach(function(p,idx,theArr) {
 			p.Retake_Count = 0;
@@ -3898,7 +3715,6 @@ function resetForge() {
 }
 
 function saveProgress() {
-	console.log("saveProgress");
 	currentPerks.forEach(function(p,idx,theArr) {
 		var tmpP = Object.keys(p).sort().reduce(
 			(obj, key) => {
