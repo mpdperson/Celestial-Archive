@@ -1,0 +1,1 @@
+var common = ["a","an","be","in","it","of","on","to","and","for","not","the","too","have","that","with","you"];

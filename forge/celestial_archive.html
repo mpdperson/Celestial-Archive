@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Celestial Forge Roller</title>
+		<link href="forge/css/style.css" rel="stylesheet" type="text/css" />
+		<link href="forge/css/colapse.css" rel="stylesheet" type="text/css" />
+		<link rel="icon" href="favicon.ico" type="image/x-icon">
+	</head>
+	
+	<body>
+		<center>
+			<h1>Celestial Forge<sup>v3*</sup> Roller<br/></h1>
+			<h2>Rolls: <text id="rollNum"></text></h2>
+			<h2>Current CP: <text id="points"></text></h2>
+			<h2>Missed Perks: <text id="missedPerks"></text></h2>
+		</center>
+		
+		<center>
+			<h2 hidden>Current Cost: <text id="cur_cost"></text></h2>
+			<h2 hidden>Previous CP: <text id="last_points"></text></h2>
+		</center>
+		
+		</br>
+		<center>
+			<form id="filePost" method="post" action="/convert" onsubmit="return validateMyForm();">
+				<input type="checkbox" name="Freebies" id="Freebies" checked><label>Freebies</label></input>
+				<input type="checkbox" name="Upper_Free" id="Upper_Free"><label>Upper Free</label></input>
+				<input type="checkbox" name="Auto_Save" id="Auto_Save" checked><label>Auto Save</label></input>
+				<input type="checkbox" name="Rerolls" id="Rerolls" ><label>Re-Rolls</label></input><br/>
+				<br/>
+				<select id="Filter_Over_Domain" class=""></select><br/>
+				<select id="Filter_Domain" class=""></select><br/>
+				<input type="number" id="reRolls" value="3" class="" min="0"></input><br/>
+				<input type="file" name="myFile" id="myFile" class="meh2"></input><br/>
+				<input type="text" name="url" id="url" class=""></input>
+				<input type="hidden" id="Perk_Number"></input>
+				<input type="hidden" id="Domain_Number"></input>
+				<br/><br/>
+				<button onclick="loadProgress()" class="buttoned">Load</button>
+				<button onclick="saveProgress()" class="buttoned">Save</button>
+				<button onclick="editForge()" class="buttoned">Edit</button>
+				<button onclick="processFile()" class="buttoned">process</button>
+				<button onclick="pickPerk()" class="buttoned">Search</button>
+				<br/>
+			</form>
+		</center>
+		<br/>
+		
+		<form id="roll" method="post">
+			<button id="rlr">Roll</button>
+			<button onclick="doRun()" class="buttoned2"><text id="rollAll">Roll All</text></button>
+			<div class="gridcon" style="grid-template-columns: 39% 59%">
+				<fieldset id="filters" class="gridcon" style="grid-column:1 / span 1;grid-template-columns: auto auto;">
+					<legend><h2>Filters Total Perks: <text id="TP"></text></h2></legend>
+					<fieldset id='prc' style="grid-column:1 / span 1;">
+						<legend><h4>Price Filter</h4></legend>
+						<input type="checkbox" oninput="toggleChk(this,'prc')" checked><label>All</label><br/></input>
+					</fieldset>
+					<fieldset id="dmn" style="grid-column:2 / span 1;">
+						<legend><h4>Domain Filter</h4></legend>
+						<input type="checkbox" oninput="toggleChk(this,'dmn')" checked><label>All</label><br/></input>
+					</fieldset>
+				</fieldset>
+				<fieldset style="grid-column:2 / span 1;">
+					<legend><h2>Result: </h2></legend>
+					<h5 id="title"></h5>
+					<p id="ptext"></p>
+					<legend><h2>Freebies:</h2></legend>
+					<div id="extra"></div>
+				</fieldset>
+			</div>
+		</form>
+		
+		<div>
+			<fieldset style="grid-column:1 / span 1;">
+				<legend><h2 id="finish">Perks (<text id="TP2"></text>):</h2></legend>
+				<div id="perks"></div>
+				<div id="extra2"></div>
+			</fieldset>
+		</div>
+		
+		<div id="popUp" class="popUp hidden">
+			<form id="newPerk" method="post">
+				<label class="label">Title</label>
+				<input type="text" name="Title" id="Title" class="input"></input>
+				<br/>
+				<label class="label">Source</label>
+				<input type="text" name="Source" id="Source" class="input"></input>
+				<br/>
+				<label class="label">Upper_Source</label>
+				<input type="text" name="Upper_Source" id="Upper_Source" class="input"></input>
+				<br/>
+				<label class="label">Upper_Sources</label>
+				<input type="text" name="Upper_Sources" id="Upper_Sources" class="input"></input>
+				<br/>
+				<label class="label">Cost</label>
+				<input type="number" name="Cost" id="Cost" class="input"></input>
+				<br/>
+				<label class="label">Over_Domain</label>
+				<select id="Over_Domain" class="select"></select>
+				<br/>
+				<div id="Add_Over_Domain" class="">
+					<label class="label">Add Over Domain</label>
+					<input type="text" name="Add_Over_Domains" id="Add_Over_Domains" class="input"></input>
+					<br/>
+				</div>
+				<label class="label">Domain</label>
+				<select id="Domain" class="select"></select>
+				<br/>
+				<div id="Add_Domain" class="">
+					<label class="label">Add Domain</label>
+					<input type="text" name="Add_Domains" id="Add_Domains" class="input"></input>
+					<br/>
+				</div>
+				<label class="label">Prereq Title</label>
+				<input type="text" name="Prereq_Title" id="Prereq_Title" class="input"></input>
+				<br/>
+				<label class="label">Free Title</label>
+				<input type="text" name="Free_Title" id="Free_Title" class="input"></input>
+				<br/>
+				<label class="label">Discounted Title</label>
+				<input type="text" name="Discount_Title" id="Discount_Title" class="input"></input>
+				<br/>
+				<input type="checkbox" name="Prereq" id="Prereq" class="check2"><label class="labelLeft">Prereq</label></input>
+				<input type="checkbox" name="Free_Req" id="Free_Req" class="check3"><label>FreeReq</label></input>
+				<input type="checkbox" name="Discount_Req" id="Discount_Req" class="check4"><label>DiscountReq</label></input>
+				<input type="checkbox" name="Lewd" id="Lewd" class="check5"><label>Lewd</label></input>
+				<input type="checkbox" name="Retake" id="Retake" class="check6"><label>Retake</label></input>
+				<input type="checkbox" name="Delete" id="Delete" class="check7"><label>Delete</label></input>
+				<input type="checkbox" name="Dupe" id="Dupe" class="check8"><label>Dupe</label></input>
+				<input type="checkbox" name="Restrict" id="Restrict" class="check8"><label>Restrict</label></input>
+				<input type="checkbox" name="Exclude" id="Exclude" class="check8"><label>Exclude</label></input>
+				<br/>
+				<label class="label">Retake_Cost</label>
+				<input type="number" name="Retake_Cost" id="Retake_Cost" class="input"></input>
+				<br/>
+				<label class="label">Discount_Cost</label>
+				<input type="number" name="Discount_Cost" id="Discount_Cost" class="input"></input>
+				<br/>
+				<label class="label">Retake_Times</label>
+				<input type="number" name="Retake_Times" id="Retake_Times" class="input"></input>
+				<br/>
+				<label class="label">Retake_Multiplier</label>
+				<input type="number" name="Retake_Multiplier" id="Retake_Multiplier" class="input"></input>
+				<br/>
+				<label class="label">Discount_Multiplier</label>
+				<input type="number" name="Discount_Multiplier" id="Discount_Multiplier" step=".05" class="input"></input>
+				<br/>
+				<label class="label">Restrict_Title</label>
+				<input type="text" name="Restrict_Title" id="Restrict_Title" class="input"></input>
+				<br/>
+				<label class="label">Exclude_Title</label>
+				<input type="text" name="Exclude_Title" id="Exclude_Title" class="input"></input>
+				<br/>
+				<label class="label">Dice</label>
+				<input type="text" name="Dice" id="Dice" class="input"></input>
+				<br/>
+				<label class="labelDescription">Description</label>
+				<textarea id="Description" name="Description" class="textDescription"></textarea>
+				<button onclick="prevPerk()" class="buttoned">&#5130; Prev</button>
+				<button onclick="saveCurrentPerk()" class="buttoned">Save</button>
+				<button onclick="cancelProcess()" class="buttoned">Cancel</button>
+				<button onclick="nextPerk()" class="buttoned">Next &#5125;</button>
+				<button onclick="savePerks()" id="perk_submit" class="hidden buttoned">Submit</button>
+			</form>
+		</div>
+		
+		<div id="perkPick" class="popUp hidden">
+			<form id="pickPerks" method="post">
+				<button onclick="searchArchive()" class="buttoned3">Search</button><br/>
+				<label class="label">Search</label>
+				<input type="text" name="Search" id="Search" class="input"></input>
+				<br/>
+				<label class="label">Title</label>
+				<input type="text" name="Title" id="Title2" class="input"></input>
+				<br/>
+				<label class="label">Source</label>
+				<input type="text" name="Source" id="Source2" class="input"></input>
+				<br/>
+				<label class="label">Upper_Source</label>
+				<input type="text" name="Upper_Source" id="Upper_Source2" class="input"></input>
+				<br/>
+				<label class="label">Upper_Sources</label>
+				<input type="text" name="Upper_Sources" id="Upper_Sources2" class="input"></input>
+				<br/>
+				<label class="label">Cost</label>
+				<input type="number" name="Cost" id="Cost2" class="input"></input>
+				<br/>
+				<label class="label">Over_Domain</label>
+				<select id="Over_Domain2" class="select"></select>
+				<br/>
+				<label class="label">Domain</label>
+				<select id="Domain2" class="select"></select>
+				<br/>
+				<label class="label">Prereq Title</label>
+				<input type="text" name="Prereq_Title" id="Prereq_Title2" class="input"></input>
+				<br/>
+				<label class="label">Free Title</label>
+				<input type="text" name="Free_Title" id="Free_Title2" class="input"></input>
+				<br/>
+				<input type="checkbox" name="Prereq" id="Prereq2" class="check2"><label class="labelLeft">Prereq</label></input>
+				<input type="checkbox" name="Free_Req" id="Free_Req2" class="check3"><label>FreeReq</label></input>
+				<input type="checkbox" name="Discount_Req" id="Discount_Req2" class="check4"><label>DiscountReq</label></input>
+				<input type="checkbox" name="Lewd" id="Lewd2" class="check5"><label>Lewd</label></input>
+				<input type="checkbox" name="Retake" id="Retake2" class="check6"><label>Retake</label></input>
+				<br/>
+				<label class="label">Retake_Cost</label>
+				<input type="number" name="Retake_Cost" id="Retake_Cost2" class="input"></input>
+				<br/>
+				<label class="label">Discount_Cost</label>
+				<input type="number" name="Discount_Cost" id="Discount_Cost2" class="input"></input>
+				<br/>
+				<label class="label">Retake_Times</label>
+				<input type="number" name="Retake_Times" id="Retake_Times2" class="input"></input>
+				<br/>
+				<label class="label">Retake_Multiplier</label>
+				<input type="number" name="Retake_Multiplier" id="Retake_Multiplier2" class="input"></input>
+				<br/>
+				<label class="label">Discount_Multiplier</label>
+				<input type="number" name="Discount_Multiplier" id="Discount_Multiplier2" step=".05"class="input"></input>
+				<br/>
+				<label class="label">Dice</label>
+				<input type="text" name="Dice" id="Dice2" class="input"></input>
+				<br/>
+				<label class="labelDescription">Description</label>
+				<textarea id="Description2" name="Description" class="textDescription"></textarea>
+				<button onclick="prevPerk()" class="buttoned">&#5130; Prev</button>
+				<button onclick="pickThisPerk()" class="buttoned">Pick</button>
+				<button onclick="cancelPerk()" class="buttoned">Cancel</button>
+				<button onclick="nextPerk()" class="buttoned">Next &#5125;</button>
+			</form>
+		</div>
+		
+		<script src="forge/js/resizeObserver.js"></script>
+		<script src="forge/js/extra_functions.js"></script>
+		<script src="forge/js/jquery.min.js"></script>
+		<script src="forge/js/jstree.min.js"></script>
+		<script src="forge/js/script.js"></script>
+		<script src="forge/js/xregexp-all.js"></script>
+		<script src="forge/js/underscore-umd-min.js"></script>
+		<script src="forge/js/explore.js"></script>
+		<script src="forge/js/collapsible.js"></script>
+		<script src="forge/js/api.js"></script>
+		<script src="forge/js/google.js"></script>
+	</body>
+</html>

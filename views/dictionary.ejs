@@ -1,0 +1,56 @@
+<script src="/js/jquery-3.6.0.min.js"></script>
+<link rel='stylesheet' href='/css/explore.css' />
+<body id="main" class="background">
+	<dir>
+		<span class="Welcome"><%= message %></span>
+		<p></p>
+	</dir>
+	
+	<% if(searchList.length>0) { %>
+		<% for(var i=0; i<searchList.length; i++) { %>
+			<p><%= searchList[i].Word %>: <%= searchList[i].Found %></p>
+		<% } %>
+		<br/>
+	<% } %>
+	
+	<form name="inputForm" id="inputForm" method="post" action="/dictionary" >
+		<input type="text" id="Spaced"><button type="button" onclick="addSpaced()">Add Spaced</button>
+		<br/>
+		<textarea name="ADD_WORDS" id="ADD_WORDS" form="inputForm" class="form-control" ></textarea>
+		<br/>
+		<button type="button" onclick="capitalAll()">Capitalize</button>
+		<input type="submit" value="Submit">
+	</form>
+</body>
+<script src="/js/explore.js"></script>
+<script src="/json/menu.json"></script>
+<script src="/json/menu2.json"></script>
+<script>
+	function addSpaced() {
+		var word = $("#Spaced").val();
+		var allWords = $("#ADD_WORDS").val();
+		allWords = allWords.trim();
+		word = word.trim();
+		word = capital(word.replaceAll(" ",""));
+		allWords = allWords + " " + word;
+		allWords = allWords.trim();
+		$("#Spaced").val("");
+		$("#ADD_WORDS").val(allWords);
+	}
+	
+	function capitalAll() {
+		var allWords = $("#ADD_WORDS").val();
+		var tmpWords = allWords.split(" ");
+		for(var i=0; i<tmpWords.length; i++) {
+			tmpWords[i] = capital(tmpWords[i]);
+		}
+		$("#ADD_WORDS").val(tmpWords.join(" "));
+	}
+	
+	function capital(txt) {
+		if(txt.length == 1) {
+			return txt.toUpperCase();
+		}
+		return txt.charAt(0).toUpperCase() + txt.substr(1);
+	}
+</script>

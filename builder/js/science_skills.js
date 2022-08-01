@@ -1,0 +1,1 @@
+var science_skills = ["Architecture","Biochemistry","Brewing","Carpentry","Carving","Clockworking","Construction","Cooking","Embroidery","Engineering","Engraving","Farming","Gathering","Herbalism","Hunting","Jewelcrafting","Masonry","Mining","Pottery","Painting","Processing","Programming","Salvaging","Sculpting","Smithing","Surgery","Tailoring","Weaving"];

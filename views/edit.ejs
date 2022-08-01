@@ -1,0 +1,72 @@
+<script src="/js/jquery-3.6.0.min.js"></script>
+<link rel='stylesheet' href='/css/explore.css' />
+<body id="main" class="background">
+	<dir>
+		<span class="Welcome"><%= message %></span>
+		<p></p>
+	</dir>
+	<div id="tempDiv" style="display: none;" class="hide"></div>
+	<form name="inputForm" id="inputForm" method="post" action="/dictionary/edit" >
+		<input type="text" name="path" id="path"><button type="button" onclick="loadFile()">Load File</button>
+		<br/>
+		<input type="text" name="Spaced" id="Spaced"><button type="button" onclick="addSpaced()">Add Spaced</button>
+		<br/>
+		<textarea name="TEXTS" id="TEXTS" form="inputForm" class="form-control" value="<%= ftexts %>">
+		</textarea>
+		<br/>
+		
+		<input type="submit" value="Save">
+	</form>
+</body>
+<script src="/js/explore.js"></script>
+<script src="/json/menu.json"></script>
+<script src="/json/menu2.json"></script>
+<script>
+	var tempDiv = $('#tempDiv');
+	var path = "<%= path.replace(/\\/g, "\\\\") %>";
+	function addSpaced() {
+		var word = $("#Spaced").val();
+		var allWords = $("#TEXTS").val();
+		allWords = allWords.trim();
+		word = word.trim();
+		var replaceMe = word;
+		word = word.replaceAll(" ","");
+		allWords = allWords.replaceAll(replaceMe, word);
+		allWords = allWords.replaceAll(capital(replaceMe), capital(word));
+		allWords = allWords.trim();
+		$("#Spaced").val("");
+		$("#TEXTS").val(allWords);
+	}
+	
+	function capital(txt) {
+		if(txt.length == 1) {
+			return txt.toUpperCase();
+		}
+		return txt.charAt(0).toUpperCase() + txt.substr(1);
+	}
+	
+	function loadFile() {
+		if(path=="") {
+			if($("#path").val()!="") {
+				document.getElementById("inputForm").submit();
+			}
+			else {
+				alert("Please enter a filepath.");
+				return;
+			}
+		}
+		else {
+			tempDiv.load(path, function(data) {
+				console.log("data:\r",data);
+				newHtml = data.replace(/\r\n/g,"<br/>");
+				newHtml = newHtml.replace(/\t/g,"&emsp;");
+				var tDiv = document.getElementById("TEXTS");
+				tDiv.innerHTML = newHtml;
+			});
+		}
+	}
+	
+	if(path!="") {
+		loadFile();
+	}
+</script>

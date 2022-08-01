@@ -1,0 +1,22 @@
+<script src="/js/jquery-3.6.0.min.js"></script>
+<link rel='stylesheet' href='/css/message.css' />
+<body id="main" class="background">
+	<dir>
+		<span class="Welcome"><%= message %></span>
+		<p></p>
+		<form method="post" enctype="multipart/form-data" action="/cyoa" id="myform">
+			
+			<label for="myFile">Select a file:</label>
+			<br>
+			<input type="file" id="myFile" name="myFile" multiple>
+			<p></p>
+			
+			<label for="dir">Enter a path:</label>
+			<br>
+			<input type="text" id="dir" name="dir">
+			<br>
+			<p></p>
+			<input type="submit" value="Submit">
+		</form>
+	</dir>
+<script src="/js/upload.js"></script>

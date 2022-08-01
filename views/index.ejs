@@ -1,0 +1,11 @@
+<title><%= title %></title>
+<h1><%= stat %></h1>
+<h2><%= message %></h1>
+<h3><%= error.status %></h2>
+<pre><%= error.stack %></pre>
+<button onclick="newLocation()">Start Over</button>
+<script>
+function newLocation() {
+  window.location.href="<%= lastPage %>";
+}
+</script>

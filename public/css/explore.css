@@ -1,0 +1,16 @@
+ul, li {
+	cursor:pointer;
+	color: black;
+}
+
+.hide {
+	display:none;
+}
+
+.dir {
+	color: blue;
+}
+
+.empty {
+	color: red;
+}

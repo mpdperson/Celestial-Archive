@@ -1,0 +1,52 @@
+<script src="/js/jquery-3.6.0.min.js"></script>
+<link rel='stylesheet' href='/css/explore.css' />
+<body id="main" class="background">
+	<dir>
+		<span class="Welcome"><%= message %></span>
+		<p></p>
+		<div id="app"></div><br/>
+		<div id="app2"></div>
+		<div id="file">
+			<% if(type!="none") { %>
+			
+			<% if(type.startsWith("video")) { %>
+			<video controls width="250">
+				<source src="<%= path %>" type="<%= type %>">
+			</video>
+			<% } %>
+			
+			<% if(type.startsWith("image")) { %>
+			<img src="<%= path %>" alt="">
+			<% } %>
+			
+			<% if(type.startsWith("doc")) { %>
+			<iframe src="<%= path %>" width="100%" height="500px"></iframe>
+			<% } %>
+			
+			<% } %>
+		</div>
+	</dir>
+	<form method="post" id="myform" enctype="multipart/form-data" action="/cyoa" class="hide">
+		<input type="text" id="dir" name="dir">
+		<input type="submit" value="Submit" id="submit">
+	</form>
+	
+	<form method="post" id="formit" action="/explore" class="hide">
+		<input type="text" id="fpath" name="fpath">
+		<input type="text" id="path" name="path">
+		<input type="text" id="name" name="name">
+		<input type="text" id="type" name="type">
+		<input type="number" id="children" name="children">
+		<input type="submit" value="Submit" id="submit2">
+	</form>
+</body>
+<script src="/js/explore.js"></script>
+<script src="/json/menu.json"></script>
+<script src="/json/menu2.json"></script>
+<script>
+	//var root = document.getElementById('app');
+	var root2 = document.getElementById('app2');
+	
+	//displayData([menu], root, "top");
+	displayData([menu2], root2, "top");
+</script>

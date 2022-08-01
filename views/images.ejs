@@ -1,0 +1,19 @@
+<script>
+  function newLocation() {
+    window.location.href="cyoa";
+  }
+  function newLocation2() {
+    window.location.href="explore";
+  }
+</script>
+<link rel='stylesheet' href='/css/message.css' />
+<body id="main" class="background">
+<center>
+<span class="Welcome"><%= message %></span>
+<% fileNames.forEach(function(imgs) { %>
+  <img src="<%=imgs%>" width="100%">
+<% }); %>
+<p></p>
+<input type="button" value="Start Over" onclick="newLocation()">
+<input type="button" value="Start Explore" onclick="newLocation2()">
+</center>
