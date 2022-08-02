@@ -22,9 +22,7 @@
 			</q-scroll-area>
 		</div> <!-- class = col-4 -->
 		<div class="col-8 q-pa-md" name="display">
-			
-			<ListFilter />
-			<Gatcha />
+			<Gacha />
 			
 			<div class="row">
 				<q-list>
@@ -64,16 +62,14 @@
 	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
 	import Perk from 'components/Perk.vue'
 	import Store from 'components/Store.vue'
-	import Gatcha from 'components/Gatcha.vue'
-	import ListFilter from 'components/ListFilter.vue'
+	import Gacha from 'components/Gacha.vue'
 	
 	export default defineComponent({
 		name: 'PerkViewer',
 		components: {
 			Perk,
 			Store,
-			ListFilter,
-			Gatcha
+			Gacha
 		},
 		props: {
 			onSlide: {
@@ -87,8 +83,7 @@
 			const displayList = ref(null)
 			
 			const getDisplayList = async () => {
-				displayList.value =
-				await Store.fetchDisplayList(onSlide.value)
+				displayList.value = await Store.fetchFilteredList()
 			}
 			
 			onMounted(getDisplayList)

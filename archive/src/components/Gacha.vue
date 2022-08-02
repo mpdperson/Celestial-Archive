@@ -1,7 +1,7 @@
 <template>
 	<Store />
 	<div class="col-12">
-		<q-list bordered :dark="true" seperator padding name="GatchaButton">
+		<q-list bordered :dark="true" seperator padding name="GachaButton">
 			<div class="row">
 				<div class="col-12 col-md-2 q-pa-md">
 					<q-btn dark label="Gacha!" outline ripple color="blue-grey-12" @click="roll(cp, result)">
@@ -23,7 +23,7 @@
 	import { defineComponent, ref } from 'vue'
 	
 	export default defineComponent({
-		name: 'GatchaButton',
+		name: 'GachaButton',
 		components: {
 			Store
 		},

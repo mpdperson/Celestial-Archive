@@ -1,17 +1,17 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
-  </q-page>
+	<q-page class="flex flex-center blackBack">
+		<PerkViewer/>
+	</q-page>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'GachaPage'
-})
+	import { defineComponent } from 'vue'
+	import PerkViewer from 'components/PerkViewer.vue'
+	
+	export default defineComponent({
+		name: 'GachaPage',
+		components: {
+			PerkViewer
+		}
+	})
 </script>

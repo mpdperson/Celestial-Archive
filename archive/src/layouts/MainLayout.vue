@@ -1,4 +1,5 @@
 <template>
+	<Store />
 	<q-layout view="hHh LpR fFf">
 		<q-header elevated>
 			<q-toolbar>
@@ -50,7 +51,7 @@
 
 <script>
 	import { defineComponent, ref } from 'vue'
-	import PerkViewer from 'components/PerkViewer.vue'
+	import Store from 'components/Store.vue'
 	
 	const menuList = [{
 		icon: 'save',
@@ -94,7 +95,7 @@
 		name: 'MainLayout',
 		
 		components: {
-			
+			Store
 		},
 		
 		setup () {

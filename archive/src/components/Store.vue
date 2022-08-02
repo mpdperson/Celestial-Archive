@@ -22,15 +22,26 @@
 			build: [],
 			costFilter: [],
 			domainFilter: [],
+			sourceFilter: [],
+			upperFilter: [],
 			currentTitles: [],
 			trimPerks: [],
 			misses: [],
 			allRolls: [],
 			allMisses: [],
+			currentFreebies: [],
+			bookmarkedPerks: [],
+			checkDomain: [],
+			domainNumber: {},
+			perksNum: {},
+			allDomains: {},
+			minDomains: {},
+			currentPerk: null,
 			currentCP: 0,
 			currentRolls: 0,
 			allRollCount: 0,
 			missedPerk: 0,
+			maxValue: 0,
 			doFree: true,
 			doUpper: false,
 			doRerolls: false,
@@ -39,10 +50,20 @@
 		}),
 		
 		setDisplayValue (newValue) {
+			if(this.isNull(this.state.domainFilter)) {
+				this.createDefaultFilters();
+			}
 			if (this.debug) {
 				console.log('store.setDisplayValue called with', newValue)
 			}
 			this.state.displayValue = newValue
+		},
+		
+		fetchMaxValue() {
+			if(this.isNull(this.state.domainFilter)) {
+				this.createDefaultFilters();
+			}
+			return this.state.maxValue;
 		},
 		
 		sortPerks() {
@@ -101,7 +122,6 @@
 				});
 				domainCount++;
 			});
-			this.removeDupes();
 		},
 		
 		removeDupes() {
@@ -177,6 +197,9 @@
 		},
 		
 		fetchAllDomains () {
+			if(this.isNull(this.state.domainFilter)) {
+				this.createDefaultFilters();
+			}
 			var domains = [];
 			for(var d of this.state.unfiltered) {
 				domains.push(d.Domain);
@@ -207,7 +230,115 @@
 				this.state.trimPerks.push(trimed);
 				this.state.currentTitles.push(ct);
 			}
+			var updateMe = this.state.unfiltered[newValue.Domain_Number].Perks[newValue.Perk_Number];
+			updateMe.Taken = true;
+			if(this.isNull(updateMe.Retake_Count)) {
+				updateMe["Retake_Count"] = 0;
+			}
+			updateMe.Retake_Count++;
 			this.state.build.push(newValue)
+		},
+		
+		checkPerk(jsonObj,overStr) {
+			if(this.isNull(jsonObj.Title)) {
+				jsonObj["Title"] = "";
+			}
+			if(this.isNull(jsonObj.Domain)) {
+				jsonObj["Domain"] = "Add";
+			}
+			if(this.isNull(jsonObj.Restrict)) {
+				jsonObj["Restrict"] = false;
+			}
+			if(this.isNull(jsonObj.Restrict_Title)) {
+				jsonObj["Restrict_Title"] = "";
+			}
+			if(this.isNull(jsonObj.Exclude)) {
+				jsonObj["Exclude"] = false;
+			}
+			if(this.isNull(jsonObj.Exclude_Title)) {
+				jsonObj["Exclude_Title"] = "";
+			}
+			if(this.isNull(jsonObj.ID)) {
+				jsonObj["ID"] = jsonObj.Domain_Number+"."+jsonObj.Perk_Number;
+			}
+			if(this.isNull(jsonObj.Over_Domain)) {
+				if(this.isNull(overStr)) {
+					if(this.isNull(jsonObj.Domain)) {
+						jsonObj["Over_Domain"] = "Add";
+					}
+					else {
+						jsonObj["Over_Domain"] = jsonObj.Domain;
+					}
+				}
+				else {
+					jsonObj["Over_Domain"] = overStr;
+				}
+			}
+			if(this.isNull(jsonObj.Description)) {
+				jsonObj["Description"] = "";
+			}
+			if(this.isNull(jsonObj.Retake_Multiplier)) {
+				jsonObj["Retake_Multiplier"] = 1;
+			}
+			if(this.isNull(jsonObj.Retake_Times)) {
+				jsonObj["Retake_Times"] = 0;
+			}
+			if(this.isNull(jsonObj.Dice)) {
+				jsonObj["Dice"] = "1d1";
+			}
+			if(this.isNull(jsonObj.Retake)) {
+				jsonObj["Retake"] = false;
+			}
+			if(this.isNull(jsonObj.Taken)) {
+				jsonObj["Taken"] = false;
+			}
+			if(this.isNull(jsonObj.Lewd)) {
+				jsonObj["Lewd"] = false;
+			}
+			if(this.isNull(jsonObj.Discount_Title)) {
+				jsonObj["Discount_Title"] = "";
+			}
+			if(this.isNull(jsonObj.Discount_Multiplier)) {
+				jsonObj["Discount_Multiplier"] = 0.5;
+			}
+			if(this.isNull(jsonObj.Discount)) {
+				jsonObj["Discount"] = false;
+			}
+			if(this.isNull(jsonObj.Free_Title)) {
+				jsonObj["Free_Title"] = "";
+			}
+			if(this.isNull(jsonObj.Free_Req)) {
+				jsonObj["Free"] = false;
+			}
+			if(this.isNull(jsonObj.Prereq_Title)) {
+				jsonObj["Prereq_Title"] = "";
+			}
+			if(this.isNull(jsonObj.Prereq)) {
+				jsonObj["Prereq"] = "";
+			}
+			if(this.isNull(jsonObj.Cost)) {
+				jsonObj["Cost"] = 0;
+			}
+			if(this.isNull(jsonObj.Retake_Cost)) {
+				jsonObj["Retake_Cost"] = 0;
+			}
+			if(this.isNull(jsonObj.Discount_Cost)) {
+				jsonObj["Discount_Cost"] = 0;
+			}
+			if(this.isNull(jsonObj.Source)) {
+				jsonObj["Source"] = "";
+			}
+			if(this.isNull(jsonObj.Upper_Source)) {
+				jsonObj["Upper_Source"] = jsonObj.Source;
+			}
+			if(!this.isNull(jsonObj.Upper_Sources)) {
+				if(jsonObj.Upper_Sources.length == 1) {
+					if(jsonObj.Upper_Sources[0]=="") {
+						delete jsonObj.Upper_Sources;
+					}
+				}
+			}
+			return jsonObj;
 		},
 		
 		trimPerk(res) {
@@ -222,21 +353,31 @@
 			return meh;
 		},
 		
-		fetchDisplayList (slide) {
-			if (slide == 0) {
-				return this.state.unfiltered
-			}
-			else {
-				return this.state.build
-			}
-		},
-		
 		fetchBuild () {
 			return this.state.build
 		},
 		
 		fetchList () {
 			return this.state.unfiltered
+		},
+		
+		fetchFilteredList () {
+			if(this.isNull(this.state.costFilter) || this.isNull(this.state.domainFilter)) {
+				this.createDefaultFilters();
+			}
+			var filterList = [];
+			for(var i=0; i<this.state.domainFilter.length; i++) {
+				if(this.state.domainFilter[i]) {
+					this.state.unfiltered[i].Perks.forEach(function(p) {
+						if(this.state.sourceFilter.includes(p.Source)) {
+							if(!p.Taken || !p.Retake) {
+								filterList.push(p);
+							}
+						}
+					});
+				}
+			}
+			return filterList;
 		},
 		
 		setSearchString (newString) {
@@ -276,6 +417,103 @@
 			return pl[Math.floor(Math.random() * pl.length)];
 		},
 		
+		createDefaultFilters() {
+			this.state.checkDomain = [];
+			this.state.domainFilter = [];
+			this.state.domainNumber = {};
+			this.state.minDomains = {};
+			this.state.perksNum = {};
+			this.state.allDomains = {};
+			this.state.sourceFilter = [];
+			this.state.upperFilter = [];
+			this.state.allUppers = {};
+			
+			var dNum = 0;
+			var setFirst = false;
+			var lastDomain = "";
+			var lastDiv = null;
+			this.state.unfiltered.forEach(function(d) {
+				this.state.minDomains[d.Domain] = dNum;
+				if(!this.state.allDomains.hasOwnProperty(d.Over_Domain)) {
+					this.state.allDomains[d.Over_Domain] = [];
+					this.state.allDomains[d.Over_Domain].push(d.Domain);
+				}
+				else {
+					this.state.allDomains[d.Over_Domain].push(d.Domain);
+				}
+				
+				d.Perks.forEach(function(p) {
+					this.state.sourceFilter.push(p.Source);
+					this.state.upperFilter.push(p.Upper_Source);
+					if(!this.state.allUppers.hasOwnProperty(d.Upper_Source)) {
+						this.state.allUppers[d.Upper_Source] = [];
+						this.state.allUppers[d.Upper_Source].push(d.Source);
+					}
+					else {
+						this.state.allUppers[d.Upper_Source].push(d.Source);
+					}
+				});
+				
+				this.state.domainNumber[d.Domain] = dNum;
+				this.state.domainFilter.push(true);
+				this.state.perksNum[d.Domain] = d.Perks.length;
+				var id = d.Domain.replace(reg,"_");
+				id = id.split(" ").join("_");
+				this.state.checkDomain.push(id);
+				dNum++;
+			});
+			
+			this.state.sourceFilter = [...new set(this.state.sourceFilter)];
+			this.state.upperFilter = [...new set(this.state.upperFilter)];
+			this.state.sourceFilter.sort(function(a, b) {
+				if (a.toLowerCase() < b.toLowerCase()) {
+					return -1;
+				}
+				if (a.toLowerCase() > b.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
+			this.state.upperFilter.sort(function(a, b) {
+				if (a.toLowerCase() < b.toLowerCase()) {
+					return -1;
+				}
+				if (a.toLowerCase() > b.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
+			var keys = Object.keys(this.state.allUppers);
+			for(var i=0; i<keys.length; i++) {
+				this.state.allUppers[keys[i]] = [...new set(this.state.allUppers[keys[i]])];
+				this.state.allUppers.sort(function(a, b) {
+					if (a.toLowerCase() < b.toLowerCase()) {
+						return -1;
+					}
+					if (a.toLowerCase() > b.toLowerCase()) {
+						return 1;
+					}
+					return 0;
+				});
+			}
+			
+			prcs = [];
+			this.state.unfiltered.forEach(function(d) {
+				d.Perks.forEach(function(f) {
+					prcs.push(f.Cost);
+				});
+			});
+			
+			prcs = [...new Set(prcs)];
+			prcs.sort(function(a, b) {
+				return a - b;
+			});
+			prcs.forEach(function(d) {
+				this.state.costFilter.push(""+d);
+			});
+			this.maxValue = prcs[prcs.length - 1];
+		},
+		
 		doRoll(rollCount, isReroll) {
 			var canDoRoll = true;
 			if(this.isNull(isReroll)) isReroll = false;
@@ -309,7 +547,7 @@
 					resCost = res.Retake_Cost;
 				}
 			}
-			if(!isNull(res.Discount_Title)) {
+			if(!this.isNull(res.Discount_Title)) {
 				if(haveDiscount(res)) {
 					resCost = roundCost(resCost * res.Discount_Multiplier);
 					if(res.Discount_Cost!=0) {
@@ -319,16 +557,16 @@
 			}
 			
 			gained = false;
-			var prereqPerk = findPrereq(res);
+			var prereqList = this.findTitles(res,"Prereq_Title");
 			
-			if(this.state.currentCP >= resCost && havePrereq(res) && canDoRoll && haveRestrict(res)) {
+			if(this.state.currentCP >= resCost && this.haveTitle(res,"Prereq_Title") && canDoRoll && this.haveTitle(res,"Restrict_Title") && !this.haveTitle(res,"Exclude_Title")) {
 				temp = trimPerk(res);
 				var ct = res.Title+"-"+res.Upper_Source;
 				if(!trimPerks.includes(temp) && !currentTitles.includes(ct)) {
 					this.state.currentCP -= resCost;
 					trimPerks.push(temp);
 					if(!res.Taken) {
-						currentPerks.push(res);
+						this.state.build.push(res);
 						currentTitles.push(res.Title+"-"+res.Upper_Source);
 					}
 					res.Taken = true;
@@ -343,67 +581,41 @@
 					}
 				}
 			}
-			else if(!isNull(prereqPerk) && canDoRoll) {
-				var prereqList = prereqPerk;
+			else if(!this.isNull(prereqList) && canDoRoll) {
 				var i = 0;
 				while(i<prereqList.length && !gained) {
-					var addCurrent = true;
 					prereqPerk = prereqList[i];
 					resCost = prereqPerk.Cost;
-					if(prereqPerk.Taken && !prereqPerk.Retake) {
-						addCurrent = false;
-					}
-					if(prereqPerk.Taken && prereqPerk.Retake && prereqPerk.Retake_Times!=0) {
-						if(prereqPerk.Retake_Count >= prereqPerk.Retake_Times) {
-							addCurrent = false;
+					if(!prereqPerk.Taken) {
+						if(!this.haveTitle(prereqPerk,"Prereq_Title")) {
+							this.attemptPrereq(prereqPerk);
 						}
-					}
-					if(!havePrereq(prereqPerk)) {
-						addCurrent = attemptPrereq(prereqPerk);
-					}
-					if(prereqPerk.Taken && prereqPerk.Retake) {
-						resCost = resCost * this.getMultiplier(prereqPerk.Retake_Multiplier,prereqPerk.Retake_Count);
-					}
-					if(prereqPerk.Discount) {
-						if(haveDiscount(prereqPerk)) {
-							resCost = roundCost(resCost * prereqPerk.Discount_Multiplier);
-						}
-					}
-					qs("#cur_cost").innerText = "" + resCost;
-					
-					if(this.state.currentCP >= resCost && addCurrent) {
-						temp = trimPerk(prereqPerk);
-						var ct = prereqPerk.Title+"-"+prereqPerk.Upper_Source;
-						if(!trimPerks.includes(temp) && !currentTitles.includes(ct) && !prereqPerk.Taken) {
-							this.state.currentCP -= resCost;
-							trimPerks.push(temp);
-							currentPerks.push(prereqPerk);
-							currentTitles.push(prereqPerk.Title+"-"+prereqPerk.Upper_Source);
-							prereqPerk.Taken = true;
-							prereqPerk.Retake_Count++;
-							gained = true;
-							allMisses.push(missedPerk);
-							missedPerk = 0;
-							if(untilPerk && isRunning) {
-								canRun = false;
-								isRunning = false;
-								qs("#rollAll").innerText = "Continue";
+						if(!this.isNull(prereqPerk.Discount_Title)) {
+							if(this.haveTitle(prereqPerk,"Discount_Title")) {
+								resCost = roundCost(resCost * prereqPerk.Discount_Multiplier);
 							}
 						}
-						else if(prereqPerk.Retake && prereqPerk.Taken) {
-							this.state.currentCP -= resCost;
-							prereqPerk.Taken = true;
-							prereqPerk.Retake_Count++;
-							gained = true;
-							allMisses.push(missedPerk);
-							missedPerk = 0;
-							if(untilPerk && isRunning) {
-								canRun = false;
-								isRunning = false;
-								qs("#rollAll").innerText = "Continue";
+						if(this.state.currentCP >= resCost && this.haveTitle(prereqPerk,"Prereq_Title")) {
+							temp = trimPerk(prereqPerk);
+							var ct = prereqPerk.Title+"-"+prereqPerk.Upper_Source;
+							if(!this.state.trimPerks.includes(temp) && !currentTitles.includes(ct) && !prereqPerk.Taken) {
+								this.state.currentCP -= resCost;
+								this.state.trimPerks.push(temp);
+								this.state.build.push(prereqPerk);
+								currentTitles.push(prereqPerk.Title+"-"+prereqPerk.Upper_Source);
+								prereqPerk.Taken = true;
+								prereqPerk.Retake_Count++;
+								gained = true;
+								allMisses.push(missedPerk);
+								missedPerk = 0;
+								if(untilPerk && isRunning) {
+									canRun = false;
+									isRunning = false;
+									qs("#rollAll").innerText = "Continue";
+								}
 							}
+							res = prereqPerk;
 						}
-						res = prereqPerk;
 					}
 					i++;
 				}
@@ -422,6 +634,122 @@
 				this.state.allRolls.push(currentRolls);
 				this.state.currentRolls = 0;
 				addToBuild(res);
+			}
+			
+			this.state.currentPerk = res;
+		},
+		
+		attemptPrereq(res) {
+			var prereqPerk = this.findPerk(res);
+			if(!this.isNull(prereqPerk)) {
+				var result = true;
+				var prereqList = prereqPerk;
+				var i = 0;
+				
+				while(i<prereqList.length && result) {
+					var addCurrent = true;
+					prereqPerk = prereqList[i];
+					resCost = prereqPerk.Cost;
+					
+					if(!prereqPerk.Taken) {
+						var resCost = prereqPerk.Cost;
+						if(prereqPerk.Discount) {
+							if(haveDiscount(prereqPerk)) {
+								resCost = roundCost(resCost * prereqPerk.Discount_Multiplier);
+							}
+						}
+						qs("#cur_cost").innerText = "" + resCost;
+						
+						if(!this.haveTitle(prereqPerk,"Prereq_Title") && this.haveTitle(res,"Restrict_Title") && !this.haveTitle(res,"Restrict_Title")) {
+							addCurrent = this.attemptPrereq(prereqPerk);
+						}
+						else if(this.state.currentCP >= resCost && addCurrent && !this.haveTitle(res,"Restrict_Title")) {
+							temp = this.trimPerk(prereqPerk);
+							var ct = prereqPerk.Title+"-"+prereqPerk.Upper_Source;
+							if(!this.state.trimPerks.includes(temp) && !this.state.currentTitles.includes(ct) && !prereqPerk.Taken) {
+								this.state.currentCP -= resCost;
+								this.state.trimPerks.push(temp);
+								this.state.build.push(prereqPerk);
+								this.state.currentTitles.push(prereqPerk.Title+"-"+prereqPerk.Upper_Source);
+								prereqPerk.Taken = true;
+								prereqPerk.Retake_Count++;
+								gained = true;
+								this.state.allMisses.push(missedPerk);
+								this.state.missedPerk = 0;
+								if(untilPerk && isRunning) {
+									canRun = false;
+									isRunning = false;
+								}
+							}
+							res = prereqPerk;
+						}
+						else {
+							result = false;
+						}
+					}
+					
+					if(!addCurrent && result) {
+						result = false;
+					}
+					i++;
+				}
+				
+				return result;
+			}
+			else {
+				return true;
+			}
+		},
+		
+		findPerk(obj,recheck) {
+			if(this.isNull(recheck)) recheck == false;
+			if(this.isNull(this.state.unfiltered[obj.Domain_Number]) || recheck) {
+				if(this.isNull(minDomains[obj.Domain]) || recheck) {
+					if(this.isNull(obj.Over_Domain)) {
+						for(var d of this.state.unfiltered) {
+							if(d.Over_Domain.toLowerCase().includes(obj.Domain.toLowerCase()) || d.Domain.toLowerCase().includes(obj.Domain.toLowerCase())) {
+								for(var p of d.Perks) {
+									if(p.Title.toLowerCase()==obj.Title.toLowerCase() && p.Upper_Source.toLowerCase()==obj.Upper_Source.toLowerCase()) {
+										return p;
+									}
+								}
+							}
+						}
+						return null;
+					}
+					else {
+						for(var d of this.state.unfiltered) {
+							if(d.Over_Domain.toLowerCase()==obj.Over_Domain.toLowerCase()) {
+								for(var p of d.Perks) {
+									if(p.Title.toLowerCase()==obj.Title.toLowerCase() && p.Upper_Source.toLowerCase()==obj.Upper_Source.toLowerCase()) {
+										return p;
+									}
+								}
+							}
+						}
+						return null;
+					}
+				}
+				else {
+					for(var p of this.state.unfiltered[minDomains[obj.Domain]].Perks) {
+						if(p.Title.toLowerCase()==obj.Title.toLowerCase() && p.Upper_Source.toLowerCase()==obj.Upper_Source.toLowerCase()) {
+							return p;
+						}
+					}
+					return findPerk(obj,true);
+				}
+			}
+			else if(this.isNull(this.state.unfiltered[obj.Domain_Number].Perks[obj.Perk_Number])) {
+				return findPerk(obj,true);
+			}
+			else {
+				var p = this.state.unfiltered[obj.Domain_Number].Perks[obj.Perk_Number];
+				if(p.Title.toLowerCase()==obj.Title.toLowerCase() && p.Upper_Source.toLowerCase()==obj.Upper_Source.toLowerCase()) {
+					return p;
+				}
+				else {
+					return findPerk(obj,true);
+				}
 			}
 		},
 		
@@ -498,7 +826,7 @@
 							}
 						}
 					}
-					else if(!isNull(perk.Upper_Sources) && this.state.doUpper) {
+					else if(!this.isNull(perk.Upper_Sources) && this.state.doUpper) {
 						perk.Upper_Sources.forEach(function(z) {
 							if(z == e.Upper_Source || z == e.Source) {
 								if(e.Cost == 0  && this.haveTitle(e,"Prereq_Title") && this.haveTitle(e,"Restrict_Title") && !this.haveTitle(e,"Exclude_Title")) {
@@ -553,12 +881,12 @@
 			return freebies;
 		},
 		
-		findPreReq(obj) {
+		findTitles(obj,titleType) {
 			var found = false;
 			var tmp = [];
 			var titleMatch = [];
-			if(obj.Prereq_Title.includes("&&") || obj.Prereq_Title.includes("||")) {
-				var tmpTitles = obj.Prereq_Title.replaceAll("(","");
+			if(obj[titleType].includes("&&") || obj[titleType].includes("||")) {
+				var tmpTitles = obj[titleType].replaceAll("(","");
 				tmpTitles = tmpTitles.replaceAll(")","");
 				var tmpTitleMatch = tmpTitles.split(/(\&\&|\|\|)/);
 				for(var i=0; i<tmpTitleMatch.length; i++) {
@@ -569,7 +897,7 @@
 				}
 			}
 			else {
-				titleMatch.push(obj.Prereq_Title.toLowerCase()+"-"+obj.Upper_Source.toLowerCase());
+				titleMatch.push(obj[titleType].toLowerCase()+"-"+obj.Upper_Source.toLowerCase());
 			}
 			this.state.unfiltered.forEach(function(d) {
 				d.Perks.forEach(function(p) {
@@ -596,7 +924,7 @@
 				}
 				else {
 					var paras = obj[title].match(para);
-					if(!isNull(paras)) {
+					if(!this.isNull(paras)) {
 						var origPara = obj[title];
 						for(var i=0; i<paras.length; i++) {
 							var tmp = paras[i];
@@ -663,6 +991,93 @@
 			else {
 				return this.state.currentTitles.includes(matchStr+"-"+obj.Upper_Source);
 			}
+		},
+		
+		checkPerks() {
+			this.state.unfiltered.forEach(function(d) {
+				d.Perks.forEach(function(p,idx,theArr) {
+					theArr[idx] = this.checkPerk(p,d.Over_Domain);
+				});
+			});
+		},
+		
+		resetPerkList() {
+			this.state.unfiltered = perkList;
+			this.sortPerks();
+			this.checkPerks();
+			this.createDefaultFilters();
+		},
+		
+		addDomain(arr) {
+			this.state.unfiltered.push(arr);
+			this.createDefaultFilters();
+		},
+		
+		addToPerkList(toAdd) {
+			for(var perk of toAdd) {
+				if(!perk.Delete) {
+					var addThis = {
+						"Title":perk.Title,
+						"Cost":roundCost(perk.Cost),
+						"Description":perk.Description,
+						"Dice":perk.Dice,
+						"Discount_Cost":roundCost(perk.Discount_Cost),
+						"Discount_Multiplier":perk.Discount_Multiplier,
+						"Discount":perk.Discount,
+						"Discount_Title":perk.Discount_Title,
+						"Domain":perk.Domain,
+						"Domain_Number":perk.Domain_Number,
+						"Free":perk.Free_Req,
+						"Free_Title":perk.Free_Title,
+						"Lewd":perk.Lewd,
+						"Over_Domain":perk.Over_Domain,
+						"Prereq":perk.Prereq,
+						"Perk_Number":perk.Perk_Number,
+						"Prereq_Title":perk.Prereq_Title,
+						"Restrict":perk.Restrict,
+						"Restrict_Title":perk.Restrict_Title,
+						"Retake":perk.Retake,
+						"Retake_Cost":roundCost(perk.Retake_Cost),
+						"Retake_Times":perk.Retake_Times,
+						"Retake_Multiplier":perk.Retake_Multiplier,
+						"Source":perk.Source,
+						"Upper_Source":perk.Upper_Source,
+						"Taken":false,
+					}
+					if(!isNull(perk.Upper_Sources)) {
+						addThis["Upper_Sources"] = perk.Upper_Sources;
+					}
+					addThis = this.checkPerk(addThis,perk.Over_Domain);
+					if(isNull(perk.Domain)) {
+						var optionsUnder = allDomains[perk.Over_Domain];
+						addThis.Domain = optionsUnder[0];
+					}
+					if(isNull(this.state.unfiltered[minDomains[addThis.Domain]])) {
+						this.state.unfiltered[minDomains[perk.Domain]] = {
+							"Domain": addThis.Domain, "Over_Domain": addThis.Over_Domain, "Perks":[]
+						};
+					}
+					this.state.unfiltered[minDomains[perk.Domain]].Perks.push(addThis);
+				}
+			}
+			this.state.unfiltered.forEach(function(d) {
+				d.Perks = d.Perks.filter(function(p) {
+					if(!isNull(p.Delete)) {
+						if(p.Delete) {
+							return false;
+						}
+						else {
+							delete p.Delete;
+							return (p.Domain==d.Domain);
+						}
+					}
+					else {
+						return (p.Domain==d.Domain);
+					}
+				});
+			});
+			this.sortPerks();
+			this.createDefaultFilters();
 		},
 		
 		evalTrues(obj,evalStr) {
@@ -750,10 +1165,10 @@
 		},
 		
 		compairMany(a1,o1,isList) {
-			if(isNull(isList)) {
+			if(this.isNull(isList)) {
 				isList = false;
 			}
-			if(isNull(a1)) a1 = [];
+			if(this.isNull(a1)) a1 = [];
 			var tmpArr = [];
 			for(var i=0; i<a1.length; i++) {
 				tmpArr.push(trimPerk(a1[i]));
@@ -830,15 +1245,17 @@
 		name: 'StateStore',
 		state: store.state,
 		doRoll: store.doRoll,
+		resetPerkList: store.resetPerkList,
+		resetFilters: store.createDefaultFilters,
 		setDisplay: store.setDisplayValue,
 		clearDisplay: store.clearDisplayValue,
 		addPerk: store.addToBuild,
-		findPreReq: store.findPreReq,
 		fetchRandomPerk: store.fetchRandomPerk,
 		fetchDisplayList: store.fetchDisplayList,
 		fetchAllDomains: store.fetchAllDomains,
 		fetchAllOverDomains: store.fetchAllOverDomains,
 		fetchBuild: store.fetchBuild,
+		fetchFilteredList: store.fetchFilteredList,
 		fetchList: store.fetchList,
 		sortPerks: store.sortPerks,
 		removeDupes: store.removeDupes,
