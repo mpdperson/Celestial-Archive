@@ -17,11 +17,11 @@
 				"Domain": "Clusters of conceptually similar perks",
 				"Description": "General, functional perk definition"
 			},
-			unfiltered: perkList,
-			filtered: [],
 			build: [],
 			costFilter: [],
+			actDomainFilter: [],
 			domainFilter: [],
+			unfiltered: perkList,
 			sourceFilter: [],
 			upperFilter: [],
 			currentTitles: [],
@@ -45,7 +45,8 @@
 			doFree: true,
 			doUpper: false,
 			doRerolls: false,
-			rerollLimit: 3,
+			canGet: false,
+			rollLimit: 3,
 			searchString: ''
 		}),
 		
@@ -362,7 +363,7 @@
 		},
 		
 		fetchFilteredList () {
-			if(this.isNull(this.state.costFilter) || this.isNull(this.state.domainFilter)) {
+			if(this.isNull(this.state.domainFilter)) {
 				this.createDefaultFilters();
 			}
 			var filterList = [];
@@ -377,6 +378,19 @@
 					});
 				}
 			}
+			return filterList;
+		},
+		
+		fetchFilteredBuild () {
+			if(this.isNull(this.state.domainFilter)) {
+				this.createDefaultFilters();
+			}
+			var filterList = [];
+			this.state.build.forEach(function(p) {
+				if(this.state.costFilter.includes(p.Cost) && this.state.sourceFilter.includes(p.Source) && this.state.actDomainFilter.includes(p.Domain)) {
+					filterList.push(p);
+				}
+			});
 			return filterList;
 		},
 		
@@ -427,6 +441,7 @@
 			this.state.sourceFilter = [];
 			this.state.upperFilter = [];
 			this.state.allUppers = {};
+			this.state.actDomainFilter = [];
 			
 			var dNum = 0;
 			var setFirst = false;
@@ -456,6 +471,7 @@
 				
 				this.state.domainNumber[d.Domain] = dNum;
 				this.state.domainFilter.push(true);
+				this.state.actDomainFilter.push(d.Domain);
 				this.state.perksNum[d.Domain] = d.Perks.length;
 				var id = d.Domain.replace(reg,"_");
 				id = id.split(" ").join("_");
@@ -519,7 +535,7 @@
 			if(this.isNull(isReroll)) isReroll = false;
 			if(this.isNull(rollCount)) rollCount = 0;
 			if(this.state.doRerolls) {
-				if(rollCount > this.state.rerollLimit) {
+				if(rollCount > this.state.rollLimit) {
 					canDoRoll = false;
 				}
 			}
@@ -630,13 +646,21 @@
 			this.state.currentRolls++;
 			this.state.allRollCount++;
 			
+			this.state.canGet = gained;
+			/*/
 			if(gained) {
 				this.state.allRolls.push(currentRolls);
 				this.state.currentRolls = 0;
-				addToBuild(res);
+				this.addToBuild(res);
 			}
-			
+			//*/
 			this.state.currentPerk = res;
+		},
+		
+		getRoll() {
+			doRoll();
+			fetchFreebies(this.state.currentPerk);
+			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
 		},
 		
 		attemptPrereq(res) {
@@ -765,8 +789,15 @@
 		},
 		
 		fetchFreebies(perk) {
-			if(!this.state.doFree) return [];
-			var freebies = [];
+			if(!this.state.canGet) {
+				this.state.currentFreebies = [];
+				return [];
+			}
+			if(!this.state.doFree) {
+				this.state.currentFreebies = [];
+				return [];
+			}
+			this.state.currentFreebies = [];
 			this.state.unfiltered.forEach(function(d) {
 				d.Perks.forEach(function(e) {
 					var ct = e.Title+"-"+e.Upper_Source;
@@ -776,7 +807,7 @@
 							var tmp = this.trimPerk(e);
 							if(!temp && !this.state.trimPerks.includes(tmp) && !this.state.currentTitles.includes(ct)) {
 								if(perk != e) {
-									freebies.push(e);
+									this.state.currentFreebies.push(e);
 								}
 							}
 							else {
@@ -793,7 +824,7 @@
 								}
 								if(add && !this.state.trimPerks.includes(tmp) && !this.state.currentTitles.includes(ct)) {
 									if(perk != e) {
-										freebies.push(e);
+										this.state.currentFreebies.push(e);
 									}
 								}
 							}
@@ -803,7 +834,7 @@
 							var tmp = trimPerk(e);
 							if(!temp && !trimPerk.includes(tmp) && !this.state.currentTitles.includes(ct)) {
 								if(perk != e) {
-									freebies.push(e);
+									this.state.currentFreebies.push(e);
 								}
 							}
 							else {
@@ -820,7 +851,7 @@
 								}
 								if(add && !trimPerk.includes(tmp) && !this.state.currentTitles.includes(ct)) {
 									if(perk != e) {
-										freebies.push(e);
+										this.state.currentFreebies.push(e);
 									}
 								}
 							}
@@ -833,7 +864,7 @@
 									var temp = this.compairMany(this.state.trimPerks,e);
 									var tmp = trimPerk(e);
 									if(!temp && !this.state.currentTitles.includes(ct)) {
-										freebies.push(e);
+										this.state.currentFreebies.push(e);
 									}
 									else {
 										temp = this.compairMany(this.state.trimPerks,e,true);
@@ -848,14 +879,14 @@
 											}
 										}
 										if(add && !this.state.currentTitles.includes(ct)) {
-											freebies.push(e);
+											this.state.currentFreebies.push(e);
 										}
 									}
 								}
 								else if(!this.isNull(e.Free_Title) && this.haveTitle(e,"Free_Title") && this.haveTitle(e,"Prereq_Title") && this.haveTitle(e,"Restrict_Title") && !this.haveTitle(e,"Exclude_Title")) {
-									var temp = this.compairMany(freebies,e,true);
+									var temp = this.compairMany(this.state.currentFreebies,e,true);
 									if(temp.length == 0 && !this.state.currentTitles.includes(ct)) {
-										freebies.push(e);
+										this.state.currentFreebies.push(e);
 									}
 									else {
 										var add = false;
@@ -869,7 +900,7 @@
 											}
 										}
 										if(add && !this.state.currentTitles.includes(ct)) {
-											freebies.push(e);
+											this.state.currentFreebies.push(e);
 										}
 									}
 								}
@@ -878,7 +909,7 @@
 					}
 				});
 			});
-			return freebies;
+			return this.state.currentFreebies;
 		},
 		
 		findTitles(obj,titleType) {
@@ -1010,7 +1041,11 @@
 		
 		addDomain(arr) {
 			this.state.unfiltered.push(arr);
-			this.createDefaultFilters();
+			for(var d of arr) {
+				for(var p of d) {
+					this.addToPerkList(p);
+				}
+			}
 		},
 		
 		addToPerkList(toAdd) {
@@ -1177,7 +1212,7 @@
 			var returnMe = [];
 			var has = false;
 			for(var i=0; i<a1.length; i++) {
-				var tmpData = compairTwo(a1[i],tmpTrim);
+				var tmpData = this.compairTwo(a1[i],tmpTrim);
 				if(tmpData.match != 1 && tmpData.match < .6) {
 					returnMe.push(tmpData);
 				}
@@ -1244,23 +1279,24 @@
 	export default {
 		name: 'StateStore',
 		state: store.state,
-		doRoll: store.doRoll,
-		resetPerkList: store.resetPerkList,
-		resetFilters: store.createDefaultFilters,
-		setDisplay: store.setDisplayValue,
-		clearDisplay: store.clearDisplayValue,
+		addDomain: store.addDomain,
 		addPerk: store.addToBuild,
-		fetchRandomPerk: store.fetchRandomPerk,
-		fetchDisplayList: store.fetchDisplayList,
+		addPerkList: store.addToPerkList,
+		clearDisplay: store.clearDisplayValue,
 		fetchAllDomains: store.fetchAllDomains,
 		fetchAllOverDomains: store.fetchAllOverDomains,
 		fetchBuild: store.fetchBuild,
 		fetchFilteredList: store.fetchFilteredList,
+		fetchFilteredBuild: store.fetchFilteredBuild,
 		fetchList: store.fetchList,
-		sortPerks: store.sortPerks,
+		getRoll: store.getRoll,
 		removeDupes: store.removeDupes,
+		resetPerkList: store.resetPerkList,
+		resetFilters: store.createDefaultFilters,
+		setDisplay: store.setDisplayValue,
 		setCostFilter: store.setCostFilter,
 		setDomainFilter: store.setDomainFilter,
-		setSearchString: store.setSearchString
+		setSearchString: store.setSearchString,
+		sortPerks: store.sortPerks,
 	}
 </script>

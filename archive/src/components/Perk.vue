@@ -24,7 +24,15 @@
 				type: String,
 				required: true
 			},
+			Cost: {
+				type: Number,
+				required: true
+			},
 			ID: {
+				type: String,
+				required: true
+			},
+			Domain: {
 				type: String,
 				required: true
 			},
@@ -32,14 +40,6 @@
 				type: String,
 				required: true
 			},
-			Cost: {
-				type: Number,
-				required: true
-			},
-			Domain: {
-				type: String,
-				required: true
-			}
 		},
 		setup () {
 			return {}

@@ -65,7 +65,7 @@
 	import Gacha from 'components/Gacha.vue'
 	
 	export default defineComponent({
-		name: 'PerkViewer',
+		name: 'BuildViewer',
 		components: {
 			Perk,
 			Store,
@@ -83,7 +83,7 @@
 			const displayList = ref(null)
 			
 			const getDisplayList = async () => {
-				displayList.value = await Store.fetchFilteredBuild()
+				displayList.value = await Store.fetchFilteredList()
 			}
 			
 			onMounted(getDisplayList)
