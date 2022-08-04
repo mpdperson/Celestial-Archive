@@ -48,34 +48,32 @@
 							</q-btn>
 						</q-item-section>
 					</q-item>
-					<q-item>
-						<p> Domain: {{ storeState.displayValue.Domain }} </p>
+					<q-item dark>
+						<p>Domain: {{ storeState.displayValue.Domain }}</p>
 					</q-item>
-					<q-item>
-						<p>Source Material: {{ storeState.displayValue.Source }} </p>
+					<q-item dark>
+						<p>Source Material: {{ storeState.displayValue.Source }}</p>
 					</q-item>
-					<q-item>
-						<p> Cost: {{ storeState.displayValue.Cost }} CP </p>
+					<q-item dark>
+						<p>Cost: {{ storeState.displayValue.Cost }} CP</p>
 					</q-item>
-					<q-item>
-						<p> Description: {{ storeState.displayValue.Description }} </p>
+					<q-item dark>
+						<p>Description: {{ storeState.displayValue.Description }}</p>
 					</q-item>
-					<q-item>
-						<p> ID: {{ storeState.displayValue.ID }} </p>
+					<q-item dark>
+						<p>ID: {{ storeState.displayValue.ID }}</p>
 					</q-item>
 				</q-list>
 			</div>
 		</div>
 	</div>
 </template>
-
 <script>
 	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
 	import Domain from 'components/Domain.vue'
 	import Perk from 'components/Perk.vue'
 	import Store from 'components/Store.vue'
 	import Gacha from 'components/Gacha.vue'
-	//import ListFilter from 'components/ListFilter.vue'
 	
 	export default defineComponent({
 		name: 'ListViewer',
@@ -93,8 +91,7 @@
 			const perkList = ref(null)
 			
 			const getDisplayList = async () => {
-				displayList.value =
-				await Store.fetchFilteredDomains();
+				displayList.value = await Store.fetchFilteredDomains();
 			}
 			
 			onMounted(getDisplayList);

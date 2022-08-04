@@ -5,3 +5,12 @@
 .fullWidth {
 	width: 100%;
 }
+.btnWidth {
+	width: 118px;
+}
+.cstWidth {
+	width: 80px;
+}
+.rsnWidth {
+	width: calc(100% - 118px - 80px);
+}

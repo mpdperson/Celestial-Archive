@@ -1,12 +1,13 @@
 <template>
-	<div> </div>
+	<div></div>
 </template>
-
 <script>
 	import  { reactive } from 'vue'
 	const perkList = require('../../../public/json/celestial_forge.json');
 	const sourceList = require('../../../public/json/source_origins.json');
 	const commons = require('../../../public/dictionaries/common_phrases.json');
+	var cTitles = [];
+	var tPerks = [];
 	
 	const store = {
 		debug: true,
@@ -17,10 +18,11 @@
 				"Source": "Media property from which perk originates",
 				"Cost": "Perk value in creation points, abbreviated",
 				"Domain": "Clusters of conceptually similar perks",
-				"Description": "General, functional perk definition"
+				"Description": "General, functional perk definition",
+				"Order":"N/A"
 			},
 			filteredBuild: [],
-			build: [],
+			currentBuild: [],
 			costFilter: [],
 			actDomainFilter: [],
 			domainFilter: [],
@@ -29,8 +31,6 @@
 			filteredDomain: [],
 			sourceFilter: [],
 			upperFilter: [],
-			currentTitles: [],
-			trimPerks: [],
 			misses: [],
 			allRolls: [],
 			allMisses: [],
@@ -48,10 +48,14 @@
 			allRollCount: 0,
 			missedPerk: 0,
 			maxValue: 0,
+			buildCount: 0,
 			doFree: true,
 			doUpper: false,
 			doRerolls: false,
 			canGet: false,
+			untilPerk: false,
+			isRunning: false,
+			canRun: false,
 			rollLimit: 3,
 			searchString: ''
 		}),
@@ -261,7 +265,8 @@
 				"Source": "None",
 				"Cost": 0,
 				"Domain": "None",
-				"Description": "None"
+				"Description": "None",
+				"Order":"N/A"
 			};
 		},
 		
@@ -290,22 +295,45 @@
 		},
 		
 		addToBuild(newValue) {
-			if(this.debug) {
-				console.log('store.addToBuild called with', newValue)
+			this.state.buildCount++;
+			var addPerk = newValue.Perk;
+			if(isNull(addPerk)) addPerk = newValue;
+			addPerk["Order"] = getOrd(this.state.buildCount);
+			var trimed = trimPerk(addPerk);
+			var ct = addPerk.Title+"-"+addPerk.Upper_Source;
+			if(!hasTP(trimed) && !hasCT(ct)) {
+				addToTP(trimed);
+				addToCT(ct);
 			}
-			var trimed = trimPerk(newValue);
-			var ct = newValue.Title+"-"+newValue.Upper_Source;
-			if(!this.state.trimPerks.includes(trimed) && !this.state.currentTitles.includes(ct)) {
-				this.state.trimPerks.push(trimed);
-				this.state.currentTitles.push(ct);
-			}
-			var updateMe = this.state.unfiltered[newValue.Domain_Number].Perks[newValue.Perk_Number];
+			var updateMe = this.state.unfiltered[addPerk.Domain_Number].Perks[addPerk.Perk_Number];
 			updateMe.Taken = true;
 			if(isNull(updateMe.Retake_Count)) {
 				updateMe["Retake_Count"] = 0;
 			}
 			updateMe.Retake_Count++;
-			this.state.build.push(newValue)
+			var tmp = {"Domain":addPerk.Domain,"Over_Domain":addPerk.Over_Domain,"Perks":[addPerk]};
+			var curBuild = this.state.currentBuild;
+			console.log("curBuild.length",curBuild.length);
+			console.log("curBuild",curBuild);
+			if(isNull(this.state.currentBuild) || this.state.currentBuild.length==0) {
+				curBuild.push(tmp);
+			}
+			else {
+				var added = false;
+				for(var i=0; i<curBuild.length; i++) {
+					console.log("curBuild["+i+"]",curBuild[i]);
+					console.log(curBuild[i].Domain+"=="+addPerk.Domain,curBuild[i].Domain==addPerk.Domain);
+					if(curBuild[i].Domain==addPerk.Domain && !added) {
+						curBuild[i].Perks.push(addPerk);
+						added = true;
+					}
+				}
+				if(!added) {
+					curBuild.push(tmp);
+				}
+			}
+			console.log("curBuild",curBuild);
+			this.state.currentBuild = curBuild;
 		},
 		
 		checkPerk(jsonObj,overStr) {
@@ -413,20 +441,8 @@
 			return jsonObj;
 		},
 		
-		trimPerk(res) {
-			if(this.store.isNull(res)) return null;
-			var desc = stripString(res.Description);
-			var meh = {
-				"Title":stripString(res.Title),
-				"Upper_Source":stripString(res.Upper_Source),
-				"Domain":res.Domain,
-				"Over_Domain":res.Over_Domain,
-			}
-			return meh;
-		},
-		
 		fetchBuild() {
-			return this.state.build;
+			return this.state.currentBuild;
 		},
 		
 		fetchList() {
@@ -459,6 +475,28 @@
 			}
 		},
 		
+		fetchFilteredBuild() {
+			if(isNull(this.state.filteredBuild)) {
+				if(isNull(this.state.domainFilter)) {
+					this.resetPerkList();
+				}
+				var filterList = [];
+				var doSourceFilter = this.state.sourceFilter;
+				//var keys = Object.keys(this.state.minDomains);
+				var curBuild = this.state.currentBuild;
+				for(var d of curBuild) {
+					if(doSourceFilter[this.state.minDomains[d.Domain]]) {
+						filterList.push(d);
+					}
+				}
+				this.state.filteredBuild = filterList;
+				return filterList;
+			}
+			else {
+				return this.state.filteredBuild;
+			}
+		},
+		
 		fetchFilteredDomains() {
 			if(isNull(this.state.filteredDomain)) {
 				if(isNull(this.state.domainFilter)) {
@@ -480,7 +518,6 @@
 		},
 		
 		fetchPerkList(selected) {
-			console.log("fetchPerkList",selected);
 			var filterList = [];
 			var doSourceFilter = this.state.sourceFilter;
 			selected.Perks.forEach(function(p) {
@@ -519,31 +556,13 @@
 			return filterList;
 		},
 		
-		fetchFilteredBuild() {
-			if(isNull(this.state.filteredBuild)) {
-				if(isNull(this.state.domainFilter)) {
-					this.resetPerkList();
-				}
-				var filterList = [];
-				this.state.build.forEach(function(p) {
-					if(this.state.costFilter.includes(p.Cost) && this.state.sourceFilter.includes(p.Source) && this.state.actDomainFilter.includes(p.Domain)) {
-						filterList.push(p);
-					}
-				});
-				this.state.filteredBuild = filterList;
-				return filterList;
-			}
-			else {
-				return this.state.filteredBuild;
-			}
-		},
-		
 		createFilteredBuild() {
 			if(isNull(this.state.domainFilter)) {
 				this.resetPerkList();
 			}
 			var filterList = [];
-			this.state.build.forEach(function(p) {
+			var curBuild = this.state.currentBuild;
+			curBuild.forEach(function(p) {
 				if(this.state.costFilter.includes(p.Cost) && this.state.sourceFilter.includes(p.Source) && this.state.actDomainFilter.includes(p.Domain)) {
 					filterList.push(p);
 				}
@@ -570,7 +589,7 @@
 		fetchRandomPerk() {
 			var pl = [];
 			if(!isNull(this.state.domainFilter)) {
-				for(i = 0; i < this.state.domainFilter.length; i++) {
+				for(var i = 0; i < this.state.domainFilter.length; i++) {
 					if(this.state.domainFilter[i]) {
 						pl = pl.concat(this.state.unfiltered[i].Perks);
 					}
@@ -582,8 +601,9 @@
 				}
 			}
 			if(!isNull(this.state.costFilter)) {
+				var cF = this.state.costFilter;
 				pl = pl.filter(function(p) {
-					return this.state.costFilter.includes(p.Cost.toString());
+					return cF.includes(p.Cost.toString());
 				});
 			}
 			return pl[Math.floor(Math.random() * pl.length)];
@@ -650,36 +670,38 @@
 				dNum++;
 			});
 			
+			newSourceFilter = [...new Set(newSourceFilter)];
+			newSourceFilter.sort(function(a, b) {
+				if(a.toLowerCase() < b.toLowerCase()) {
+					return -1;
+				}
+				if(a.toLowerCase() > b.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
+			this.state.sourceFilter = newSourceFilter;
+			
+			newUpperFilter = [...new Set(newUpperFilter)];
+			newUpperFilter.sort(function(a, b) {
+				if(a.toLowerCase() < b.toLowerCase()) {
+					return -1;
+				}
+				if(a.toLowerCase() > b.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
+			this.state.upperFilter = newUpperFilter;
+			
 			this.state.minDomains = newDomains;
 			this.state.allDomains = newAllDomains;
-			this.state.sourceFilter = newSourceFilter;
-			this.state.upperFilter = newUpperFilter;
 			this.state.domainNumber = newDomainNumber;
 			this.state.domainFilter = newDomainFilter;
 			this.state.actDomainFilter = newActDomainFilter;
 			this.state.perksNum = newPerksNum;
 			this.state.checkDomain = newCheckDomain;
 			
-			this.state.sourceFilter = [...new Set(this.state.sourceFilter)];
-			this.state.upperFilter = [...new Set(this.state.upperFilter)];
-			this.state.sourceFilter.sort(function(a, b) {
-				if(a.toLowerCase() < b.toLowerCase()) {
-					return -1;
-				}
-				if(a.toLowerCase() > b.toLowerCase()) {
-					return 1;
-				}
-				return 0;
-			});
-			this.state.upperFilter.sort(function(a, b) {
-				if(a.toLowerCase() < b.toLowerCase()) {
-					return -1;
-				}
-				if(a.toLowerCase() > b.toLowerCase()) {
-					return 1;
-				}
-				return 0;
-			});
 			var keys = Object.keys(this.state.allUppers);
 			for(var i=0; i<keys.length; i++) {
 				newAllUppers[keys[i]] = [...new Set(newAllUppers[keys[i]])];
@@ -727,7 +749,7 @@
 				this.state.currentCP+=100;
 			}
 			
-			var res = fetchRandomPerk();
+			var res = this.fetchRandomPerk();
 			
 			//Check if need Reroll
 			if(res.Taken && !res.Retake) {
@@ -747,7 +769,7 @@
 				}
 			}
 			if(!isNull(res.Discount_Title)) {
-				if(haveDiscount(res)) {
+				if(haveTitle(res,"Discount_Title")) {
 					resCost = roundCost(resCost * res.Discount_Multiplier);
 					if(res.Discount_Cost!=0) {
 						resCost = res.Discount_Cost;
@@ -755,62 +777,58 @@
 				}
 			}
 			
-			gained = false;
+			var gained = false;
 			var prereqList = this.findTitles(res,"Prereq_Title");
 			
-			if(this.state.currentCP >= resCost && this.haveTitle(res,"Prereq_Title") && canDoRoll && this.haveTitle(res,"Restrict_Title") && !this.haveTitle(res,"Exclude_Title")) {
-				temp = trimPerk(res);
+			if(this.state.currentCP >= resCost && haveTitle(res,"Prereq_Title") && canDoRoll && haveTitle(res,"Restrict_Title") && !haveTitle(res,"Exclude_Title")) {
+				var temp = trimPerk(res);
 				var ct = res.Title+"-"+res.Upper_Source;
-				if(!trimPerks.includes(temp) && !currentTitles.includes(ct)) {
+				if(!hasTP(temp) && !hasCT(ct)) {
 					this.state.currentCP -= resCost;
-					trimPerks.push(temp);
+					addToTP(temp);
 					if(!res.Taken) {
-						this.state.build.push(res);
-						currentTitles.push(res.Title+"-"+res.Upper_Source);
+						addToCT(res.Title+"-"+res.Upper_Source);
 					}
 					res.Taken = true;
 					res.Retake_Count++;
 					gained = true;
-					allMisses.push(missedPerk);
-					missedPerk = 0;
-					if(untilPerk && isRunning) {
+					this.state.allMisses.push(this.state.missedPerk);
+					this.state.missedPerk = 0;
+					if(this.state.untilPerk && this.state.isRunning) {
 						canRun = false;
 						isRunning = false;
-						qs("#rollAll").innerText = "Continue";
 					}
 				}
 			}
 			else if(!isNull(prereqList) && canDoRoll) {
 				var i = 0;
 				while(i<prereqList.length && !gained) {
-					prereqPerk = prereqList[i];
+					var prereqPerk = prereqList[i];
 					resCost = prereqPerk.Cost;
 					if(!prereqPerk.Taken) {
-						if(!this.haveTitle(prereqPerk,"Prereq_Title")) {
+						if(!haveTitle(prereqPerk,"Prereq_Title")) {
 							this.attemptPrereq(prereqPerk);
 						}
 						if(!isNull(prereqPerk.Discount_Title)) {
-							if(this.haveTitle(prereqPerk,"Discount_Title")) {
+							if(haveTitle(prereqPerk,"Discount_Title")) {
 								resCost = roundCost(resCost * prereqPerk.Discount_Multiplier);
 							}
 						}
-						if(this.state.currentCP >= resCost && this.haveTitle(prereqPerk,"Prereq_Title")) {
+						if(this.state.currentCP >= resCost && haveTitle(prereqPerk,"Prereq_Title")) {
 							temp = trimPerk(prereqPerk);
 							var ct = prereqPerk.Title+"-"+prereqPerk.Upper_Source;
-							if(!this.state.trimPerks.includes(temp) && !currentTitles.includes(ct) && !prereqPerk.Taken) {
+							if(!hasTP(temp) && !hasCT(ct) && !prereqPerk.Taken) {
 								this.state.currentCP -= resCost;
-								this.state.trimPerks.push(temp);
-								this.state.build.push(prereqPerk);
-								currentTitles.push(prereqPerk.Title+"-"+prereqPerk.Upper_Source);
+								addToTP(temp);
+								addToCT(prereqPerk.Title+"-"+prereqPerk.Upper_Source);
 								prereqPerk.Taken = true;
 								prereqPerk.Retake_Count++;
 								gained = true;
-								allMisses.push(missedPerk);
-								missedPerk = 0;
-								if(untilPerk && isRunning) {
-									canRun = false;
-									isRunning = false;
-									qs("#rollAll").innerText = "Continue";
+								this.state.allMisses.push(this.state.missedPerk);
+								this.state.missedPerk = 0;
+								if(this.state.untilPerk && this.state.isRunning) {
+									this.state.canRun = false;
+									this.state.isRunning = false;
 								}
 							}
 							res = prereqPerk;
@@ -819,7 +837,7 @@
 					i++;
 				}
 			}
-			else if(doRerolls && canDoRoll) {
+			else if(this.state.doRerolls && canDoRoll) {
 				this.doRoll(rollCount++,true);
 			}
 			else {
@@ -841,8 +859,8 @@
 		},
 		
 		getRoll() {
-			doRoll();
-			fetchFreebies(this.state.currentPerk);
+			this.doRoll();
+			this.fetchFreebies(this.state.currentPerk);
 			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
 		},
 		
@@ -855,7 +873,7 @@
 				
 				while(i<prereqList.length && result) {
 					var addCurrent = true;
-					prereqPerk = prereqList[i];
+					var prereqPerk = prereqList[i];
 					resCost = prereqPerk.Cost;
 					
 					if(!prereqPerk.Taken) {
@@ -867,25 +885,24 @@
 						}
 						qs("#cur_cost").innerText = "" + resCost;
 						
-						if(!this.haveTitle(prereqPerk,"Prereq_Title") && this.haveTitle(res,"Restrict_Title") && !this.haveTitle(res,"Restrict_Title")) {
+						if(!haveTitle(prereqPerk,"Prereq_Title") && haveTitle(res,"Restrict_Title") && !haveTitle(res,"Restrict_Title")) {
 							addCurrent = this.attemptPrereq(prereqPerk);
 						}
-						else if(this.state.currentCP >= resCost && addCurrent && !this.haveTitle(res,"Restrict_Title")) {
-							temp = this.trimPerk(prereqPerk);
+						else if(this.state.currentCP >= resCost && addCurrent && !haveTitle(res,"Restrict_Title")) {
+							temp = trimPerk(prereqPerk);
 							var ct = prereqPerk.Title+"-"+prereqPerk.Upper_Source;
-							if(!this.state.trimPerks.includes(temp) && !this.state.currentTitles.includes(ct) && !prereqPerk.Taken) {
+							if(!hasTP(temp) && !hasCT(ct) && !prereqPerk.Taken) {
 								this.state.currentCP -= resCost;
-								this.state.trimPerks.push(temp);
-								this.state.build.push(prereqPerk);
-								this.state.currentTitles.push(prereqPerk.Title+"-"+prereqPerk.Upper_Source);
+								addToTP(temp);
+								addToCT(prereqPerk.Title+"-"+prereqPerk.Upper_Source);
 								prereqPerk.Taken = true;
 								prereqPerk.Retake_Count++;
 								gained = true;
 								this.state.allMisses.push(missedPerk);
 								this.state.missedPerk = 0;
-								if(untilPerk && isRunning) {
-									canRun = false;
-									isRunning = false;
+								if(this.state.untilPerk && this.state.isRunning) {
+									this.state.canRun = false;
+									this.state.isRunning = false;
 								}
 							}
 							res = prereqPerk;
@@ -980,21 +997,22 @@
 				this.state.currentFreebies = [];
 				return [];
 			}
-			this.state.currentFreebies = [];
+			var freeList = [];
+			var isDoUp = this.state.doUpper;
 			this.state.unfiltered.forEach(function(d) {
 				d.Perks.forEach(function(e) {
 					var ct = e.Title+"-"+e.Upper_Source;
-					if(e.Source == perk.Source || (e.Upper_Source == perk.Upper_Source && this.state.doUpper)) {
-						if(e.Cost == 0 && this.haveTitle(e,"Prereq_Title") && this.haveTitle(e,"Restrict_Title") && !this.haveTitle(e,"Exclude_Title")) {
-							var temp = this.compairMany(this.state.trimPerks,e);
-							var tmp = this.trimPerk(e);
-							if(!temp && !this.state.trimPerks.includes(tmp) && !this.state.currentTitles.includes(ct)) {
+					if(e.Source == perk.Source || (e.Upper_Source == perk.Upper_Source && isDoUp)) {
+						if(e.Cost == 0 && haveTitle(e,"Prereq_Title") && haveTitle(e,"Restrict_Title") && !haveTitle(e,"Exclude_Title")) {
+							var temp = compairMany(null,e);
+							var tmp = trimPerk(e);
+							if(!temp && !hasTP(tmp) && !hasCT(ct)) {
 								if(perk != e) {
-									this.state.currentFreebies.push(e);
+									freeList.push(e);
 								}
 							}
 							else {
-								temp = this.compairMany(this.state.trimPerks,e,true);
+								temp = compairMany(null,e,true);
 								var add = false;
 								for(var i=0; i<temp.length; i++) {
 									if(temp[i].missed.length == 1) {
@@ -1005,23 +1023,23 @@
 										add = true;
 									}
 								}
-								if(add && !this.state.trimPerks.includes(tmp) && !this.state.currentTitles.includes(ct)) {
+								if(add && !hasTP(tmp) && !hasCT(ct)) {
 									if(perk != e) {
-										this.state.currentFreebies.push(e);
+										freeList.push(e);
 									}
 								}
 							}
 						}
-						else if(e.Free_Title != "" && this.haveTitle(e,"Free_Title") && this.haveTitle(e,"Prereq_Title") && this.haveTitle(e,"Restrict_Title") && !this.haveTitle(e,"Exclude_Title")) {
-							var temp = this.compairMany(trimPerk,e);
+						else if(e.Free_Title != "" && haveTitle(e,"Free_Title") && haveTitle(e,"Prereq_Title") && haveTitle(e,"Restrict_Title") && !haveTitle(e,"Exclude_Title")) {
+							var temp = compairMany(null,e);
 							var tmp = trimPerk(e);
-							if(!temp && !trimPerk.includes(tmp) && !this.state.currentTitles.includes(ct)) {
+							if(!temp && !hasTP(tmp) && !hasCT(ct)) {
 								if(perk != e) {
-									this.state.currentFreebies.push(e);
+									freeList.push(e);
 								}
 							}
 							else {
-								temp = this.compairMany(this.state.trimPerks,e,true);
+								temp = compairMany(null,e,true);
 								var add = false;
 								for(var i=0; i<temp.length; i++) {
 									if(temp[i].missed.length >= 1) {
@@ -1032,25 +1050,25 @@
 										add = true;
 									}
 								}
-								if(add && !trimPerk.includes(tmp) && !this.state.currentTitles.includes(ct)) {
+								if(add && !hasTP(tmp) && !hasCT(ct)) {
 									if(perk != e) {
-										this.state.currentFreebies.push(e);
+										freeList.push(e);
 									}
 								}
 							}
 						}
 					}
-					else if(!isNull(perk.Upper_Sources) && this.state.doUpper) {
+					else if(!isNull(perk.Upper_Sources) && isDoUp) {
 						perk.Upper_Sources.forEach(function(z) {
 							if(z == e.Upper_Source || z == e.Source) {
-								if(e.Cost == 0  && this.haveTitle(e,"Prereq_Title") && this.haveTitle(e,"Restrict_Title") && !this.haveTitle(e,"Exclude_Title")) {
-									var temp = this.compairMany(this.state.trimPerks,e);
+								if(e.Cost == 0  && haveTitle(e,"Prereq_Title") && haveTitle(e,"Restrict_Title") && !haveTitle(e,"Exclude_Title")) {
+									var temp = compairMany(null,e);
 									var tmp = trimPerk(e);
-									if(!temp && !this.state.currentTitles.includes(ct)) {
-										this.state.currentFreebies.push(e);
+									if(!temp && !hasCT(ct)) {
+										freeList.push(e);
 									}
 									else {
-										temp = this.compairMany(this.state.trimPerks,e,true);
+										temp = compairMany(null,e,true);
 										var add = false;
 										for(var i=0; i<temp.length; i++) {
 											if(temp[i].missed.length >= 1) {
@@ -1061,15 +1079,15 @@
 												add = true;
 											}
 										}
-										if(add && !this.state.currentTitles.includes(ct)) {
-											this.state.currentFreebies.push(e);
+										if(add && !hasCT(ct)) {
+											freeList.push(e);
 										}
 									}
 								}
-								else if(!isNull(e.Free_Title) && this.haveTitle(e,"Free_Title") && this.haveTitle(e,"Prereq_Title") && this.haveTitle(e,"Restrict_Title") && !this.haveTitle(e,"Exclude_Title")) {
-									var temp = this.compairMany(this.state.currentFreebies,e,true);
-									if(temp.length == 0 && !this.state.currentTitles.includes(ct)) {
-										this.state.currentFreebies.push(e);
+								else if(!isNull(e.Free_Title) && haveTitle(e,"Free_Title") && haveTitle(e,"Prereq_Title") && haveTitle(e,"Restrict_Title") && !haveTitle(e,"Exclude_Title")) {
+									var temp = compairMany(null,e,true);
+									if(temp.length == 0 && !hasCT(ct)) {
+										freeList.push(e);
 									}
 									else {
 										var add = false;
@@ -1082,8 +1100,8 @@
 												add = true;
 											}
 										}
-										if(add && !this.state.currentTitles.includes(ct)) {
-											this.state.currentFreebies.push(e);
+										if(add && !hasCT(ct)) {
+											freeList.push(e);
 										}
 									}
 								}
@@ -1092,7 +1110,8 @@
 					}
 				});
 			});
-			return this.state.currentFreebies;
+			this.state.currentFreebies = freeList;
+			return freeList;
 		},
 		
 		findTitles(obj,titleType) {
@@ -1122,89 +1141,6 @@
 				});
 			});
 			return tmp;
-		},
-		
-		haveTitle(obj,title) {
-			var base = title.split("_")[0];
-			if(obj[base]) {
-				if(!obj[title].includes("&&") && !obj[title].includes("||")) {
-					var tmpTitle = obj[title]+"-"+obj.Upper_Source;
-					if(this.state.currentTitles.includes(tmpTitle)) {
-						return true;
-					}
-					else {
-						return false;
-					}
-				}
-				else {
-					var paras = obj[title].match(para);
-					if(!isNull(paras)) {
-						var origPara = obj[title];
-						for(var i=0; i<paras.length; i++) {
-							var tmp = paras[i];
-							paras[i] = paras[i].trim();
-							paras[i] = paras[i].replace("(","");
-							paras[i] = paras[i].replace(")","");
-							origPara.replace(tmp,""+this.evalTitles(obj,paras[i],title));
-						}
-						
-						return this.evalTrues(obj,origPara);
-					}
-					else {
-						return this.evalTitles(obj,obj[title],title);
-					}
-				}
-			}
-			else {
-				if(title=="Exclude_Title") {
-					return false;
-				}
-				else {
-					return true;
-				}
-			}
-		},
-		
-		evalTitles(obj,matchStr,titleType) {
-			if(matchStr.includes("&&") && matchStr.includes("||")) {
-				var preTitles = matchStr.split("||");
-				for(var i=0; i<preTitles.length; i++) {
-					preTitles[i] = preTitles[i].trim();
-					if(preTitles[i].includes("&&")) {
-						var preTitlesAnd = preTitles[i].split("&&");
-						for(var j=0; j<preTitlesAnd.length; j++) {
-							preTitlesAnd[j] = preTitlesAnd[j].trim();
-							preTitlesAnd[j] = preTitlesAnd[j]+"-"+obj.Upper_Source;
-						}
-						var tmp = this.matchAnds(preTitlesAnd);
-						if(tmp) return true;
-					}
-					else {
-						var tmp = this.matchOrs([preTitles[i]+"-"+obj.Upper_Source]);
-						if(tmp) return true;
-					}
-				}
-				return false;
-			}
-			else if(matchStr.includes("&&")) {
-				var preTitles = matchStr.split("&&");
-				for(var i=0; i<preTitles.length; i++) {
-					preTitles[i] = preTitles[i].trim();
-					preTitles[i] = preTitles[i]+"-"+obj.Upper_Source;
-				}
-				return this.matchAnds(preTitles);
-			}
-			else if(matchStr.includes("||")) {
-				var preTitles = matchStr.split("||");
-				for(var i=0; i<preTitles.length; i++) {
-					preTitles[i] = preTitles[i].trim();
-					preTitles[i] = preTitles[i]+"-"+obj.Upper_Source;
-				}
-				return this.matchOrs(preTitles);
-			}
-			else {
-				return this.state.currentTitles.includes(matchStr+"-"+obj.Upper_Source);
-			}
 		},
 		
 		checkPerks() {
@@ -1300,90 +1236,6 @@
 			this.createDefaultFilters();
 		},
 		
-		evalTrues(obj,evalStr) {
-			if(evalStr.includes("&&") && evalStr.includes("||")) {
-				var preTitles = evalStr.split("||");
-				for(var i=0; i<preTitles.length; i++) {
-					preTitles[i] = preTitles[i].trim();
-					if(preTitles[i].includes("&&")) {
-						var preTitlesAnd = preTitles[i].split("&&");
-						for(var j=0; j<preTitlesAnd.length; j++) {
-							preTitlesAnd[j] = preTitlesAnd[j].trim();
-							if(preTitlesAnd[j]!="true" && preTitlesAnd[j]!="false") {
-								preTitlesAnd[j] = preTitlesAnd[j]+"-"+obj.Upper_Source;
-							}
-						}
-						var tmp = this.matchAnds(preTitlesAnd);
-						if(tmp) return true;
-					}
-					else {
-						if(preTitles[i]!="true" && preTitles[i]!="false") {
-							var tmp = this.matchOrs([preTitles[i]+"-"+obj.Upper_Source]);
-							if(tmp) return true;
-						}
-						else if(preTitles[i]=="true") {
-							return true;
-						}
-					}
-				}
-				return false;
-			}
-			else if(evalStr.includes("&&")) {
-				var preTitles = evalStr.split("&&");
-				for(var i=0; i<preTitles.length; i++) {
-					preTitles[i] = preTitles[i].trim();
-					if(preTitles[i]!="true" && preTitles[i]!="false") {
-						preTitles[i] = preTitles[i]+"-"+obj.Upper_Source;
-					}
-					else if(preTitles[i]=="false") {
-						return false;
-					}
-				}
-				return this.matchAnds(preTitles);
-			}
-			else if(evalStr.includes("||")) {
-				var preTitles = evalStr.split("||");
-				for(var i=0; i<preTitles.length; i++) {
-					preTitles[i] = preTitles[i].trim();
-					if(preTitles[i]!="true" && preTitles[i]!="false") {
-						preTitles[i] = preTitles[i]+"-"+obj.Upper_Source;
-					}
-					else if(preTitles[i]=="true") {
-						return true;
-					}
-				}
-				return this.matchOrs(preTitles);
-			}
-		},
-		
-		matchOrs(arr) {
-			for(var i=0; i<arr.length; i++) {
-				if(arr[i]!="true" && arr[i]!="false") {
-					if(this.state.currentTitles.includes(arr[i])) {
-						return true;
-					}
-				}
-				else if(arr[i]=="true") {
-					return true;
-				}
-			}
-			return false;
-		},
-		
-		matchAnds(arr) {
-			for(var i=0; i<arr.length; i++) {
-				if(arr[i]!="true" && arr[i]!="false") {
-					if(!this.state.currentTitles.includes(arr[i])) {
-						return false;
-					}
-					else if(arr[i]=="false") {
-						return false;
-					}
-				}
-			}
-			return true;
-		},
-		
 		fetchDisplayList(side) {
 			if(side==1) {
 				return this.fetchFilteredList();
@@ -1391,62 +1243,6 @@
 			if(side==2) {
 				return this.fetchFilteredBuild();
 			}
-		},
-		
-		compairMany(a1,o1,isList) {
-			if(isNull(isList)) {
-				isList = false;
-			}
-			if(isNull(a1)) a1 = [];
-			var tmpArr = [];
-			for(var i=0; i<a1.length; i++) {
-				tmpArr.push(trimPerk(a1[i]));
-			}
-			var tmpTrim = trimPerk(o1);
-			var returnMe = [];
-			var has = false;
-			for(var i=0; i<a1.length; i++) {
-				var tmpData = this.compairTwo(a1[i],tmpTrim);
-				if(tmpData.match != 1 && tmpData.match < .6) {
-					returnMe.push(tmpData);
-				}
-				else {
-					has = true;
-				}
-			}
-			if(isList) {
-				return returnMe.push(tmpData);
-			}
-			else {
-				return has;
-			}
-		},
-		
-		compairTwo(o1,o2) {
-			var k1 = Object.keys(o1).sort();
-			var k2 = Object.keys(o2).sort();
-			var missed = [];
-			var count = 0;
-			var min_size = (k1.length > k2.length) ? k2.length : k1.length;
-			if(o1==o2) return {"match":1,"missed":missed};
-			if(o1.Source == o2.Source && o1.Title == o2.Title) {
-				return {"match":1,"missed":missed};
-			}
-			for(var i=0; i<min_size; i++) {
-				if(o1[k1[i]] == o2[k1[i]] || o1[k2[i]] == o2[k2[i]]) {
-					count++;
-				}
-				else {
-					if(k1[i] == k2[i]) {
-						missed.push(k1[i]);
-					}
-					else {
-						missed.push(k1[i]);
-						missed.push(k2[i]);
-					}
-				}
-			}
-			return {"match":(count/min_size),"missed":missed};
 		}
 	}
 	
@@ -1476,14 +1272,231 @@
 		setDomainFilter: store.setDomainFilter,
 		setSearchString: store.setSearchString,
 		sortPerks: store.sortPerks,
+		trimPerk: store.trimPerk,
 		
 		addOrigin: store.addOrigin,
+		attemptPrereq: store.attemptPrereq,
 		checkPerk: store.checkPerk,
 		checkPerks: store.checkPerks,
 		createFilteredBuild: store.createFilteredBuild,
 		createDefaultFilters: store.createDefaultFilters,
+		doRoll: store.doRoll,
+		fetchFreebies: store.fetchFreebies,
+		fetchRandomPerk: store.fetchRandomPerk,
+		findTitles: store.findTitles,
 		isItNull: store.isItNull,
 		isOrigins: store.isOrigins,
+	}
+	
+	function addToTP(obj) {
+		tPerks.push(obj);
+	}
+	
+	function hasTP(obj) {
+		return tPerks.includes(obj);
+	}
+	
+	function addToCT(obj) {
+		cTitles.push(obj);
+	}
+	
+	function hasCT(obj) {
+		return cTitles.includes(obj);
+	}
+	
+	function compairMany(a1,o1,isList) {
+		if(isNull(isList)) {
+			isList = false;
+		}
+		if(isNull(a1)) a1 = tPerks;
+		var tmpArr = [];
+		for(var i=0; i<a1.length; i++) {
+			tmpArr.push(trimPerk(a1[i]));
+		}
+		var tmpTrim = trimPerk(o1);
+		var returnMe = [];
+		var has = false;
+		for(var i=0; i<a1.length; i++) {
+			var tmpData = compairTwo(a1[i],tmpTrim);
+			if(tmpData.match != 1 && tmpData.match < .6) {
+				returnMe.push(tmpData);
+			}
+			else {
+				has = true;
+			}
+		}
+		if(isList) {
+			return returnMe.push(tmpData);
+		}
+		else {
+			return has;
+		}
+	}
+	
+	function compairTwo(o1,o2) {
+		var k1 = Object.keys(o1).sort();
+		var k2 = Object.keys(o2).sort();
+		var missed = [];
+		var count = 0;
+		var min_size = (k1.length > k2.length) ? k2.length : k1.length;
+		if(o1==o2) return {"match":1,"missed":missed};
+		if(o1.Source == o2.Source && o1.Title == o2.Title) {
+			return {"match":1,"missed":missed};
+		}
+		for(var i=0; i<min_size; i++) {
+			if(o1[k1[i]] == o2[k1[i]] || o1[k2[i]] == o2[k2[i]]) {
+				count++;
+			}
+			else {
+				if(k1[i] == k2[i]) {
+					missed.push(k1[i]);
+				}
+				else {
+					missed.push(k1[i]);
+					missed.push(k2[i]);
+				}
+			}
+		}
+		return {"match":(count/min_size),"missed":missed};
+	}
+	
+	function evalTitles(obj,matchStr,titleType) {
+		if(matchStr.includes("&&") && matchStr.includes("||")) {
+			var preTitles = matchStr.split("||");
+			for(var i=0; i<preTitles.length; i++) {
+				preTitles[i] = preTitles[i].trim();
+				if(preTitles[i].includes("&&")) {
+					var preTitlesAnd = preTitles[i].split("&&");
+					for(var j=0; j<preTitlesAnd.length; j++) {
+						preTitlesAnd[j] = preTitlesAnd[j].trim();
+						preTitlesAnd[j] = preTitlesAnd[j]+"-"+obj.Upper_Source;
+					}
+					var tmp = matchAnds(preTitlesAnd);
+					if(tmp) return true;
+				}
+				else {
+					var tmp = matchOrs([preTitles[i]+"-"+obj.Upper_Source]);
+					if(tmp) return true;
+				}
+			}
+			return false;
+		}
+		else if(matchStr.includes("&&")) {
+			var preTitles = matchStr.split("&&");
+			for(var i=0; i<preTitles.length; i++) {
+				preTitles[i] = preTitles[i].trim();
+				preTitles[i] = preTitles[i]+"-"+obj.Upper_Source;
+			}
+			return matchAnds(preTitles);
+		}
+		else if(matchStr.includes("||")) {
+			var preTitles = matchStr.split("||");
+			for(var i=0; i<preTitles.length; i++) {
+				preTitles[i] = preTitles[i].trim();
+				preTitles[i] = preTitles[i]+"-"+obj.Upper_Source;
+			}
+			return matchOrs(preTitles);
+		}
+		else {
+			return cTitles.includes(matchStr+"-"+obj.Upper_Source);
+		}
+	}
+	
+	function haveTitle(obj,title) {
+		var base = title.split("_")[0];
+		if(obj[base]) {
+			if(!obj[title].includes("&&") && !obj[title].includes("||")) {
+				var tmpTitle = obj[title]+"-"+obj.Upper_Source;
+				if(cTitles.includes(tmpTitle)) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			}
+			else {
+				var paras = obj[title].match(para);
+				if(!isNull(paras)) {
+					var origPara = obj[title];
+					for(var i=0; i<paras.length; i++) {
+						var tmp = paras[i];
+						paras[i] = paras[i].trim();
+						paras[i] = paras[i].replace("(","");
+						paras[i] = paras[i].replace(")","");
+						origPara.replace(tmp,""+evalTitles(obj,paras[i],title));
+					}
+					
+					return evalTrues(obj,origPara);
+				}
+				else {
+					return evalTitles(obj,obj[title],title);
+				}
+			}
+		}
+		else {
+			if(title=="Exclude_Title") {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
+	}
+	
+	function evalTrues(obj,evalStr) {
+		if(evalStr.includes("&&") && evalStr.includes("||")) {
+			var preTitles = evalStr.split("||");
+			for(var i=0; i<preTitles.length; i++) {
+				preTitles[i] = preTitles[i].trim();
+				if(preTitles[i].includes("&&")) {
+					var preTitlesAnd = preTitles[i].split("&&");
+					for(var j=0; j<preTitlesAnd.length; j++) {
+						preTitlesAnd[j] = preTitlesAnd[j].trim();
+						if(preTitlesAnd[j]!="true" && preTitlesAnd[j]!="false") {
+							preTitlesAnd[j] = preTitlesAnd[j]+"-"+obj.Upper_Source;
+						}
+					}
+					var tmp = matchAnds(preTitlesAnd);
+					if(tmp) return true;
+				}
+				else {
+					if(preTitles[i]!="true" && preTitles[i]!="false") {
+						var tmp = matchOrs([preTitles[i]+"-"+obj.Upper_Source]);
+						if(tmp) return true;
+					}
+					else if(preTitles[i]=="true") {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		else if(evalStr.includes("&&")) {
+			var preTitles = evalStr.split("&&");
+			for(var i=0; i<preTitles.length; i++) {
+				preTitles[i] = preTitles[i].trim();
+				if(preTitles[i]!="true" && preTitles[i]!="false") {
+					preTitles[i] = preTitles[i]+"-"+obj.Upper_Source;
+				}
+				else if(preTitles[i]=="false") {
+					return false;
+				}
+			}
+			return matchAnds(preTitles);
+		}
+		else if(evalStr.includes("||")) {
+			var preTitles = evalStr.split("||");
+			for(var i=0; i<preTitles.length; i++) {
+				preTitles[i] = preTitles[i].trim();
+				if(preTitles[i]!="true" && preTitles[i]!="false") {
+					preTitles[i] = preTitles[i]+"-"+obj.Upper_Source;
+				}
+				else if(preTitles[i]=="true") {
+					return true;
+				}
+			}
+			return matchOrs(preTitles);
+		}
 	}
 	
 	function capitalSentance(txt) {
@@ -1511,6 +1524,34 @@
 			}
 		}
 		return words.join(" ");
+	}
+	
+	function matchAnds(arr) {
+		for(var i=0; i<arr.length; i++) {
+			if(arr[i]!="true" && arr[i]!="false") {
+				if(!cTitles.includes(arr[i])) {
+					return false;
+				}
+				else if(arr[i]=="false") {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
+	function matchOrs(arr) {
+		for(var i=0; i<arr.length; i++) {
+			if(arr[i]!="true" && arr[i]!="false") {
+				if(cTitles.includes(arr[i])) {
+					return true;
+				}
+			}
+			else if(arr[i]=="true") {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	function capital(txt) {
@@ -1551,5 +1592,52 @@
 			if(keys.length==0) return true;
 		}
 		return false;
+	}
+	
+	function trimPerk(res) {
+		if(isNull(res)) return null;
+		var desc = stripString(res.Description);
+		var meh = {
+			"Title":stripString(res.Title),
+			"Upper_Source":stripString(res.Upper_Source),
+			"Domain":res.Domain,
+			"Over_Domain":res.Over_Domain,
+		}
+		return meh;
+	}
+	
+	function roundCost(obj) {
+		var value = Math.round(obj);
+		var remainder = obj % 50;
+		remainder = Math.floor(remainder);
+		value = value - remainder;
+		return value;
+	}
+	
+	function getOrd(i) {
+		if(typeof i == "string" && i=="N/A") {
+			return i;
+		}
+		if(typeof i == "string") {
+			return ordinal_suffix_of(parseInt(i)) + " Perk";
+		}
+		if(typeof i == "number") {
+			return ordinal_suffix_of(i) + " Perk";
+		}
+	}
+	
+	function ordinal_suffix_of(i) {
+		var j = i % 10,
+		k = i % 100;
+		if (j == 1 && k != 11) {
+			return i + "st";
+		}
+		if (j == 2 && k != 12) {
+			return i + "nd";
+		}
+		if (j == 3 && k != 13) {
+			return i + "rd";
+		}
+		return i + "th";
 	}
 </script>

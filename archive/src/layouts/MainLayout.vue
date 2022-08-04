@@ -111,7 +111,7 @@
 		},
 		
 		setup () {
-			const leftDrawerOpen = ref(false)
+			const leftDrawerOpen = ref(false);
 			
 			return {
 				leftDrawerOpen,

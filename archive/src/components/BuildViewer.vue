@@ -1,112 +1,108 @@
 <template>
 	<Store />
-	<div class="row">
-		<div class="col-4 q-pa-md">
-			<q-scroll-area style="height: 900px;">
-				<q-list bordered name="perkList">
+	<div class="row fullWidth">
+		<div class="col-3">
+			<q-scroll-area style="height: 100%;">
+				<q-list bordered name="domainList">
+					<q-item>
+						<q-item-section>
+							<q-item-label header dark>
+								Domains
+							</q-item-label>
+						</q-item-section>
+					</q-item>
+					<Domain v-for="d in domainList" :key="d.ID" v-bind="d" @click='updateList(d)' />
+				</q-list>
+				<q-scroll-observer />
+			</q-scroll-area>
+		</div>
+		<div class="col-3" name="display">
+			<q-scroll-area style="height: 100%;">
+				<q-list bordered name="domainList">
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
 								Perks
 							</q-item-label>
 						</q-item-section>
-						<!--
-							<q-item-section side>
-							<q-btn dark label="add all" outline ripple color="blue-grey-12" >
-							</q-btn>
-							</q-item-section>
-						-->
 					</q-item>
-					<Perk v-for="perk in perks" :key="perk.ID" v-bind="perk" @click='updateDisplay(perk)' />
+					<Perk v-for="p in perkList" :key="p.Title" v-bind="p" @click='updateDisplay(p)' />
 				</q-list>
 				<q-scroll-observer />
 			</q-scroll-area>
-		</div> <!-- class = col-4 -->
-		<div class="col-8 q-pa-md" name="display">
-			<!-- List Filter component in second column first row (top right of screen) -->
-			<!--
-				<ListFilter />
-			-->
-			<!-- Gacha game component, tracks creation points, selects perks randomly -->
-			<Gacha />
-			
-			<!-- Perk Info Display, bottom right of screen -->
-			<div class="row">
+		</div>
+		<div class="col-6" name="display">
+			<div class="row" style="height: 100%;">
 				<q-list>
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								{{ storeState.displayValue.Title }}
+								<h5>{{ storeState.displayValue.Title }}</h5>
 							</q-item-label>
 						</q-item-section>
 						<q-item-section side>
-							<q-btn dark label="add perk" outline ripple color="blue-grey-12" @click="addPerk(storeState.displayValue)" >
-							</q-btn>
+							{{ storeState.displayValue.Order }}
 						</q-item-section>
 					</q-item>
-					<q-item>
-						<p> Domain: {{ storeState.displayValue.Domain }} </p>
+					<q-item dark>
+						<p>Domain: {{ storeState.displayValue.Domain }}</p>
 					</q-item>
-					<q-item>
-						<p>Source Material: {{ storeState.displayValue.Source }} </p>
+					<q-item dark>
+						<p>Source Material: {{ storeState.displayValue.Source }}</p>
 					</q-item>
-					<q-item>
-						<p> Cost: {{ storeState.displayValue.Cost }} CP </p>
+					<q-item dark>
+						<p>Cost: {{ storeState.displayValue.Cost }} CP</p>
 					</q-item>
-					<q-item>
-						<p> Description: {{ storeState.displayValue.Description }} </p>
+					<q-item dark>
+						<p>Description: {{ storeState.displayValue.Description }}</p>
 					</q-item>
-					<q-item>
-						<p> ID: {{ storeState.displayValue.ID }} </p>
+					<q-item dark>
+						<p>ID: {{ storeState.displayValue.ID }}</p>
 					</q-item>
 				</q-list>
-			</div> <!-- class = row -->
-		</div> <!-- class = col-8 etc -->
-	</div> <!-- class = row -->
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
 	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
+	import Domain from 'components/Domain.vue'
 	import Perk from 'components/Perk.vue'
 	import Store from 'components/Store.vue'
-	import Gacha from 'components/Gacha.vue'
-	//import ListFilter from 'components/ListFilter.vue'
 	
 	export default defineComponent({
 		name: 'BuildViewer',
 		components: {
-			Perk,
+			Domain,
 			Store,
-			//ListFilter,
-			Gacha
+			Perk
 		},
 		props: {
 			
 		},
 		setup (props) {
 			const displayList = ref(null)
+			const perkList = ref(null)
 			
 			const getDisplayList = async () => {
-				displayList.value =
-				await Store.fetchFilteredBuild()
+				displayList.value = await Store.fetchFilteredBuild();
 			}
 			
 			onMounted(getDisplayList);
 			
-			//watch(onSlide, getDisplayList);
 			return {
-				perks: displayList,
-				updateDisplay (perk) {
+				domainList: displayList,
+				perkList: perkList,
+				updateDisplay(perk) {
 					Store.setDisplay(perk);
 				},
-				addPerk (selected) {
-					Store.addPerk(selected);
-					//console.log(query.value);
+				updateList(selected) {
+					perkList.value = Store.fetchPerkList(selected);
 				},
 				displayList,
 				getDisplayList,
 				query: Store.searchString,
-				//queryMatches,
 			}
 		},
 		data() {

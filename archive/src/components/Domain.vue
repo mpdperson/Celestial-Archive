@@ -10,9 +10,7 @@
 		</q-item>
 	</div>
 </template>
-
 <script>
-	
 	export default {
 		name: 'ActualPerk',
 		data() {
@@ -21,10 +19,6 @@
 			}
 		},
 		props: {
-			ID: {
-				type: Number,
-				required: true
-			},
 			Domain: {
 				type: String,
 				required: true
