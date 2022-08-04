@@ -204,7 +204,7 @@ function updatePerk(obj) {
 		d.Perks.forEach(function(p) {
 			if(p.Title.toLowerCase() == obj.Title.toLowerCase() && p.Upper_Source.toLowerCase() == obj.Upper_Source.toLowerCase()) {
 				p.Taken = obj.Taken;
-				p.Retake_Times = obj.Retake_Times;
+				p.Retake_Limit = obj.Retake_Limit;
 				if(!isNull(obj.Dice_List)) {
 					p["Dice_List"] = obj.Dice_List;
 				}
@@ -442,7 +442,7 @@ function saveCurrentPerk() {
 		"Retake":$("#Retake").prop('checked'),
 		"Retake_Cost":roundCost(parseInt($("#Retake_Cost").val())),
 		"Retake_Multiplier":parseInt($("#Retake_Multiplier").val()),
-		"Retake_Times":parseInt($("#Retake_Times").val()),
+		"Retake_Limit":parseInt($("#Retake_Limit").val()),
 		"Source":$("#Source").val(),
 		"Upper_Source":$("#Upper_Source").val(),
 		"Upper_Sources":$("#Upper_Sources").val().split("~|~"),
@@ -483,7 +483,7 @@ function showPerk() {
 	$("#Delete").prop('checked', isNull(tmp_perk.Delete) ? false : tmp_perk.Delete);
 	$("#Dupe").prop('checked', isDupe(tmp_perk));
 	$("#Retake_Cost").val(isNull(tmp_perk.Retake_Cost) ? 0 : roundCost(tmp_perk.Retake_Cost));
-	$("#Retake_Times").val(isNull(tmp_perk.Retake_Times) ? 0 : tmp_perk.Retake_Times);
+	$("#Retake_Limit").val(isNull(tmp_perk.Retake_Limit) ? 0 : tmp_perk.Retake_Limit);
 	$("#Retake_Multiplier").val(isNull(tmp_perk.Retake_Multiplier) ? 1 : tmp_perk.Retake_Multiplier);
 	$("#Dice").val(isNull(tmp_perk.Dice) ? "1d1" : tmp_perk.Dice);
 	$("#Discount_Multiplier").val(isNull(tmp_perk.Discount_Multiplier) ? 0.5 : tmp_perk.Discount_Multiplier);
@@ -540,7 +540,7 @@ function showPerk2() {
 	$("#Retake2").prop('checked', isNull(tmp_perk.Retake) ? false : tmp_perk.Retake);
 	//$("#Delete2").prop('checked', isNull(tmp_perk.Delete) ? false : tmp_perk.Delete);
 	$("#Retake_Cost2").val(isNull(tmp_perk.Retake_Cost) ? 0 : roundCost(tmp_perk.Retake_Cost));
-	$("#Retake_Times2").val(isNull(tmp_perk.Retake_Times) ? 0 : tmp_perk.Retake_Times);
+	$("#Retake_Limit2").val(isNull(tmp_perk.Retake_Limit) ? 0 : tmp_perk.Retake_Limit);
 	$("#Retake_Multiplier2").val(isNull(tmp_perk.Retake_Multiplier) ? 1 : tmp_perk.Retake_Multiplier);
 	$("#Dice2").val(isNull(tmp_perk.Dice) ? "1d1" : tmp_perk.Dice);
 	$("#Discount_Multiplier2").val(isNull(tmp_perk.Discount_Multiplier) ? 0.5 : tmp_perk.Discount_Multiplier);
@@ -638,7 +638,7 @@ function savePerks() {
 				"Restrict_Title":perk.Restrict_Title,
 				"Retake":perk.Retake,
 				"Retake_Cost":roundCost(perk.Retake_Cost),
-				"Retake_Times":perk.Retake_Times,
+				"Retake_Limit":perk.Retake_Limit,
 				"Retake_Multiplier":perk.Retake_Multiplier,
 				"Source":perk.Source,
 				"Upper_Source":perk.Upper_Source,
@@ -1156,8 +1156,8 @@ function checkPerk(jsonObj,overStr) {
 	if(isNull(jsonObj.Retake_Multiplier)) {
 		jsonObj["Retake_Multiplier"] = 1;
 	}
-	if(isNull(jsonObj.Retake_Times)) {
-		jsonObj["Retake_Times"] = 0;
+	if(isNull(jsonObj.Retake_Limit)) {
+		jsonObj["Retake_Limit"] = 0;
 	}
 	if(isNull(jsonObj.Dice)) {
 		jsonObj["Dice"] = "1d1";
@@ -2470,8 +2470,8 @@ function doRoll(rollCount, isReroll) {
 	if(res.Taken && !res.Retake) {
 		doRoll(rollCount,false);
 	}
-	if(res.Taken && res.Retake && res.Retake_Times!=0) {
-		if(res.Retake_Count >= res.Retake_Times) {
+	if(res.Taken && res.Retake && res.Retake_Limit!=0) {
+		if(res.Retake_Count >= res.Retake_Limit) {
 			doRoll(rollCount,false);
 		}
 	}
@@ -2482,7 +2482,7 @@ function doRoll(rollCount, isReroll) {
 	
 	var resCost = res.Cost;
 	if(res.Taken && res.Retake) {
-		resCost = resCost * getMultiplier(res.Retake_Multiplier,res.Retake_Times);
+		resCost = resCost * getMultiplier(res.Retake_Multiplier,res.Retake_Limit);
 		if(res.Retake_Cost!=0) {
 			resCost = res.Retake_Cost;
 		}
@@ -2532,8 +2532,8 @@ function doRoll(rollCount, isReroll) {
 			if(prereqPerk.Taken && !prereqPerk.Retake) {
 				addCurrent = false;
 			}
-			if(prereqPerk.Taken && prereqPerk.Retake && prereqPerk.Retake_Times!=0) {
-				if(prereqPerk.Retake_Count >= prereqPerk.Retake_Times) {
+			if(prereqPerk.Taken && prereqPerk.Retake && prereqPerk.Retake_Limit!=0) {
+				if(prereqPerk.Retake_Count >= prereqPerk.Retake_Limit) {
 					addCurrent = false;
 				}
 			}
@@ -3125,7 +3125,7 @@ function pickThisPerk() {
 	
 	var resCost = res.Cost;
 	if(res.Taken && res.Retake) {
-		resCost = resCost * getMultiplier(res.Retake_Multiplier,res.Retake_Times);
+		resCost = resCost * getMultiplier(res.Retake_Multiplier,res.Retake_Limit);
 	}
 	if(res.Discount) {
 		if(currentTitles.includes(res.Discount_Title+"-"+res.Upper_Source)) {
@@ -3150,7 +3150,7 @@ function pickThisPerk() {
 			prereqPerk = prereqList[i];
 			resCost = prereqPerk.Cost;
 			if(prereqPerk.Taken && prereqPerk.Retake) {
-				resCost = resCost * getMultiplier(prereqPerk.Retake_Multiplier,prereqPerk.Retake_Times);
+				resCost = resCost * getMultiplier(prereqPerk.Retake_Multiplier,prereqPerk.Retake_Limit);
 			}
 			if(prereqPerk.Discount) {
 				if(currentTitles.includes(prereqPerk.Discount_Title+"-"+prereqPerk.Upper_Source)) {

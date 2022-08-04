@@ -1,17 +1,17 @@
 <template>
-	<q-page class="flex flex-center blackBack">
-		<PerkViewer/>
+	<q-page class="flex blackBack">
+		<ListViewer />
 	</q-page>
 </template>
 
 <script>
 	import { defineComponent } from 'vue'
-	import PerkViewer from 'components/PerkViewer.vue'
+	import ListViewer from 'components/ListViewer.vue'
 	
 	export default defineComponent({
 		name: 'GachaPage',
 		components: {
-			PerkViewer
+			ListViewer
 		}
 	})
 </script>

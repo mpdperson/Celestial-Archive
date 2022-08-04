@@ -10,11 +10,12 @@
 								Perks
 							</q-item-label>
 						</q-item-section>
-						
-						<q-item-section side>
-							<q-btn dark label="add all" outline ripple color="blue-grey-12">
+						<!--
+							<q-item-section side>
+							<q-btn dark label="add all" outline ripple color="blue-grey-12" >
 							</q-btn>
-						</q-item-section>
+							</q-item-section>
+						-->
 					</q-item>
 					<Perk v-for="perk in perks" :key="perk.ID" v-bind="perk" @click='updateDisplay(perk)' />
 				</q-list>
@@ -22,14 +23,20 @@
 			</q-scroll-area>
 		</div> <!-- class = col-4 -->
 		<div class="col-8 q-pa-md" name="display">
+			<!-- List Filter component in second column first row (top right of screen) -->
+			<!--
+				<ListFilter />
+			-->
+			<!-- Gacha game component, tracks creation points, selects perks randomly -->
 			<Gacha />
 			
+			<!-- Perk Info Display, bottom right of screen -->
 			<div class="row">
 				<q-list>
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								{{ storeState.displayValue.title }}
+								{{ storeState.displayValue.Title }}
 							</q-item-label>
 						</q-item-section>
 						<q-item-section side>
@@ -63,51 +70,43 @@
 	import Perk from 'components/Perk.vue'
 	import Store from 'components/Store.vue'
 	import Gacha from 'components/Gacha.vue'
+	//import ListFilter from 'components/ListFilter.vue'
 	
 	export default defineComponent({
 		name: 'BuildViewer',
 		components: {
 			Perk,
 			Store,
+			//ListFilter,
 			Gacha
 		},
 		props: {
-			onSlide: {
-				type: Number,
-				required: true
-			}
+			
 		},
 		setup (props) {
-			const { onSlide } = toRefs(props)
-			
 			const displayList = ref(null)
 			
 			const getDisplayList = async () => {
-				displayList.value = await Store.fetchFilteredList()
+				displayList.value =
+				await Store.fetchFilteredBuild()
 			}
 			
-			onMounted(getDisplayList)
-			watch(onSlide, getDisplayList)
+			onMounted(getDisplayList);
 			
-			const query = ref('')
-			const queryMatches = computed( () => {
-				return displayList.value.filter(perk => {
-					return perk.title.includes("Tool")
-				})
-			})
-			
+			//watch(onSlide, getDisplayList);
 			return {
 				perks: displayList,
 				updateDisplay (perk) {
-					Store.setDisplay(perk)
+					Store.setDisplay(perk);
 				},
 				addPerk (selected) {
-					Store.addPerk(selected)
+					Store.addPerk(selected);
+					//console.log(query.value);
 				},
 				displayList,
 				getDisplayList,
 				query: Store.searchString,
-				queryMatches
+				//queryMatches,
 			}
 		},
 		data() {

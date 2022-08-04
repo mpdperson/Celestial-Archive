@@ -39,9 +39,9 @@
 					let randomPerk = Store.state.unfiltered[Math.floor(Math.random () * Store.state.unfiltered.length)];
 					Store.setDisplay(randomPerk);
 					
-					if (cp.value >= randomPerk.cost) {
+					if (cp.value >= randomPerk.Cost) {
 						result.value = "Perk purchased and added to build";
-						cp.value = cp.value - randomPerk.cost;
+						cp.value = cp.value - randomPerk.Cost;
 						Store.addPerk(randomPerk);
 					}
 					else {
