@@ -9,7 +9,7 @@
 	import BuildViewer from 'components/BuildViewer.vue'
 	
 	export default defineComponent({
-		name: 'GachaPage',
+		name: 'BuildPerks',
 		components: {
 			BuildViewer
 		}

@@ -24,13 +24,17 @@
 			filteredBuild: [],
 			currentBuild: [],
 			costFilter: [],
+			costToggle: [],
+			fandomToggle: [],
+			docsToggle: [],
+			domainToggle: [],
 			actDomainFilter: [],
 			domainFilter: [],
 			unfiltered: perkList,
 			filtered: [],
 			filteredDomain: [],
 			sourceFilter: [],
-			upperFilter: [],
+			upperToggle: [],
 			misses: [],
 			allRolls: [],
 			allMisses: [],
@@ -90,8 +94,6 @@
 			});
 			
 			var domainCount = 0;
-			var functOrigin = this.addOrigin;
-			var functCall = this.isOrigins;
 			var sourceTemp = this.state.sourceOrigins;
 			
 			this.state.unfiltered.forEach(function(d) {
@@ -129,7 +131,7 @@
 					theArr[idx] = newP;
 					perkCount++;
 					if(d.Over_Domain=="Origins") {
-						sourceTemp = functOrigin(newP,sourceTemp,functCall);
+						sourceTemp = addOrigin(newP,sourceTemp);
 					}
 				});
 				d.Perks = d.Perks.filter(function(p) {
@@ -139,55 +141,6 @@
 			});
 			
 			this.state.sourceOrigins = sourceTemp;
-		},
-		
-		addOrigin(obj,sourceTemp,callBack) {
-			var isAdded = false;
-			sourceTemp.forEach(function(d) {
-				if(d.Source.toLowerCase()==obj.Source.toLowerCase()) {
-					isAdded = true;
-					if(obj.Domain.toLowerCase().includes("background")) {
-						if(!callBack(obj,sourceTemp)) d.Origins.Background.push(obj);
-					}
-					if(obj.Domain.toLowerCase().includes("species")) {
-						if(!callBack(obj,sourceTemp)) d.Origins.Species.push(obj);
-					}
-				}
-			});
-			
-			if(!isAdded) {
-				var tmpD = {"Source":obj.Source,"Upper_Source":obj.Upper_Source,"Origins":{"Background":[],"Species":[]}};
-				if(obj.Domain.toLowerCase().includes("background")) {
-					if(!callBack(obj,sourceTemp)) tmpD.Origins.Background.push(obj);
-				}
-				if(obj.Domain.toLowerCase().includes("species")) {
-					if(!callBack(obj,sourceTemp)) tmpD.Origins.Species.push(obj);
-				}
-				sourceTemp.push(tmpD);
-			}
-			return sourceTemp;
-		},
-		
-		isOrigins(obj,source_origins) {
-			for(var d of source_origins) {
-				for(var p1 of d.Origins.Background) {
-					if(p1.Source==obj.Source && p1.Title==obj.Title) {
-						return true;
-					}
-					if(p1.Upper_Source==obj.Upper_Source && p1.Title==obj.Title) {
-						return true;
-					}
-				}
-				for(var p2 of d.Origins.Species) {
-					if(p2.Source==obj.Source && p2.Title==obj.Title) {
-						return true;
-					}
-					if(p2.Upper_Source==obj.Upper_Source && p2.Title==obj.Title) {
-						return true;
-					}
-				}
-			}
-			return false;
 		},
 		
 		removeDupes() {
@@ -571,6 +524,115 @@
 			return filterList;
 		},
 		
+		updateCostFilter(selected) {
+			var newFilter = this.state.costFilter;
+			var newToggle = this.state.costToggle;
+			if(selected.Enabled) {
+				newFilter.filter(function(n) {
+					return (n!=selected.Cost);
+				});
+			}
+			else {
+				newFilter.push(selected.Cost);
+			}
+			for(var i=0; i<newToggle.length; i++) {
+				if(newToggle[i].Cost==selected.Cost) {
+					newToggle[i].Enabled = !newToggle[i].Enabled;
+				}
+			}
+			this.state.costFilter = newFilter;
+			this.state.costToggle = newToggle;
+			return newToggle;
+		},
+		
+		updateFandomFilter(selected) {
+			var newFilter = this.state.sourceFilter;
+			var newToggle = this.state.upperToggle;
+			var allUp = this.state.allUppers;
+			
+			var idx = -1;
+			for(var i=0; i<newToggle.length; i++) {
+				if(newToggle[i].Fandom == selected.Fandom) {
+					newToggle[i].Enabled = !newToggle[i].Enabled;
+					idx = i;
+					break;
+				}
+			}
+			
+			var sources = allUp[newToggle[idx].Fandom];
+			if(newToggle[idx].Enabled) {
+				for(var i=0; i<sources.length; i++) {
+					newFilter.push(sources[i]);
+				}
+			}
+			else {
+				newFilter.filter(function(n) {
+					return (!sources.includes(n.Source));
+				});
+			}
+			newFilter = [...new Set(newFilter)];
+			newFilter.sort(function(a, b) {
+				if(a.toLowerCase() < b.toLowerCase()) {
+					return -1;
+				}
+				if(a.toLowerCase() > b.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
+			
+			this.state.sourceFilter = newFilter;
+			this.state.upperToggle = newToggle;
+			return newToggle;
+		},
+		
+		updateDocsFilter(selected) {
+			var newFilter = this.state.sourceFilter;
+			var newToggle = this.state.docsToggle;
+			if(selected.Enabled) {
+				newFilter.filter(function(n) {
+					return (n!=selected.Document);
+				});
+			}
+			else {
+				newFilter.push(selected.Document);
+			}
+			for(var i=0; i<newToggle.length; i++) {
+				if(newToggle[i].Source==selected.Document) {
+					newToggle[i].Enabled = !newToggle[i].Enabled;
+				}
+			}
+			this.state.sourceFilter = newFilter;
+			this.state.docsToggle = newToggle;
+			return newToggle;
+		},
+		
+		updateDomainFilter(selected) {
+			var newFilter = this.state.domainFilter;
+			var newToggle = this.state.docsToggle;
+			var idx = this.state.minDomains[selected.Domain];
+			
+			newFilter[idx] = !newFilter[idx];
+			for(var i=0; i<newToggle.length; i++) {
+				if(newToggle[i].Domain==selected.Domain) {
+					newToggle[i].Enabled = newFilter[idx];
+					break;
+				}
+			}
+			
+			this.state.domainFilter = newFilter;
+			this.state.docsToggle = newToggle;
+			return newToggle;
+		},
+		
+		fetchFilters() {
+			if(isNull(this.state.domainFilter)) {
+				this.createDefaultFilters();
+			}
+			var tmp = {"costToggle":this.state.costToggle,"fandomToggle":this.state.upperToggle,"docsToggle":this.state.docsToggle,"domainToggle":this.state.domainToggle};
+			return tmp;
+		},
+		
 		setSearchString(newString) {
 			this.state.searchString = newString;
 			console.log("Store ", newString);
@@ -617,7 +679,6 @@
 			this.state.perksNum = {};
 			this.state.allDomains = {};
 			this.state.sourceFilter = [];
-			this.state.upperFilter = [];
 			this.state.allUppers = {};
 			this.state.actDomainFilter = [];
 			
@@ -628,6 +689,7 @@
 			var newAllUppers = {};
 			var newDomainNumber = {};
 			var newDomainFilter = [];
+			var newDomainToggle = [];
 			var newActDomainFilter = [];
 			var newPerksNum = {};
 			var newCheckDomain = [];
@@ -662,6 +724,8 @@
 				
 				newDomainNumber[d.Domain] = dNum;
 				newDomainFilter.push(true);
+				var tmpD = {"Domain":d.Domain,"Over_Domain":d.Over_Domain,"Enabled":true};
+				newDomainToggle.push(tmpD);
 				newActDomainFilter.push(d.Domain);
 				newPerksNum[d.Domain] = d.Perks.length;
 				var id = d.Domain.replace(reg,"_");
@@ -682,8 +746,17 @@
 			});
 			this.state.sourceFilter = newSourceFilter;
 			
-			newUpperFilter = [...new Set(newUpperFilter)];
-			newUpperFilter.sort(function(a, b) {
+			this.state.minDomains = newDomains;
+			this.state.allDomains = newAllDomains;
+			this.state.domainNumber = newDomainNumber;
+			this.state.domainFilter = newDomainFilter;
+			this.state.domainToggle = newDomainToggle;
+			this.state.actDomainFilter = newActDomainFilter;
+			this.state.perksNum = newPerksNum;
+			this.state.checkDomain = newCheckDomain;
+			
+			var keys = Object.keys(this.state.allUppers);
+			keys.sort(function(a, b) {
 				if(a.toLowerCase() < b.toLowerCase()) {
 					return -1;
 				}
@@ -692,17 +765,8 @@
 				}
 				return 0;
 			});
-			this.state.upperFilter = newUpperFilter;
-			
-			this.state.minDomains = newDomains;
-			this.state.allDomains = newAllDomains;
-			this.state.domainNumber = newDomainNumber;
-			this.state.domainFilter = newDomainFilter;
-			this.state.actDomainFilter = newActDomainFilter;
-			this.state.perksNum = newPerksNum;
-			this.state.checkDomain = newCheckDomain;
-			
-			var keys = Object.keys(this.state.allUppers);
+			var sortedAllUppers = {};
+			var newUpperToggle = [];
 			for(var i=0; i<keys.length; i++) {
 				newAllUppers[keys[i]] = [...new Set(newAllUppers[keys[i]])];
 				newAllUppers[keys[i]].sort(function(a, b) {
@@ -714,8 +778,12 @@
 					}
 					return 0;
 				});
+				sortedAllUppers[keys[i]] = newAllUppers[keys[i]];
+				var tmp = {"Fandom":keys[i],"Enabled":true};
+				newUpperToggle.push(tmp);
 			}
-			this.state.allUppers = newAllUppers;
+			this.state.allUppers = sortedAllUppers;
+			this.state.fandomToggle = newUpperToggle;
 			
 			var prcs = [];
 			this.state.unfiltered.forEach(function(d) {
@@ -724,14 +792,18 @@
 				});
 			});
 			
+			var newCostToggle = [];
 			prcs = [...new Set(prcs)];
 			prcs.sort(function(a, b) {
 				return a - b;
 			});
 			prcs.forEach(function(d) {
 				newCostFilter.push(""+d);
+				var tmp = {"Cost":""+d,"Enabled":true};
+				newCostToggle.push(tmp);
 			});
 			this.state.costFilter = newCostFilter;
+			this.state.costToggle = newCostToggle;
 			this.state.maxValue = prcs[prcs.length - 1];
 		},
 		
@@ -1273,8 +1345,12 @@
 		setSearchString: store.setSearchString,
 		sortPerks: store.sortPerks,
 		trimPerk: store.trimPerk,
+		fetchFilters: store.fetchFilters,
+		updateCostFilter: store.updateCostFilter,
+		updateFandomFilter: store.updateFandomFilter,
+		updateDocsFilter: store.updateDocsFilter,
+		updateDomainFilter: store.updateDomainFilter,
 		
-		addOrigin: store.addOrigin,
 		attemptPrereq: store.attemptPrereq,
 		checkPerk: store.checkPerk,
 		checkPerks: store.checkPerks,
@@ -1284,8 +1360,6 @@
 		fetchFreebies: store.fetchFreebies,
 		fetchRandomPerk: store.fetchRandomPerk,
 		findTitles: store.findTitles,
-		isItNull: store.isItNull,
-		isOrigins: store.isOrigins,
 	}
 	
 	function addToTP(obj) {
@@ -1639,5 +1713,54 @@
 			return i + "rd";
 		}
 		return i + "th";
+	}
+	
+	function isOrigins(obj,source_origins) {
+		for(var d of source_origins) {
+			for(var p1 of d.Origins.Background) {
+				if(p1.Source==obj.Source && p1.Title==obj.Title) {
+					return true;
+				}
+				if(p1.Upper_Source==obj.Upper_Source && p1.Title==obj.Title) {
+					return true;
+				}
+			}
+			for(var p2 of d.Origins.Species) {
+				if(p2.Source==obj.Source && p2.Title==obj.Title) {
+					return true;
+				}
+				if(p2.Upper_Source==obj.Upper_Source && p2.Title==obj.Title) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	function addOrigin(obj,sourceTemp) {
+		var isAdded = false;
+		sourceTemp.forEach(function(d) {
+			if(d.Source.toLowerCase()==obj.Source.toLowerCase()) {
+				isAdded = true;
+				if(obj.Domain.toLowerCase().includes("background")) {
+					if(!isOrigins(obj,sourceTemp)) d.Origins.Background.push(obj);
+				}
+				if(obj.Domain.toLowerCase().includes("species")) {
+					if(!isOrigins(obj,sourceTemp)) d.Origins.Species.push(obj);
+				}
+			}
+		});
+		
+		if(!isAdded) {
+			var tmpD = {"Source":obj.Source,"Upper_Source":obj.Upper_Source,"Origins":{"Background":[],"Species":[]}};
+			if(obj.Domain.toLowerCase().includes("background")) {
+				if(!isOrigins(obj,sourceTemp)) tmpD.Origins.Background.push(obj);
+			}
+			if(obj.Domain.toLowerCase().includes("species")) {
+				if(!isOrigins(obj,sourceTemp)) tmpD.Origins.Species.push(obj);
+			}
+			sourceTemp.push(tmpD);
+		}
+		return sourceTemp;
 	}
 </script>
