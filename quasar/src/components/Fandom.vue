@@ -2,10 +2,10 @@
 	<div>
 		<q-item clickable v-ripple dark>
 			<q-item-section>
-				<q-item-label lines=2>{{Fandom}}</q-item-label>
+				<q-item-label caption>{{Fandom}}</q-item-label>
 			</q-item-section>
 			<q-item-section side top>
-				<q-item-label>{{Enabled}}</q-item-label>
+				<q-item-label></q-item-label>
 			</q-item-section>
 		</q-item>
 	</div>
@@ -27,10 +27,10 @@
 				type: Boolean,
 				required: true
 			},
-			Docs: {
+			Documents: {
 				type: Array,
 				required: true
-			}
+			},
 		},
 		setup () {
 			return {}

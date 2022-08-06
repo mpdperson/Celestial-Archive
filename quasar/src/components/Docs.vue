@@ -2,7 +2,7 @@
 	<div>
 		<q-item clickable v-ripple dark>
 			<q-item-section>
-				<q-item-label lines=2>{{Fandom}}</q-item-label>
+				<q-item-label lines=2>{{Document}}</q-item-label>
 			</q-item-section>
 			<q-item-section side top>
 				<q-item-label>{{Enabled}}</q-item-label>
@@ -19,7 +19,11 @@
 			}
 		},
 		props: {
-			Docs: {
+			Fandom: {
+				type: String,
+				required: true
+			},
+			Document: {
 				type: String,
 				required: true
 			},

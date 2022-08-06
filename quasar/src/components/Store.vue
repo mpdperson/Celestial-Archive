@@ -25,7 +25,7 @@
 			currentBuild: [],
 			costFilter: [],
 			costToggle: [],
-			fandomToggle: [],
+			upperToggle: [],
 			docsToggle: [],
 			domainToggle: [],
 			actDomainFilter: [],
@@ -34,7 +34,6 @@
 			filtered: [],
 			filteredDomain: [],
 			sourceFilter: [],
-			upperToggle: [],
 			misses: [],
 			allRolls: [],
 			allMisses: [],
@@ -128,6 +127,7 @@
 					}
 					newP["Domain"] = d.Domain;
 					newP["Taken"] = tTaken;
+					newP["ID"] = domainCount+"."+perkCount;
 					theArr[idx] = newP;
 					perkCount++;
 					if(d.Over_Domain=="Origins") {
@@ -527,49 +527,99 @@
 		updateCostFilter(selected) {
 			var newFilter = this.state.costFilter;
 			var newToggle = this.state.costToggle;
-			if(selected.Enabled) {
-				newFilter.filter(function(n) {
-					return (n!=selected.Cost);
+			if(selected.Cost=="All") {
+				var newBool = !selected.Enabled;
+				console.log("updateCostFilter",newBool);
+				newToggle.forEach(function(n) {
+					n.Enabled = newBool;
+					if(newBool) {
+						newFilter.push(n.Cost);
+					}
 				});
-			}
-			else {
-				newFilter.push(selected.Cost);
-			}
-			for(var i=0; i<newToggle.length; i++) {
-				if(newToggle[i].Cost==selected.Cost) {
-					newToggle[i].Enabled = !newToggle[i].Enabled;
+				if(!newBool) {
+					console.log("Reset Cost Filter");
+					newFilter = [];
 				}
 			}
+			else {
+				if(selected.Enabled) {
+					newFilter = newFilter.filter(function(n) {
+						return (n!=selected.Cost);
+					});
+				}
+				else {
+					newFilter.push(selected.Cost);
+				}
+				for(var i=0; i<newToggle.length; i++) {
+					if(newToggle[i].Cost==selected.Cost) {
+						newToggle[i].Enabled = !newToggle[i].Enabled;
+					}
+				}
+			}
+			newFilter = [...new Set(newFilter)];
+			newFilter.sort();
+			
 			this.state.costFilter = newFilter;
 			this.state.costToggle = newToggle;
+			
+			this.updateBuildList();
+			this.updatePerkList();
+			
 			return newToggle;
 		},
 		
-		updateFandomFilter(selected) {
+		updateDocsFilter(selected) {
 			var newFilter = this.state.sourceFilter;
-			var newToggle = this.state.upperToggle;
-			var allUp = this.state.allUppers;
+			var newUpToggle = this.state.upperToggle;
+			var newToggle = [];
 			
 			var idx = -1;
-			for(var i=0; i<newToggle.length; i++) {
-				if(newToggle[i].Fandom == selected.Fandom) {
-					newToggle[i].Enabled = !newToggle[i].Enabled;
+			for(var i=0; i<newUpToggle.length; i++) {
+				if(newUpToggle[i].Fandom==selected.Fandom) {
+					newToggle = newUpToggle[i];
 					idx = i;
 					break;
 				}
 			}
-			
-			var sources = allUp[newToggle[idx].Fandom];
-			if(newToggle[idx].Enabled) {
-				for(var i=0; i<sources.length; i++) {
-					newFilter.push(sources[i]);
+			var newBool = !selected.Enabled;
+			if(selected.Document=="All") {
+				if(newBool) {
+					for(var i=0; i<newToggle.Documents.length; i++) {
+						newToggle.Documents[i].Enabled = newBool;
+						newFilter.push(newToggle.Documents[i].Document);
+					}
+				}
+				else {
+					for(var i=0; i<newToggle.Documents.length; i++) {
+						newToggle.Documents[i].Enabled = newBool;
+					}
+					var removeThese = [];
+					newToggle.Documents.forEach(function(n) {
+						if(n.Document!="All") removeThese.push(n.Document);
+					});
+					newFilter = newFilter.filter(function(n) {
+						return !(removeThese.includes(n));
+					});
 				}
 			}
 			else {
-				newFilter.filter(function(n) {
-					return (!sources.includes(n.Source));
-				});
+				for(var i=0; i<newToggle.Documents.length; i++) {
+					if(selected.Document==newToggle.Documents[i].Document) {
+						newToggle.Documents[i].Enabled = newBool;
+						if(newBool) {
+							newFilter.push(newToggle.Documents[i].Document);
+						}
+						else {
+							newFilter = newFilter.filter(function(n) {
+								return (newToggle.Documents[i].Document!=n);
+							});
+						}
+						break;
+					}
+				}
 			}
+			newUpToggle[idx] = newToggle;
+			
 			newFilter = [...new Set(newFilter)];
 			newFilter.sort(function(a, b) {
 				if(a.toLowerCase() < b.toLowerCase()) {
@@ -582,47 +632,93 @@
 			});
 			
 			this.state.sourceFilter = newFilter;
-			this.state.upperToggle = newToggle;
-			return newToggle;
-		},
-		
-		updateDocsFilter(selected) {
-			var newFilter = this.state.sourceFilter;
-			var newToggle = this.state.docsToggle;
-			if(selected.Enabled) {
-				newFilter.filter(function(n) {
-					return (n!=selected.Document);
-				});
-			}
-			else {
-				newFilter.push(selected.Document);
-			}
-			for(var i=0; i<newToggle.length; i++) {
-				if(newToggle[i].Source==selected.Document) {
-					newToggle[i].Enabled = !newToggle[i].Enabled;
-				}
-			}
-			this.state.sourceFilter = newFilter;
-			this.state.docsToggle = newToggle;
-			return newToggle;
+			this.state.upperToggle = newUpToggle;
+			
+			this.updateBuildList();
+			this.updatePerkList();
+			
+			return newUpToggle;
 		},
 		
 		updateDomainFilter(selected) {
 			var newFilter = this.state.domainFilter;
-			var newToggle = this.state.docsToggle;
-			var idx = this.state.minDomains[selected.Domain];
+			var newToggle = this.state.domainToggle;
 			
-			newFilter[idx] = !newFilter[idx];
-			for(var i=0; i<newToggle.length; i++) {
-				if(newToggle[i].Domain==selected.Domain) {
-					newToggle[i].Enabled = newFilter[idx];
-					break;
+			if(selected.Domain=="All") {
+				var newBool = !selected.Enabled;
+				for(var i=0; i<newToggle.length; i++) {
+					newToggle[i].Enabled = newBool;
+				}
+				for(var i=0; i<newFilter.length; i++) {
+					newFilter[i] = newBool;
+				}
+			}
+			else {
+				var idx = this.state.minDomains[selected.Domain];
+				newFilter[idx] = !newFilter[idx];
+				
+				for(var i=0; i<newToggle.length; i++) {
+					if(newToggle[i].Domain==selected.Domain) {
+						newToggle[i].Enabled = newFilter[idx];
+						break;
+					}
 				}
 			}
 			
 			this.state.domainFilter = newFilter;
 			this.state.docsToggle = newToggle;
+			
+			this.updateBuildList();
+			this.updatePerkList();
+			
 			return newToggle;
+		},
+		
+		updateBuildList() {
+			var filterList = [];
+			var doSourceFilter = this.state.sourceFilter;
+			var doDomainFilter = this.state.domainFilter;
+			var doCostFilter = this.state.costFilter;
+			var mDomain = this.state.minDomains;
+			var curBuild = this.state.currentBuild;
+			for(var d of curBuild) {
+				if(doDomainFilter[mDomain[d.Domain]]) {
+					var tmpD = {"Domain":d.Domain,"Over_Domain":d.Over_Domain,"Perks":[]};
+					for(var p of d.Perks) {
+						if(doSourceFilter.includes(p.Source) && doCostFilter.includes(""+p.Cost)) {
+							tmpD.Perks.push(p);
+						}
+					}
+					if(tmpD.Perks.length > 0) {
+						filterList.push(tmpD);
+					}
+				}
+			}
+			this.state.filteredBuild = filterList;
+		},
+		
+		updatePerkList() {
+			var doSourceFilter = this.state.sourceFilter;
+			var doDomainFilter = this.state.domainFilter;
+			var doCostFilter = this.state.costFilter;
+			var mDomain = this.state.minDomains;
+			var curList = this.state.unfiltered;
+			var filterList = [];
+			for(var d of curList) {
+				if(doDomainFilter[mDomain[d.Domain]]) {
+					var tmpD = {"Domain":d.Domain,"Over_Domain":d.Over_Domain,"Perks":[]};
+					for(var p of d.Perks) {
+						if(doSourceFilter.includes(p.Source) && doCostFilter.includes(""+p.Cost)) {
+							tmpD.Perks.push(p);
+						}
+					}
+					if(tmpD.Perks.length > 0) {
+						filterList.push(tmpD);
+					}
+				}
+			}
+			this.state.filteredDomain = filterList;
+			return filterList;
 		},
 		
 		fetchFilters() {
@@ -681,6 +777,9 @@
 			this.state.sourceFilter = [];
 			this.state.allUppers = {};
 			this.state.actDomainFilter = [];
+			this.state.docsToggle = [];
+			this.state.costToggle = [];
+			this.state.upperToggle = [];
 			
 			var newDomains = {};
 			var newAllDomains = {};
@@ -694,6 +793,7 @@
 			var newPerksNum = {};
 			var newCheckDomain = [];
 			var newCostFilter = [];
+			var newDocsToggle = [];
 			
 			var dNum = 0;
 			var setFirst = false;
@@ -712,13 +812,12 @@
 				
 				d.Perks.forEach(function(p) {
 					newSourceFilter.push(p.Source);
-					newUpperFilter.push(p.Upper_Source);
-					if(!newAllUppers.hasOwnProperty(d.Upper_Source)) {
-						newAllUppers[d.Upper_Source] = [];
-						newAllUppers[d.Upper_Source].push(d.Source);
+					if(!newAllUppers.hasOwnProperty(p.Upper_Source)) {
+						newAllUppers[p.Upper_Source] = [];
+						newAllUppers[p.Upper_Source].push(p.Source);
 					}
 					else {
-						newAllUppers[d.Upper_Source].push(d.Source);
+						newAllUppers[p.Upper_Source].push(p.Source);
 					}
 				});
 				
@@ -733,6 +832,7 @@
 				newCheckDomain.push(id);
 				dNum++;
 			});
+			newDomainToggle.unshift({"Domain":"All","Over_Domain":"All","Enabled":true});
 			
 			newSourceFilter = [...new Set(newSourceFilter)];
 			newSourceFilter.sort(function(a, b) {
@@ -746,6 +846,7 @@
 			});
 			this.state.sourceFilter = newSourceFilter;
 			
+			this.state.docsToggle = newDocsToggle;
 			this.state.minDomains = newDomains;
 			this.state.allDomains = newAllDomains;
 			this.state.domainNumber = newDomainNumber;
@@ -755,7 +856,7 @@
 			this.state.perksNum = newPerksNum;
 			this.state.checkDomain = newCheckDomain;
 			
-			var keys = Object.keys(this.state.allUppers);
+			var keys = Object.keys(newAllUppers);
 			keys.sort(function(a, b) {
 				if(a.toLowerCase() < b.toLowerCase()) {
 					return -1;
@@ -779,11 +880,21 @@
 					return 0;
 				});
 				sortedAllUppers[keys[i]] = newAllUppers[keys[i]];
-				var tmp = {"Fandom":keys[i],"Enabled":true};
+				var tmp = {"Fandom":keys[i],"Enabled":true,"Documents":[]};
+				var newArr = [];
+				sortedAllUppers[keys[i]].forEach(function(n) {
+					newArr.push({"Fandom":keys[i],"Document":n,"Enabled":true});
+				});
+				newArr.unshift({"Fandom":keys[i],"Document":"All","Enabled":true});
+				tmp["Documents"] = newArr;
 				newUpperToggle.push(tmp);
 			}
 			this.state.allUppers = sortedAllUppers;
-			this.state.fandomToggle = newUpperToggle;
+			this.state.upperToggle = newUpperToggle;
+			newSourceFilter.forEach(function(n) {
+				var tmp = {"Document":n,"Enabled":true};
+				newDocsToggle.push(tmp);
+			});
 			
 			var prcs = [];
 			this.state.unfiltered.forEach(function(d) {
@@ -802,6 +913,7 @@
 				var tmp = {"Cost":""+d,"Enabled":true};
 				newCostToggle.push(tmp);
 			});
+			newCostToggle.unshift({"Cost":"All","Enabled":true});
 			this.state.costFilter = newCostFilter;
 			this.state.costToggle = newCostToggle;
 			this.state.maxValue = prcs[prcs.length - 1];
@@ -1315,6 +1427,10 @@
 			if(side==2) {
 				return this.fetchFilteredBuild();
 			}
+		},
+		
+		saveProgress() {
+			
 		}
 	}
 	
@@ -1360,6 +1476,9 @@
 		fetchFreebies: store.fetchFreebies,
 		fetchRandomPerk: store.fetchRandomPerk,
 		findTitles: store.findTitles,
+		updateBuildList: store.updateBuildList,
+		updatePerkList: store.updatePerkList,
+		saveProgress: store.saveProgress,
 	}
 	
 	function addToTP(obj) {

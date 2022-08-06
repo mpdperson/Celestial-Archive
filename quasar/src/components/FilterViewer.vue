@@ -1,39 +1,46 @@
 <template>
 	<Store />
-	<div class="row fullWidth">
-		<div class="col-3">
-			<q-scroll-area style="height: 100%;">
-				<q-list bordered name="CostList">
-					<q-item>
-						<q-item-section>
-							<q-item-label header dark>
-								Cost
-							</q-item-label>
-						</q-item-section>
-					</q-item>
-					<Cost v-for="d in costList" :key="d.Cost" v-bind="d" @click='updateCostFilter(d)' />
-				</q-list>
+	<div class="row fullWidth fullHeight">
+		<div class="placeHold" name="display">
+			<div class="row fullHeight">
+			</div>
+		</div>
+		<div class="col-3" name="display">
+			<q-scroll-area class="fullHeight">
+				<div class="row fullHeight">
+					<q-list bordered name="CostList">
+						<q-item>
+							<q-item-section>
+								<q-item-label header dark>
+									Cost
+								</q-item-label>
+							</q-item-section>
+						</q-item>
+						<Cost v-for="d in costList" :key="d.Cost" v-bind="d" @click='updateCostFilter(d)' />
+					</q-list>
+					<q-scroll-observer />
+				</div>
 				<q-scroll-observer />
 			</q-scroll-area>
 		</div>
-		<div class="col-3">
-			<q-scroll-area style="height: 100%;">
+		<div class="col-3" name="display">
+			<q-scroll-area class="fullHeight">
 				<q-list bordered name="FandomList">
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
 								Fandom
 							</q-item-label>
-						</q-item-section>
-					</q-item>
-					<Fandom v-for="d in fandomList" :key="d.Fandom" v-bind="d" @click='updateFandomFilter(d)' />
+					</q-item-section>
+				</q-item>
+				<Fandom v-for="p in fandomList" :key="p.Fandom" v-bind="p" @click='updateFandomFilter(p)' />
 				</q-list>
 				<q-scroll-observer />
 			</q-scroll-area>
 		</div>
-		<div class="col-3">
-			<q-scroll-area style="height: 100%;">
-				<q-list bordered name="DocumentsList">
+		<div class="col-3" name="display">
+			<q-scroll-area class="fullHeight">
+				<q-list bordered name="DocumentList">
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
@@ -41,22 +48,22 @@
 							</q-item-label>
 						</q-item-section>
 					</q-item>
-					<Docs v-for="d in docList" :key="d.Document" v-bind="d" @click='updateDocsFilter(d)' />
+					<Docs v-for="p in docList" :key="p.Document" v-bind="p" @click='updateDocsFilter(p)' />
 				</q-list>
 				<q-scroll-observer />
 			</q-scroll-area>
 		</div>
-		<div class="col-3">
-			<q-scroll-area style="height: 100%;">
-				<q-list bordered name="DomainsList">
+		<div class="col-3" name="display">
+			<q-scroll-area class="fullHeight">
+				<q-list bordered name="domainList">
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								Domains
+								Domain
 							</q-item-label>
 						</q-item-section>
 					</q-item>
-					<DomainFilter v-for="d in domainList" :key="d.Domain" v-bind="d" @click='updateDomainFilter(d)' />
+					<DomainFilter v-for="p in domainList" :key="p.Title" v-bind="p" @click='updateDomainFilter(p)' />
 				</q-list>
 				<q-scroll-observer />
 			</q-scroll-area>
@@ -65,58 +72,95 @@
 </template>
 
 <script>
-	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue';
-	import Store from 'components/Store.vue';
-	import Cost from 'components/Cost.vue';
-	import Fandom from 'components/Fandom.vue';
-	import Docs from 'components/Docs.vue';
-	import DomainFilter from 'components/DomainFilter.vue';
+	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
+	import { Cookies } from 'quasar'
+	import DomainFilter from 'components/DomainFilter.vue'
+	import Cost from 'components/Cost.vue'
+	import Fandom from 'components/Fandom.vue'
+	import Docs from 'components/Docs.vue'
+	import Perk from 'components/Perk.vue'
+	import Store from 'components/Store.vue'
 	
 	export default defineComponent({
 		name: 'BuildViewer',
 		components: {
-			Store,
+			DomainFilter,
 			Cost,
 			Fandom,
+			Store,
 			Docs,
-			DomainFilter,
 		},
 		props: {
 			
 		},
 		setup (props) {
-			const costList = ref(null)
-			const fandomList = ref(null)
-			const docList = ref(null)
-			const domainList = ref()
+			const displayList = ref(null)
+			const perkList = ref(null)
+			const costList = ref([])
+			const fandomList = ref([])
+			const docList = ref([])
+			const domainList = ref([])
+			
+			const costCookie = Cookies.get('costList')
+			const fandCookie = Cookies.get('fandList')
+			const domaCookie = Cookies.get('domaList')
 			
 			const getDisplayList = async () => {
 				var filters = await Store.fetchFilters();
-				costList.value = filters.costToggle;//Store.state.costToggle
-				fandomList.value = filters.fandomToggle;//Store.state.fandomToggle
-				docList.value = filters.docsToggle;//Store.state.docsToggle
-				domainList.value = filters.domainToggle;//Store.state.domainToggle
+				if(isNull(costCookie)) {
+					costList.value = filters.costToggle;
+				}
+				else {
+					costList.value = costCookie;
+				}
+				if(isNull(fandCookie)) {
+					fandomList.value = filters.fandomToggle;
+				}
+				else {
+					fandomList.value = fandCookie;
+				}
+				if(isNull(domaCookie)) {
+					domainList.value = filters.domainToggle;
+				}
+				else {
+					domainList.value = domaCookie;
+				}
+				setHeight();
 			}
 			
 			onMounted(getDisplayList);
 			
 			return {
 				domainList: domainList,
+				perkList: perkList,
 				costList: costList,
+				fandomList: fandomList,
 				docList: docList,
 				updateCostFilter(selected) {
-					costList.value = Store.updateCostFilter(selected);
+					var newFilter = Store.updateCostFilter(selected);
+					costList.value = newFilter;
+					Cookies.set('costCookie', newFilter);
+				},
+				updateDisplay(perk) {
+					Store.setDisplay(perk);
 				},
 				updateFandomFilter(selected) {
-					fandomList.value = Store.updateFandomFilter(selected);
+					docList.value = selected.Documents;
 				},
 				updateDocsFilter(selected) {
-					docList.value = Store.updateDocsFilter(selected);
+					var saveSelect = selected;
+					var newFan = Store.updateDocsFilter(selected);
+					fandomList.value = newFan;
+					Cookies.set('fandCookie', newFan);
 				},
 				updateDomainFilter(selected) {
-					domainList.value = Store.updateDomainFilter(selected);
+					var newFilter = Store.updateDomainFilter(selected);
+					domainList.value = newFilter;
+					Cookies.set('domaCookie', newFilter);
 				},
+				displayList,
 				getDisplayList,
+				query: Store.searchString,
 			}
 		},
 		data() {
@@ -125,4 +169,9 @@
 			}
 		}
 	})
+	
+	function setHeight() {
+		var qp = document.getElementsByClassName("q-page")[0];
+		document.documentElement.style.setProperty('--vHeight', qp.offsetHeight + "px");
+	}
 </script>

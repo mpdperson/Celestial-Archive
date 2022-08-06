@@ -3,7 +3,11 @@
 	background-color: #1d1d1d;
 }
 .fullWidth {
-	width: 100%;
+	width: 100% !important;
+	float: left;
+}
+.fullHeight {
+	height: 100% !important;
 }
 .btnWidth {
 	width: 118px;
@@ -13,4 +17,19 @@
 }
 .rsnWidth {
 	width: calc(100% - 118px - 80px);
+}
+.upperCorner {
+	position: relative;
+	top: 0px;
+	left: 0px;
+}
+.overScroll {
+	overflow: scroll;
+}
+.placeHold {
+	height: var(--vHeight);
+	width: 0px;
+}
+:root {
+	--vHeight: 433.333px;
 }

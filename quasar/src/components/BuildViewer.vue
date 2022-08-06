@@ -1,9 +1,13 @@
 <template>
 	<Store />
 	<div class="row fullWidth">
+		<div class="placeHold" name="display">
+			<div class="row fullHeight">
+			</div>
+		</div>
 		<div class="col-3">
 			<q-scroll-area style="height: 100%;">
-				<q-list bordered name="domainList">
+				<q-list bordered name="DomainList">
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
@@ -18,7 +22,7 @@
 		</div>
 		<div class="col-3" name="display">
 			<q-scroll-area style="height: 100%;">
-				<q-list bordered name="domainList">
+				<q-list bordered name="PerkList">
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
@@ -32,8 +36,8 @@
 			</q-scroll-area>
 		</div>
 		<div class="col-6" name="display">
-			<div class="row" style="height: 100%;">
-				<q-list>
+			<q-scroll-area style="height: 100%;">
+				<q-list bordered name="Perk">
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
@@ -60,7 +64,8 @@
 						<p>ID: {{ storeState.displayValue.ID }}</p>
 					</q-item>
 				</q-list>
-			</div>
+				<q-scroll-observer />
+			</q-scroll-area>
 		</div>
 	</div>
 </template>
@@ -87,6 +92,7 @@
 			
 			const getDisplayList = async () => {
 				displayList.value = await Store.fetchFilteredBuild();
+				setHeight();
 			}
 			
 			onMounted(getDisplayList);
@@ -111,4 +117,9 @@
 			}
 		}
 	})
+	
+	function setHeight() {
+		var qp = document.getElementsByClassName("q-page")[0];
+		document.documentElement.style.setProperty('--vHeight', qp.offsetHeight + "px");
+	}
 </script>
