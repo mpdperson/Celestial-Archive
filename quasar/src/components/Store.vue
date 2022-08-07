@@ -266,8 +266,6 @@
 			updateMe.Retake_Count++;
 			var tmp = {"Domain":addPerk.Domain,"Over_Domain":addPerk.Over_Domain,"Perks":[addPerk]};
 			var curBuild = this.state.currentBuild;
-			console.log("curBuild.length",curBuild.length);
-			console.log("curBuild",curBuild);
 			if(isNull(this.state.currentBuild) || this.state.currentBuild.length==0) {
 				curBuild.push(tmp);
 			}
@@ -285,7 +283,9 @@
 					curBuild.push(tmp);
 				}
 			}
-			console.log("curBuild",curBuild);
+			
+			this.state.allRolls.push(currentRolls);
+			this.state.currentRolls = 0;
 			this.state.currentBuild = curBuild;
 		},
 		
@@ -566,6 +566,21 @@
 			this.updatePerkList();
 			
 			return newToggle;
+		},
+		
+		updateFandomFilter(filterStr) {
+			if(!isNull(filterStr)) {
+				if(filterStr.length>=3) {
+					var newToggle = JSON.parse(JSON.stringify(this.state.upperToggle));
+					newToggle = newToggle.filter(function(n) {
+						return (n.Fandom.toLowerCase().includes(filterStr.toLowerCase()));
+					});
+					return newToggle;
+				}
+			}
+			if(isNull(filterStr)) {
+				return this.state.upperToggle;
+			}
 		},
 		
 		updateDocsFilter(selected) {
@@ -1032,13 +1047,6 @@
 			this.state.allRollCount++;
 			
 			this.state.canGet = gained;
-			/*/
-				if(gained) {
-				this.state.allRolls.push(currentRolls);
-				this.state.currentRolls = 0;
-				this.addToBuild(res);
-				}
-			//*/
 			this.state.currentPerk = res;
 		},
 		
@@ -1430,8 +1438,47 @@
 		},
 		
 		saveProgress() {
-			
-		}
+			var prog = {
+				"Current_CP":this.state.currentCP,
+				"Gained_Perks":this.state.currentBuild,
+				"Missed_Perk":this.state.missedPerk,
+				"Current_Rolls":this.state.currentRolls,
+				"All_Rolls":this.state.allRolls,
+				"Roll_Count":this.state.allRollCount,
+				"All_Misses":this.state.allMisses
+			};
+			saveJson(prog,"progress.js",false);
+		},
+		
+		loadProgress(jsonObj) {
+			if(isNull(jsonObj)) return;
+			this.state.currentCP = jsonObj.Current_CP;
+			this.state.missedPerk = jsonObj.Missed_Perk;
+			this.state.currentRolls = jsonObj.Current_Rolls;
+			this.state.allRolls = jsonObj.All_Rolls;
+			this.state.allRollCount = jsonObj.Roll_Count;
+			this.state.allMisses = jsonObj.All_Misses;
+			var cPerks = jsonObj.Gained_Perks;
+			var flatPerks = []
+			cPerks.forEach(function(n) {
+				n.Perks.forEach(function(p) {
+					flatPerks.push(p);
+				});
+			});
+			flatPerks.sort(function(a,b) {
+				if(a.Order.toLowerCase() < b.Order.toLowerCase()) {
+					return -1;
+				}
+				if(a.Order.toLowerCase() > b.Order.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
+			flatPerks.forEach(function(n) {
+				this.state.currentFreebies = fetchFreebies(n);
+				this.addToBuild(n);
+			});
+		},
 	}
 	
 	export default {
@@ -1479,6 +1526,8 @@
 		updateBuildList: store.updateBuildList,
 		updatePerkList: store.updatePerkList,
 		saveProgress: store.saveProgress,
+		loadProgress: store.loadProgress,
+		fetchMaxValue: store.fetchMaxValue,
 	}
 	
 	function addToTP(obj) {
@@ -1881,5 +1930,25 @@
 			sourceTemp.push(tmpD);
 		}
 		return sourceTemp;
+	}
+	
+	function download(content, fileName, contentType) {
+		var a = document.createElement("a");
+		var file = new Blob([content], {type: contentType});
+		a.href = URL.createObjectURL(file);
+		a.download = fileName;
+		a.click();
+	}
+	
+	function saveJson(jsonData, fileName, isVar) {
+		if(isNull(isVar)) isVar = true;
+		var ext = fileName.split(".").pop();
+		var varName = fileName.split(".")[0];
+		if((ext=="js" || ext=="json") && isVar) {
+			download("var "+varName+" = "+JSON.stringify(jsonData, null, 2), fileName, 'text/plain');
+		}
+		else {
+			download(JSON.stringify(jsonData, null, 2), fileName, 'text/plain');
+		}
 	}
 </script>

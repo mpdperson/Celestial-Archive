@@ -126,6 +126,6 @@
 
 function setHeight() {
 	var qp = document.getElementsByClassName("q-page")[0];
-	document.documentElement.style.setProperty('--vHeight', qp.offsetHeight + "px");
+	document.documentElement.style.setProperty('--vHeight', (qp.offsetHeight - 50) + "px");
 }
 </script>

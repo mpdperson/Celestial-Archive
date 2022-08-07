@@ -4,7 +4,7 @@
 			<q-toolbar>
 				<q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 				<q-toolbar-title>Celestial Archive</q-toolbar-title>
-				<div>Quasar v{{ $q.version }}</div>
+				<div>Roller v0.5</div>
 			</q-toolbar>
 			
 			<q-tabs align="left" >
@@ -49,7 +49,9 @@
 <script>
 	import { defineComponent, ref } from 'vue'
 	
-	const menuList = [{
+	const menuList = [
+	/*/
+	{
 		icon: 'save',
 		label: 'Save',
 		to: '/Save',
@@ -67,12 +69,14 @@
 		to: '/Search',
 		separator: false
 	},
+	//*/
 	{
 		icon: 'tune',
 		label: 'Filter',
 		to: '/Filter',
 		separator: false
 	},
+	/*/
 	{
 		icon: 'settings',
 		label: 'Settings',
@@ -86,6 +90,7 @@
 		to: '/Help',
 		separator: false
 	},
+	//*/
 	{
 		icon: 'code',
 		label: 'Source Code',

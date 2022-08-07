@@ -7,19 +7,22 @@
 		</div>
 		<div class="col-3" name="display">
 			<q-scroll-area class="fullHeight">
-				<div class="row fullHeight">
-					<q-list bordered name="CostList">
-						<q-item>
-							<q-item-section>
-								<q-item-label header dark>
-									Cost
-								</q-item-label>
-							</q-item-section>
-						</q-item>
-						<Cost v-for="d in costList" :key="d.Cost" v-bind="d" @click='updateCostFilter(d)' />
-					</q-list>
-					<q-scroll-observer />
-				</div>
+				<q-list bordered name="CostList">
+					<q-item>
+						<q-item-section>
+							<q-item-label header dark>
+								<q-input clearable dark v-model="costFilt" type="number" min="0" step="50" max="maxVal" label="Cost" >
+									<template v-slot:append>
+										<q-icon name="search" @click='filterCostFilter(costFilt)' />
+									</template>
+								</q-input>
+							</q-item-label>
+						</q-item-section>
+					</q-item>
+					<Cost v-for="d in costList" :key="d.Cost" v-bind="d" @click='updateCostFilter(d)' />
+				</q-list>
+				<q-scroll-observer />
+				
 				<q-scroll-observer />
 			</q-scroll-area>
 		</div>
@@ -29,11 +32,15 @@
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								Fandom
+								<q-input clearable dark bottom-slots v-model="fanFilt" label="Fandom">
+									<template v-slot:append>
+										<q-icon name="search" @click='filterFandomFilter(fanFilt)' />
+									</template>
+								</q-input>
 							</q-item-label>
-					</q-item-section>
-				</q-item>
-				<Fandom v-for="p in fandomList" :key="p.Fandom" v-bind="p" @click='updateFandomFilter(p)' />
+						</q-item-section>
+					</q-item>
+					<Fandom v-for="p in fandomList" :key="p.Fandom" v-bind="p" @click='updateFandomFilter(p)' />
 				</q-list>
 				<q-scroll-observer />
 			</q-scroll-area>
@@ -44,7 +51,11 @@
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								Documents
+								<q-input clearable dark v-model="docFilt" label="Document" >
+									<template v-slot:append>
+										<q-icon name="search" @click='filterDocsFilter(docFilt)' />
+									</template>
+								</q-input>
 							</q-item-label>
 						</q-item-section>
 					</q-item>
@@ -59,7 +70,11 @@
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								Domain
+								<q-input clearable dark v-model="domFilt" label="Domain" >
+									<template v-slot:append>
+										<q-icon name="search" @click='filterDomainFilter(domFilt)' />
+									</template>
+								</q-input>
 							</q-item-label>
 						</q-item-section>
 					</q-item>
@@ -94,12 +109,23 @@
 			
 		},
 		setup (props) {
-			const displayList = ref(null)
-			const perkList = ref(null)
-			const costList = ref([])
-			const fandomList = ref([])
-			const docList = ref([])
-			const domainList = ref([])
+			const costFilt = ref("");
+			const sCostFilt = ref("");
+			const fanFilt = ref("");
+			const sFanFilt = ref("");
+			const docFilt = ref("");
+			const sDocFilt = ref("");
+			const domFilt = ref("");
+			const sDomFilt = ref("");
+			const displayList = ref(null);
+			const perkList = ref(null);
+			const costList = ref([]);
+			const fandomList = ref([]);
+			const docList = ref([]);
+			const domainList = ref([]);
+			const saveDocFilt = ref([]);
+			const saveDomainFilt = ref([]);
+			const maxVal = ref(0);
 			
 			const costCookie = Cookies.get('costList')
 			const fandCookie = Cookies.get('fandList')
@@ -125,7 +151,9 @@
 				else {
 					domainList.value = domaCookie;
 				}
+				saveDomainFilt.value = JSON.parse(JSON.stringify(domainList.value));
 				setHeight();
+				maxVal.value = await Store.fetchMaxValue();
 			}
 			
 			onMounted(getDisplayList);
@@ -136,6 +164,13 @@
 				costList: costList,
 				fandomList: fandomList,
 				docList: docList,
+				costFilt: costFilt,
+				fanFilt: fanFilt,
+				docFilt: docFilt,
+				domFilt: domFilt,
+				saveDocFilt: saveDocFilt,
+				saveDomainFilt: saveDomainFilt,
+				maxVal: maxVal,
 				updateCostFilter(selected) {
 					var newFilter = Store.updateCostFilter(selected);
 					costList.value = newFilter;
@@ -145,7 +180,49 @@
 					Store.setDisplay(perk);
 				},
 				updateFandomFilter(selected) {
+					var newFilter = Store.updateFandomFilter(fanFilt.value);
+					fandomList.value = newFilter;
 					docList.value = selected.Documents;
+					saveDocFilt.value = JSON.parse(JSON.stringify(docList.value));
+				},
+				filterFandomFilter(selected) {
+					console.log("filterFandomFilter",selected);
+					var newFilter = Store.updateFandomFilter(fanFilt.value);
+					fandomList.value = newFilter;
+				},
+				filterCostFilter(selected) {
+					console.log("filterCostFilter",selected);
+					
+				},
+				filterDomainFilter(selected) {
+					console.log("filterDomainFilter",domFilt.value);
+					if(!isNull(domFilt.value)) {
+						if(domFilt.value.length>=3) {
+							var newDomList = saveDomainFilt.value;
+							newDomList = newDomList.filter(function(n) {
+								console.log(n.Domain.toLowerCase()+".includes("+domFilt.value.toLowerCase()+")",n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()));
+								return (n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()));
+							});
+							domainList.value = newDomList;
+						}
+					}
+					if(isNull(domFilt.value)) {
+						domainList.value = saveDomainFilt.value;
+					}
+				},
+				filterDocsFilter(selected) {
+					var nDocList = saveDocFilt.value;
+					if(!isNull(docFilt.value)) {
+						if(docFilt.value.length>=3) {
+							nDocList = nDocList.filter(function(n) {
+								return (n.Document.toLowerCase().includes(docFilt.value.toLowerCase()));
+							});
+							docList.value = nDocList;
+						}
+					}
+					if(isNull(docFilt.value)) {
+						docList.value = saveDocFilt.value;
+					}
 				},
 				updateDocsFilter(selected) {
 					var saveSelect = selected;
@@ -155,6 +232,14 @@
 				},
 				updateDomainFilter(selected) {
 					var newFilter = Store.updateDomainFilter(selected);
+					saveDomainFilt.value = JSON.parse(JSON.stringify(newFilter));
+					if(!isNull(domFilt.value)) {
+						if(domFilt.value.length>=3) {
+							newFilter = newFilter.filter(function(n) {
+								return (n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()));
+							});
+						}
+					}
 					domainList.value = newFilter;
 					Cookies.set('domaCookie', newFilter);
 				},
@@ -172,6 +257,26 @@
 	
 	function setHeight() {
 		var qp = document.getElementsByClassName("q-page")[0];
-		document.documentElement.style.setProperty('--vHeight', qp.offsetHeight + "px");
+		document.documentElement.style.setProperty('--vHeight', (qp.offsetHeight - 50) + "px");
+	}
+	
+	function isNull(meh) {
+		if(meh == null || meh == undefined ) {
+			return true;
+		}
+		if(typeof meh == "string") {
+			if(meh.trim()=="") return true;
+		}
+		if(typeof meh == "number") {
+			if(isNaN(meh)) return true;
+		}
+		if(meh.constructor == [].constructor) {
+			if(meh.length == 0) return true;
+		}
+		if(meh.constructor == {}.constructor) {
+			var keys = Object.keys(meh);
+			if(keys.length==0) return true;
+		}
+		return false;
 	}
 </script>
