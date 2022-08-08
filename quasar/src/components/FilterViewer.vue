@@ -11,7 +11,7 @@
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								<q-input clearable dark v-model="costFilt" type="number" min="0" step="50" max="maxVal" label="Cost" >
+								<q-input debounce="500" clearable dark v-model="costFilt" type="number" min="0" step="50" max="maxVal" label="Cost" >
 									<template v-slot:append>
 										<q-icon name="search" @click='filterCostFilter(costFilt)' />
 									</template>
@@ -32,7 +32,7 @@
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								<q-input clearable dark bottom-slots v-model="fanFilt" label="Fandom">
+								<q-input debounce="500" clearable dark bottom-slots v-model="fanFilt" label="Fandom">
 									<template v-slot:append>
 										<q-icon name="search" @click='filterFandomFilter(fanFilt)' />
 									</template>
@@ -51,7 +51,7 @@
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								<q-input clearable dark v-model="docFilt" label="Document" >
+								<q-input debounce="500" clearable dark v-model="docFilt" label="Document" >
 									<template v-slot:append>
 										<q-icon name="search" @click='filterDocsFilter(docFilt)' />
 									</template>
@@ -70,7 +70,7 @@
 					<q-item>
 						<q-item-section>
 							<q-item-label header dark>
-								<q-input clearable dark v-model="domFilt" label="Domain" >
+								<q-input debounce="500" clearable dark v-model="domFilt" label="Domain" >
 									<template v-slot:append>
 										<q-icon name="search" @click='filterDomainFilter(domFilt)' />
 									</template>
@@ -195,13 +195,11 @@
 					
 				},
 				filterDomainFilter(selected) {
-					console.log("filterDomainFilter",domFilt.value);
 					if(!isNull(domFilt.value)) {
 						if(domFilt.value.length>=3) {
 							var newDomList = saveDomainFilt.value;
 							newDomList = newDomList.filter(function(n) {
-								console.log(n.Domain.toLowerCase()+".includes("+domFilt.value.toLowerCase()+")",n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()));
-								return (n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()));
+								return (n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()) || n.Domain=="All");
 							});
 							domainList.value = newDomList;
 						}
@@ -215,7 +213,7 @@
 					if(!isNull(docFilt.value)) {
 						if(docFilt.value.length>=3) {
 							nDocList = nDocList.filter(function(n) {
-								return (n.Document.toLowerCase().includes(docFilt.value.toLowerCase()));
+								return (n.Document.toLowerCase().includes(docFilt.value.toLowerCase()) || n.Document=="All");
 							});
 							docList.value = nDocList;
 						}
@@ -225,23 +223,63 @@
 					}
 				},
 				updateDocsFilter(selected) {
-					var saveSelect = selected;
-					var newFan = Store.updateDocsFilter(selected);
-					fandomList.value = newFan;
-					Cookies.set('fandCookie', newFan);
-				},
-				updateDomainFilter(selected) {
-					var newFilter = Store.updateDomainFilter(selected);
-					saveDomainFilt.value = JSON.parse(JSON.stringify(newFilter));
-					if(!isNull(domFilt.value)) {
-						if(domFilt.value.length>=3) {
-							newFilter = newFilter.filter(function(n) {
-								return (n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()));
-							});
+					var saveFandom = selected.Fandom;
+					if(selected.Fandom=="All") {
+						var newFan = Store.updateDocsFilterAll(selected);
+						fandomList.value = newFan;
+						Cookies.set('fandCookie', newFan);
+						var newFilter = Store.updateFandomFilter(fanFilt.value);
+						fandomList.value = newFilter;
+						//docList.value = selected.Documents;
+					}
+					else {
+						var newFan = Store.updateDocsFilter(selected);
+						fandomList.value = newFan;
+						Cookies.set('fandCookie', newFan);
+						var newFilter = Store.updateFandomFilter(fanFilt.value);
+						fandomList.value = newFilter;
+					}
+					var fanList = fandomList.value;
+					for(var i=0; i<fanList.length; i++) {
+						if(fanList[i].Fandom==saveFandom) {
+							docList.value = fanList[i].Documents;
+							break;
 						}
 					}
-					domainList.value = newFilter;
-					Cookies.set('domaCookie', newFilter);
+				},
+				updateDomainFilter(selected) {
+					if(selected.Domain=="All" && !isNull(domFilt.value)) {
+						if(domFilt.value.length>=3) {
+							var newFlat = [];
+							domainList.value.forEach(function(n) {
+							newFlat.push(n.Domain);
+							});
+						var newFilter = Store.updateDomainFilterAll(selected,newFlat);
+						saveDomainFilt.value = JSON.parse(JSON.stringify(newFilter));
+						if(!isNull(domFilt.value)) {
+							if(domFilt.value.length>=3) {
+								newFilter = newFilter.filter(function(n) {
+									return (n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()) || n.Domain=="All");
+								});
+							}
+						}
+						domainList.value = newFilter;
+						Cookies.set('domaCookie', newFilter);
+						}
+					}
+					if(selected.Domain!="All") {
+						var newFilter = Store.updateDomainFilter(selected);
+						saveDomainFilt.value = JSON.parse(JSON.stringify(newFilter));
+						if(!isNull(domFilt.value)) {
+							if(domFilt.value.length>=3) {
+								newFilter = newFilter.filter(function(n) {
+									return (n.Domain.toLowerCase().includes(domFilt.value.toLowerCase()) || n.Domain=="All");
+								});
+							}
+						}
+						domainList.value = newFilter;
+						Cookies.set('domaCookie', newFilter);
+					}
 				},
 				displayList,
 				getDisplayList,

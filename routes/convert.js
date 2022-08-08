@@ -24,11 +24,26 @@ var XRegExp = require('xregexp');
 const {GoogleAuth} = require('google-auth-library');
 const {google} = require('googleapis');
 
-const TOKEN_PATH = 'token.json';
-const API_KEY = fs.readFileSync("API_KEY.txt").toString('UTF8');
+const TOKEN_PATH = '/certs/token.json';
+const API_KEY = fs.readFileSync("/certs/API_KEY.txt").toString('UTF8');
 const scopes = [
-  'https://www.googleapis.com/auth/drive'
+  'https://www.googleapis.com/auth/drive',
+  'https://www.googleapis.com/auth/documents'
 ];
+
+const oauth2Client = new google.auth.OAuth2(
+  YOUR_CLIENT_ID,
+  YOUR_CLIENT_SECRET,
+  YOUR_REDIRECT_URL
+);
+
+const url = oauth2Client.generateAuthUrl({
+  // 'online' (default) or 'offline' (gets refresh_token)
+  access_type: 'offline',
+
+  // If you only need one scope you can pass it as a string
+  scope: scopes
+});
 
 var word_list = wordList;
 /*

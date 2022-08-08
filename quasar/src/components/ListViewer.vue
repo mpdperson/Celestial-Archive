@@ -48,7 +48,7 @@
 								</q-item-label>
 							</q-item-section>
 							<q-item-section side>
-								<q-btn dark label="add perk" outline ripple color="blue-grey-12" @click="getDomain(storeState.displayValue)" >
+								<q-btn dark label="bookmark" outline ripple color="blue-grey-12" @click="bookmark(storeState.displayValue)" >
 								</q-btn>
 							</q-item-section>
 						</q-item>
@@ -111,6 +111,10 @@
 			},
 			updateList(selected) {
 				perkList.value = Store.fetchPerkList(selected);
+			},
+			bookmark(selected) {
+				//bookmark
+				Store.setBookmark(selected);
 			},
 			displayList,
 			getDisplayList,

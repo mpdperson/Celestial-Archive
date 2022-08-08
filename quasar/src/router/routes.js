@@ -9,6 +9,7 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'Gacha', component: () => import('pages/Gacha.vue') },
+      { path: 'Buy', component: () => import('pages/Buy.vue') },
       { path: 'Perks', component: () => import('pages/Perks.vue') },
       { path: 'Upload', component: () => import('pages/Upload.vue') },
       { path: 'Load', component: () => import('pages/Load.vue') },
@@ -17,6 +18,7 @@ const routes = [
       { path: 'Search', component: () => import('pages/Search.vue') },
       { path: 'Settings', component: () => import('pages/Settings.vue') },
       { path: 'Help', component: () => import('pages/Help.vue') },
+      { path: 'Bookmarks', component: () => import('pages/Bookmarks.vue') },
       { path: 'Code', component: () => openURL('https://github.com/mpdperson/Celestial-Archive',"Source Code") },
     ]
   },

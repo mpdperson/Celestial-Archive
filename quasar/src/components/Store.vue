@@ -3,6 +3,9 @@
 </template>
 <script>
 	import  { reactive } from 'vue'
+	const perkListv1 = require('../../../public/json/celestial_forge.json');
+	const perkListv2 = require('../../../public/json/celestial_forge.json');
+	const perkListv3 = require('../../../public/json/celestial_forge.json');
 	const perkList = require('../../../public/json/celestial_forge.json');
 	const sourceList = require('../../../public/json/source_origins.json');
 	const commons = require('../../../public/dictionaries/common_phrases.json');
@@ -33,6 +36,7 @@
 			unfiltered: perkList,
 			filtered: [],
 			filteredDomain: [],
+			costDomain: [],
 			sourceFilter: [],
 			misses: [],
 			allRolls: [],
@@ -40,6 +44,7 @@
 			sourceOrigins: sourceList,
 			currentFreebies: [],
 			bookmarkedPerks: [],
+			bookmarkLimit: 3,
 			checkDomain: [],
 			domainNumber: {},
 			perksNum: {},
@@ -404,24 +409,7 @@
 		
 		fetchFilteredList() {
 			if(isNull(this.state.filtered)) {
-				if(isNull(this.state.domainFilter)) {
-					this.resetPerkList();
-				}
-				var doSourceFilter = this.state.sourceFilter;
-				var filterList = [];
-				for(var i=0; i<this.state.domainFilter.length; i++) {
-					if(this.state.domainFilter[i]) {
-						this.state.unfiltered[i].Perks.forEach(function(p) {
-							if(doSourceFilter.includes(p.Source)) {
-								if(!p.Taken || !p.Retake) {
-									filterList.push(p);
-								}
-							}
-						});
-					}
-				}
-				this.state.filtered = filterList;
-				return filterList;
+				return this.createFilteredList();
 			}
 			else {
 				return this.state.filtered;
@@ -430,20 +418,7 @@
 		
 		fetchFilteredBuild() {
 			if(isNull(this.state.filteredBuild)) {
-				if(isNull(this.state.domainFilter)) {
-					this.resetPerkList();
-				}
-				var filterList = [];
-				var doSourceFilter = this.state.sourceFilter;
-				//var keys = Object.keys(this.state.minDomains);
-				var curBuild = this.state.currentBuild;
-				for(var d of curBuild) {
-					if(doSourceFilter[this.state.minDomains[d.Domain]]) {
-						filterList.push(d);
-					}
-				}
-				this.state.filteredBuild = filterList;
-				return filterList;
+				return this.createFilteredBuild();
 			}
 			else {
 				return this.state.filteredBuild;
@@ -493,12 +468,13 @@
 				this.resetPerkList();
 			}
 			var doSourceFilter = this.state.sourceFilter;
+			var doCostFilter = this.state.costFilter;
 			var filterList = [];
 			for(var i=0; i<this.state.domainFilter.length; i++) {
 				if(this.state.domainFilter[i]) {
 					this.state.unfiltered[i].Perks.forEach(function(p) {
-						if(doSourceFilter.includes(p.Source)) {
-							if(!p.Taken || !p.Retake) {
+						if(doSourceFilter.includes(p.Source) && doCostFilter.includes(p.Cost)) {
+							if(!p.Taken || p.Retake) {
 								filterList.push(p);
 							}
 						}
@@ -573,7 +549,7 @@
 				if(filterStr.length>=3) {
 					var newToggle = JSON.parse(JSON.stringify(this.state.upperToggle));
 					newToggle = newToggle.filter(function(n) {
-						return (n.Fandom.toLowerCase().includes(filterStr.toLowerCase()));
+						return (n.Fandom.toLowerCase().includes(filterStr.toLowerCase()) || n.Fandom=="All");
 					});
 					return newToggle;
 				}
@@ -645,6 +621,57 @@
 				}
 				return 0;
 			});
+			this.state.sourceFilter = newFilter;
+			this.state.upperToggle = newUpToggle;
+			
+			this.updateBuildList();
+			this.updatePerkList();
+			
+			return newUpToggle;
+		},
+		
+		updateDocsFilterAll(selected) {
+			var newFilter = this.state.sourceFilter;
+			var newUpToggle = this.state.upperToggle;
+			
+			var newBool = !selected.Enabled;
+			if(selected.Document=="All") {
+				if(newBool) {
+					for(var j=0; j<newUpToggle.length; j++) {
+						var newToggle = newUpToggle[j];
+						for(var i=0; i<newToggle.Documents.length; i++) {
+							newToggle.Documents[i].Enabled = newBool;
+							newFilter.push(newToggle.Documents[i].Document);
+						}
+					}
+				}
+				else {
+					for(var j=0; j<newUpToggle.length; j++) {
+						var newToggle = newUpToggle[j];
+						for(var i=0; i<newToggle.Documents.length; i++) {
+							newToggle.Documents[i].Enabled = newBool;
+						}
+						var removeThese = [];
+						newToggle.Documents.forEach(function(n) {
+							if(n.Document!="All") removeThese.push(n.Document);
+						});
+						newFilter = newFilter.filter(function(n) {
+							return !(removeThese.includes(n));
+						});
+					}
+				}
+			}
+			
+			newFilter = [...new Set(newFilter)];
+			newFilter.sort(function(a, b) {
+				if(a.toLowerCase() < b.toLowerCase()) {
+					return -1;
+				}
+				if(a.toLowerCase() > b.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
 			
 			this.state.sourceFilter = newFilter;
 			this.state.upperToggle = newUpToggle;
@@ -677,6 +704,29 @@
 						newToggle[i].Enabled = newFilter[idx];
 						break;
 					}
+				}
+			}
+			
+			this.state.domainFilter = newFilter;
+			this.state.docsToggle = newToggle;
+			
+			this.updateBuildList();
+			this.updatePerkList();
+			
+			return newToggle;
+		},
+		
+		updateDomainFilterAll(selected,domArr) {
+			var newFilter = this.state.domainFilter;
+			var newToggle = this.state.domainToggle;
+			
+			if(selected.Domain=="All") {
+				var newBool = !selected.Enabled;
+				for(var i=0; i<newToggle.length; i++) {
+					if(domArr.includes(newToggle[i].Domain)) newToggle[i].Enabled = newBool;
+				}
+				for(var i=0; i<newFilter.length; i++) {
+					if(domArr.includes(newToggle[i].Domain)) newFilter[i] = newBool;
 				}
 			}
 			
@@ -733,6 +783,34 @@
 				}
 			}
 			this.state.filteredDomain = filterList;
+			return filterList;
+		},
+		
+		costPerkList() {
+			if(isNull(this.state.domainFilter)) {
+				this.createDefaultFilters();
+			}
+			var doSourceFilter = this.state.sourceFilter;
+			var doDomainFilter = this.state.domainFilter;
+			var doCostFilter = this.state.costFilter;
+			var mDomain = this.state.minDomains;
+			var curList = this.state.unfiltered;
+			var curCP =  this.state.currentCP;
+			var filterList = [];
+			for(var d of curList) {
+				if(doDomainFilter[mDomain[d.Domain]]) {
+					var tmpD = {"Domain":d.Domain,"Over_Domain":d.Over_Domain,"Perks":[]};
+					for(var p of d.Perks) {
+						if(doSourceFilter.includes(p.Source) && (p.Cost<=curCP)) {
+							tmpD.Perks.push(p);
+						}
+					}
+					if(tmpD.Perks.length > 0) {
+						filterList.push(tmpD);
+					}
+				}
+			}
+			this.state.costDomain = filterList;
 			return filterList;
 		},
 		
@@ -1050,10 +1128,132 @@
 			this.state.currentPerk = res;
 		},
 		
+		doBuy(rollCount, isReroll) {
+			var canDoRoll = true;
+			if(isNull(isReroll)) isReroll = false;
+			if(isNull(rollCount)) rollCount = 0;
+			if(this.state.doRerolls) {
+				if(rollCount > this.state.rollLimit) {
+					canDoRoll = false;
+				}
+			}
+			
+			var res = this.fetchRandomPerk();
+			
+			//Check if need Reroll
+			if(res.Taken && !res.Retake) {
+				this.doBuy(rollCount,true);
+			}
+			if(res.Taken && res.Retake && res.Retake_Limit!=0) {
+				if(res.Retake_Count >= res.Retake_Limit) {
+					this.doBuy(rollCount,true);
+				}
+			}
+			
+			var resCost = res.Cost;
+			if(res.Taken && res.Retake) {
+				resCost = resCost * this.getMultiplier(res.Retake_Multiplier,res.Retake_Limit);
+				if(res.Retake_Cost!=0) {
+					resCost = res.Retake_Cost;
+				}
+			}
+			if(!isNull(res.Discount_Title)) {
+				if(haveTitle(res,"Discount_Title")) {
+					resCost = roundCost(resCost * res.Discount_Multiplier);
+					if(res.Discount_Cost!=0) {
+						resCost = res.Discount_Cost;
+					}
+				}
+			}
+			
+			var gained = false;
+			var prereqList = this.findTitles(res,"Prereq_Title");
+			
+			if(this.state.currentCP >= resCost && haveTitle(res,"Prereq_Title") && canDoRoll && haveTitle(res,"Restrict_Title") && !haveTitle(res,"Exclude_Title")) {
+				var temp = trimPerk(res);
+				var ct = res.Title+"-"+res.Upper_Source;
+				if(!hasTP(temp) && !hasCT(ct)) {
+					this.state.currentCP -= resCost;
+					addToTP(temp);
+					if(!res.Taken) {
+						addToCT(res.Title+"-"+res.Upper_Source);
+					}
+					res.Taken = true;
+					res.Retake_Count++;
+					gained = true;
+					this.state.allMisses.push(this.state.missedPerk);
+					this.state.missedPerk = 0;
+					if(this.state.untilPerk && this.state.isRunning) {
+						canRun = false;
+						isRunning = false;
+					}
+				}
+			}
+			else if(!isNull(prereqList) && canDoRoll) {
+				var i = 0;
+				while(i<prereqList.length && !gained) {
+					var prereqPerk = prereqList[i];
+					resCost = prereqPerk.Cost;
+					if(!prereqPerk.Taken) {
+						if(!haveTitle(prereqPerk,"Prereq_Title")) {
+							this.attemptPrereq(prereqPerk);
+						}
+						if(!isNull(prereqPerk.Discount_Title)) {
+							if(haveTitle(prereqPerk,"Discount_Title")) {
+								resCost = roundCost(resCost * prereqPerk.Discount_Multiplier);
+							}
+						}
+						if(this.state.currentCP >= resCost && haveTitle(prereqPerk,"Prereq_Title")) {
+							temp = trimPerk(prereqPerk);
+							var ct = prereqPerk.Title+"-"+prereqPerk.Upper_Source;
+							if(!hasTP(temp) && !hasCT(ct) && !prereqPerk.Taken) {
+								this.state.currentCP -= resCost;
+								addToTP(temp);
+								addToCT(prereqPerk.Title+"-"+prereqPerk.Upper_Source);
+								prereqPerk.Taken = true;
+								prereqPerk.Retake_Count++;
+								gained = true;
+								this.state.allMisses.push(this.state.missedPerk);
+								this.state.missedPerk = 0;
+								if(this.state.untilPerk && this.state.isRunning) {
+									this.state.canRun = false;
+									this.state.isRunning = false;
+								}
+							}
+							res = prereqPerk;
+						}
+					}
+					i++;
+				}
+			}
+			else if(this.state.doRerolls && canDoRoll) {
+				this.doBuy(rollCount++,true);
+			}
+			else {
+				this.state.missedPerk++;
+			}
+			
+			this.state.currentRolls++;
+			this.state.allRollCount++;
+			
+			this.state.canGet = gained;
+			this.state.currentPerk = res;
+		},
+		
 		getRoll() {
 			this.doRoll();
 			this.fetchFreebies(this.state.currentPerk);
 			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
+		},
+		
+		getBuy() {
+			this.doBuy();
+			this.fetchFreebies(this.state.currentPerk);
+			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
+		},
+		
+		increment() {
+			this.state.currentCP+=100;
 		},
 		
 		attemptPrereq(res) {
@@ -1437,6 +1637,35 @@
 			}
 		},
 		
+		setBookmark(selected) {
+			var newBookmarks = this.state.bookmarkedPerks;
+			if(!newBookmarks.includes(selected)) {
+				newBookmarks.unshift(selected);
+				newBookmarks.length = this.state.bookmarkLimit;
+			}
+			this.state.bookmarkedPerks = newBookmarks;
+		},
+		
+		fetchBookmarks() {
+			var newList = {};
+			var returnList = [];
+			var books = this.state.bookmarkedPerks;
+			books.forEach(function(n) {
+				if(newList.hasOwnProperty(n.Domain)) {
+					newList[n.Domain].Perks.push(n);
+				}
+				else {
+					newList[n.Domain] = {"Domain":n.Domain,"Over_Domain":n.Over_Domain,"Perks":[n]};
+				}
+			});
+			var keys = Object.keys(newList);
+			for(var i=0; i<keys.length; i++) {
+				var tmp = {"Domain":keys[i],"Over_Domain":newList[keys[i]].Over_Domain,"Perks":newList[keys[i]].Perks};
+				returnList.push(tmp);
+			}
+			return returnList;
+		},
+		
 		saveProgress() {
 			var prog = {
 				"Current_CP":this.state.currentCP,
@@ -1496,6 +1725,7 @@
 		fetchFilteredList: store.fetchFilteredList,
 		fetchFilteredBuild: store.fetchFilteredBuild,
 		fetchFilteredDomains: store.fetchFilteredDomains,
+		costFilteredDomains: store.costFilteredDomains,
 		fetchList: store.fetchList,
 		fetchPerkList: store.fetchPerkList,
 		getRoll: store.getRoll,
@@ -1506,13 +1736,17 @@
 		setCostFilter: store.setCostFilter,
 		setDomainFilter: store.setDomainFilter,
 		setSearchString: store.setSearchString,
+		setBookmark: store.setBookmark,
 		sortPerks: store.sortPerks,
 		trimPerk: store.trimPerk,
 		fetchFilters: store.fetchFilters,
 		updateCostFilter: store.updateCostFilter,
 		updateFandomFilter: store.updateFandomFilter,
 		updateDocsFilter: store.updateDocsFilter,
+		updateDocsFilterAll: store.updateDocsFilterAll,
 		updateDomainFilter: store.updateDomainFilter,
+		updateDomainFilterAll: store.updateDomainFilterAll,
+		costPerkList: store.costPerkList,
 		
 		attemptPrereq: store.attemptPrereq,
 		checkPerk: store.checkPerk,
@@ -1520,6 +1754,7 @@
 		createFilteredBuild: store.createFilteredBuild,
 		createDefaultFilters: store.createDefaultFilters,
 		doRoll: store.doRoll,
+		getBuy: store.getBuy,
 		fetchFreebies: store.fetchFreebies,
 		fetchRandomPerk: store.fetchRandomPerk,
 		findTitles: store.findTitles,
@@ -1528,6 +1763,9 @@
 		saveProgress: store.saveProgress,
 		loadProgress: store.loadProgress,
 		fetchMaxValue: store.fetchMaxValue,
+		doBuy: store.doBuy,
+		increment: store.increment,
+		fetchBookmarks: store.fetchBookmarks,
 	}
 	
 	function addToTP(obj) {

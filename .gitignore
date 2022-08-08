@@ -34,6 +34,6 @@ yarn-error.log*
 API_KEY.txt
 token.json
 credentials.json
-certs/kamatera.com.txt
+certs/*
 archive/node_modules
 public/json/menu2.json
