@@ -78,6 +78,12 @@
 		to: '/Filter',
 		separator: false
 	},
+	{
+		icon: 'card_giftcard',
+		label: 'Freebies',
+		to: '/Free',
+		separator: false
+	},
 	/*/
 	{
 		icon: 'settings',

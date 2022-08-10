@@ -3,10 +3,12 @@
 </template>
 <script>
 	import  { reactive } from 'vue'
-	const perkListv1 = require('../../../public/json/celestial_forge.json');
+	const perkListv1 = require('../../../public/json/cfv1.json');
 	const perkListv2 = require('../../../public/json/celestial_forge.json');
 	const perkListv3 = require('../../../public/json/celestial_forge.json');
 	const perkList = require('../../../public/json/celestial_forge.json');
+	const sourceDict = require('../../../public/json/source_origins.json');
+	const upperDict = require('../../../public/json/all_upper.json');
 	const sourceList = require('../../../public/json/source_origins.json');
 	const commons = require('../../../public/dictionaries/common_phrases.json');
 	var cTitles = [];
@@ -51,6 +53,7 @@
 			allDomains: {},
 			minDomains: {},
 			currentPerk: null,
+			currentPerks: [],
 			currentCP: 0,
 			currentRolls: 0,
 			allRollCount: 0,
@@ -67,6 +70,77 @@
 			rollLimit: 3,
 			searchString: ''
 		}),
+		
+		setVersion(str) {
+			if(str=="v1") {
+				this.state.unfiltered = perkListv1;
+			}
+			if(str=="v2") {
+				this.state.unfiltered = perkListv2;
+			}
+			if(str=="v3") {
+				this.state.unfiltered = perkListv3;
+			}
+			if(str=="a1") {
+				this.state.unfiltered = perkList;
+			}
+			this.resetForge();
+			this.createDefaultFilters();
+		},
+		
+		hasCurrent() {
+			if(isNull(this.state.currentBuild)) return false;
+			return this.state.currentBuild.includes(this.state.currentPerk);
+		},
+		
+		isNullPerk() {
+			var meh = {
+				"ID": "Unique perk reference, format: domain#(.)perk#",
+				"Title": "Selected perk title (currently none)",
+				"Source": "Media property from which perk originates",
+				"Cost": "Perk value in creation points, abbreviated",
+				"Domain": "Clusters of conceptually similar perks",
+				"Description": "General, functional perk definition",
+				"Order":"N/A"
+			};
+			var com = this.state.displayValue;
+			return (com.Title==meh.Title);
+		},
+		
+		resetForge() {
+			this.state.filteredBuild = [];
+			this.state.currentBuild = [];
+			this.state.costFilter = [];
+			this.state.costToggle = [];
+			this.state.upperToggle = [];
+			this.state.docsToggle = [];
+			this.state.domainToggle = [];
+			this.state.actDomainFilter = [];
+			this.state.domainFilter = [];
+			this.state.filtered = [];
+			this.state.filteredDomain = [];
+			this.state.costDomain = [];
+			this.state.sourceFilter = [];
+			this.state.misses = [];
+			this.state.allRolls = [];
+			this.state.allMisses = [];
+			this.state.currentFreebies = [];
+			this.state.bookmarkedPerks = [];
+			this.state.bookmarkLimit = 3;
+			this.state.checkDomain = [];
+			this.state.domainNumber = {};
+			this.state.perksNum = {};
+			this.state.allDomains = {};
+			this.state.minDomains = {};
+			this.state.currentPerk = null;
+			this.state.currentPerks = [];
+			this.state.currentCP = 0;
+			this.state.currentRolls = 0;
+			this.state.allRollCount = 0;
+			this.state.missedPerk = 0;
+			this.state.maxValue = 0;
+			this.state.buildCount = 0;
+		},
 		
 		setDisplayValue(newValue) {
 			if(isNull(newValue)) return;
@@ -146,6 +220,10 @@
 			});
 			
 			this.state.sourceOrigins = sourceTemp;
+		},
+		
+		rejectPerk() {
+			
 		},
 		
 		removeDupes() {
@@ -801,7 +879,7 @@
 				if(doDomainFilter[mDomain[d.Domain]]) {
 					var tmpD = {"Domain":d.Domain,"Over_Domain":d.Over_Domain,"Perks":[]};
 					for(var p of d.Perks) {
-						if(doSourceFilter.includes(p.Source) && (p.Cost<=curCP)) {
+						if(doSourceFilter.includes(p.Source) && (p.Cost<=curCP) && doCostFilter.includes(""+p.Cost)) {
 							tmpD.Perks.push(p);
 						}
 					}
@@ -837,7 +915,8 @@
 			console.log("Store domainFilter ", newFilter);
 		},
 		
-		fetchRandomPerk() {
+		fetchRandomPerk(isCost) {
+			if(isNull(isCost)) isCost = false;
 			var pl = [];
 			if(!isNull(this.state.domainFilter)) {
 				for(var i = 0; i < this.state.domainFilter.length; i++) {
@@ -851,10 +930,22 @@
 					pl = pl.concat(this.state.unfiltered[i].Perks);
 				}
 			}
-			if(!isNull(this.state.costFilter)) {
+			if(isCost) {
+				var cF = this.state.currentCP;
+				pl = pl.filter(function(p) {
+					return (p.Cost<=cF);
+				});
+			}
+			else if(!isNull(this.state.costFilter)) {
 				var cF = this.state.costFilter;
 				pl = pl.filter(function(p) {
 					return cF.includes(p.Cost.toString());
+				});
+			}
+			if(!isNull(this.state.sourceFilter)) {
+				var sF = this.state.sourceFilter;
+				pl = pl.filter(function(p) {
+					return sF.includes(p.Source);
 				});
 			}
 			return pl[Math.floor(Math.random() * pl.length)];
@@ -1128,6 +1219,10 @@
 			this.state.currentPerk = res;
 		},
 		
+		setCurrentCP(newCP) {
+			this.state.currentCP = newCP;
+		},
+		
 		doBuy(rollCount, isReroll) {
 			var canDoRoll = true;
 			if(isNull(isReroll)) isReroll = false;
@@ -1138,7 +1233,7 @@
 				}
 			}
 			
-			var res = this.fetchRandomPerk();
+			var res = this.fetchRandomPerk(true);
 			
 			//Check if need Reroll
 			if(res.Taken && !res.Retake) {
@@ -1242,6 +1337,11 @@
 		
 		getRoll() {
 			this.doRoll();
+			this.fetchFreebies(this.state.currentPerk);
+			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
+		},
+		
+		fetchCurrent() {
 			this.fetchFreebies(this.state.currentPerk);
 			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
 		},
@@ -1506,6 +1606,26 @@
 			return freeList;
 		},
 		
+		fetchFreePerks() {
+			var curFree = this.state.currentFreebies;
+			var newList = {};
+			var returnList = [];
+			curFree.forEach(function(n) {
+				if(newList.hasOwnProperty(n.Domain)) {
+					newList[n.Domain].Perks.push(n);
+				}
+				else {
+					newList[n.Domain] = {"Domain":n.Domain,"Over_Domain":n.Over_Domain,"Perks":[n]};
+				}
+			});
+			var keys = Object.keys(newList);
+			for(var i=0; i<keys.length; i++) {
+				var tmp = {"Domain":keys[i],"Over_Domain":newList[keys[i]].Over_Domain,"Perks":newList[keys[i]].Perks};
+				returnList.push(tmp);
+			}
+			return returnList;
+		},
+		
 		findTitles(obj,titleType) {
 			var found = false;
 			var tmp = [];
@@ -1747,6 +1867,12 @@
 		updateDomainFilter: store.updateDomainFilter,
 		updateDomainFilterAll: store.updateDomainFilterAll,
 		costPerkList: store.costPerkList,
+		setVersion: store.setVersion,
+		resetForge: store.resetForge,
+		rejectPerk: store.rejectPerk,
+		setCurrentCP: store.setCurrentCP,
+		hasCurrent: store.hasCurrent,
+		isNullPerk: store.isNullPerk,
 		
 		attemptPrereq: store.attemptPrereq,
 		checkPerk: store.checkPerk,

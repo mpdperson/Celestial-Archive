@@ -45,7 +45,9 @@
 							</q-item-label>
 						</q-item-section>
 						<q-item-section side>
-							<q-btn dark label="bookmark" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
+							<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
+							</q-btn>
+							<q-btn dark label="reject" v-show="rejectVis" outline ripple color="blue-grey-12" @click="reject(storeState.displayValue)" >
 							</q-btn>
 						</q-item-section>
 					</q-item>
@@ -90,9 +92,14 @@
 		setup (props) {
 			const domainList = ref(null)
 			const perkList = ref(null)
+			const bookVis = ref(!Store.state.canGet)
+			const rejectVis = ref(Store.state.canGet)
+			const acceptVis = ref(Store.state.canGet)
 			
 			const getDisplayList = async () => {
 				domainList.value = await Store.fetchBookmarks();
+				acceptVis.value = await !Store.hasCurrent();
+				bookVis.value = await !Store.isNullPerk();
 				setHeight();
 			}
 			
@@ -115,6 +122,8 @@
 					
 				},
 				getDisplayList,
+				bookVis,
+				rejectVis,
 				query: Store.searchString,
 			}
 		},

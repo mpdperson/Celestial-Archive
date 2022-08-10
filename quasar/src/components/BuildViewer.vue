@@ -45,7 +45,12 @@
 							</q-item-label>
 						</q-item-section>
 						<q-item-section side>
-							{{ storeState.displayValue.Order }}
+							<q-btn dark label="accept" v-show="acceptVis" outline ripple color="blue-grey-12" @click="accept(storeState.displayValue)" >
+							</q-btn>
+							<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
+							</q-btn>
+							<q-btn dark label="reject" v-show="rejectVis" outline ripple color="blue-grey-12" @click="reject(storeState.displayValue)" >
+							</q-btn>
 						</q-item-section>
 					</q-item>
 					<q-item dark>
@@ -62,6 +67,9 @@
 					</q-item>
 					<q-item dark>
 						<p>ID: {{ storeState.displayValue.ID }}</p>
+					</q-item>
+					<q-item dark>
+						<p>Order: {{ storeState.displayValue.Order }}</p>
 					</q-item>
 				</q-list>
 				<q-scroll-observer />
@@ -89,9 +97,20 @@
 		setup (props) {
 			const displayList = ref(null)
 			const perkList = ref(null)
+			const bookVis = ref(!Store.state.canGet);
+			const rejectVis = ref(Store.state.canGet);
+			const acceptVis = ref(Store.state.canGet);
 			
 			const getDisplayList = async () => {
 				displayList.value = await Store.fetchFilteredBuild();
+				var canAccept = await Store.hasCurrent();
+				var isNull = await Store.isNullPerk();
+				if(canAccept && !isNull) {
+					acceptVis.value = true;
+				}
+				if(isNull) {
+					bookVis.value = false;
+				}
 				setHeight();
 			}
 			
@@ -100,11 +119,17 @@
 			return {
 				domainList: displayList,
 				perkList: perkList,
+				bookVis: bookVis,
+				rejectVis: rejectVis,
+				acceptVis: acceptVis,
 				updateDisplay(perk) {
 					Store.setDisplay(perk);
 				},
 				updateList(selected) {
 					perkList.value = Store.fetchPerkList(selected);
+				},
+				reject(selected) {
+					Store.rejectPerk(selected);
 				},
 				displayList,
 				getDisplayList,

@@ -66,7 +66,11 @@
 								</q-item-label>
 							</q-item-section>
 							<q-item-section side>
-								<q-btn dark label="bookmark" outline ripple color="blue-grey-12" @click="bookmark(storeState.displayValue)" >
+								<q-btn dark label="accept" v-show="acceptVis" outline ripple color="blue-grey-12" @click="accept(storeState.displayValue)" >
+								</q-btn>
+								<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
+								</q-btn>
+								<q-btn dark label="reject" v-show="rejectVis" outline ripple color="blue-grey-12" @click="reject(storeState.displayValue)" >
 								</q-btn>
 							</q-item-section>
 						</q-item>
@@ -97,7 +101,6 @@
 	import Domain from 'components/Domain.vue'
 	import Perk from 'components/Perk.vue'
 	import Store from 'components/Store.vue'
-	import Buy from 'components/Buy.vue'
 	
 	export default defineComponent({
 		name: 'ListViewer',
@@ -105,7 +108,6 @@
 			Domain,
 			Store,
 			Perk,
-			//Buy
 		},
 		props: {
 			
@@ -113,12 +115,23 @@
 		setup (props) {
 			const cp = ref(Store.state.currentCP);
 			const result = ref("Press Gacha! button for 100 CP and a chance to pull a random perk");
-			const displayList = ref(null)
-			const perkList = ref(null)
-			const saveSelect = ref(null)
+			const displayList = ref(null);
+			const perkList = ref(null);
+			const saveSelect = ref(null);
+			const bookVis = ref(!Store.state.canGet);
+			const rejectVis = ref(Store.state.canGet);
+			const acceptVis = ref(Store.state.canGet);
 			
 			const getDisplayList = async () => {
 				displayList.value = await Store.costPerkList();
+				var canAccept = await Store.hasCurrent();
+				var isNull = await Store.isNullPerk();
+				if(canAccept && !isNull) {
+					acceptVis.value = true;
+				}
+				if(isNull) {
+					bookVis.value = false;
+				}
 				setHeight();
 			}
 			
@@ -130,6 +143,9 @@
 				domainList: displayList,
 				perkList: perkList,
 				saveSelect: saveSelect,
+				bookVis: bookVis,
+				rejectVis: rejectVis,
+				acceptVis: acceptVis,
 				updateDisplay(perk) {
 					Store.setDisplay(perk);
 				},
@@ -151,10 +167,19 @@
 					cp.value = Store.state.currentCP;
 					
 					if (randomPerk.Add) {
+						Store.setCurrentCP(cp.value + actPerk.Cost);
+						cp.value = Store.state.currentCP;
 						result.value = "Perk purchased and added to build";
-						Store.addPerk(actPerk);
+						
+						acceptVis.value = true;
+						rejectVis.value = true;
+						bookVis.value = false;
 					}
 					else {
+						acceptVis.value = false;
+						rejectVis.value = false;
+						bookVis.value = true;
+						
 						if(isNull(actPerk.Prereq_Title) && isNull(actPerk.Restrict_Title) && isNull(actPerk.Exclude_Title)) {
 							result.value = "Couldn't afford perk."
 						}
@@ -167,6 +192,13 @@
 					Store.increment();
 					cp.value = Store.state.currentCP;
 					displayList.value = Store.costPerkList();
+				},
+				accept(selected) {
+					Store.setCurrentCP(cp.value - selected.Cost);
+					Store.addPerk(selected);
+				},
+				reject(selected) {
+					Store.rejectPerk(selected);
 				},
 				displayList,
 				getDisplayList,

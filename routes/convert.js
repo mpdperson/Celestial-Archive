@@ -24,15 +24,16 @@ var XRegExp = require('xregexp');
 const {GoogleAuth} = require('google-auth-library');
 const {google} = require('googleapis');
 
-const TOKEN_PATH = '/certs/token.json';
-const API_KEY = fs.readFileSync("/certs/API_KEY.txt").toString('UTF8');
+const TOKEN_PATH = './certs/token.json';
+const API_KEY = fs.readFileSync("./certs/API_KEY.txt").toString('UTF8');
 const scopes = [
   'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/documents'
+  'https://www.googleapis.com/auth/documents',
 ];
 
+/*/
 const oauth2Client = new google.auth.OAuth2(
-  YOUR_CLIENT_ID,
+  "118357583635978584041",
   YOUR_CLIENT_SECRET,
   YOUR_REDIRECT_URL
 );
@@ -44,13 +45,9 @@ const url = oauth2Client.generateAuthUrl({
   // If you only need one scope you can pass it as a string
   scope: scopes
 });
+//*/
 
 var word_list = wordList;
-/*
-	for(var i=0; i<wordList.length; i++) {
-	word_list.push(wordList[i]);
-	}
-//*/
 
 var docTypes = ['doc', 'htm', 'html', 'js', 'json', 'pdf', 'rtf', 'txt'];
 var imgTypes = ['bmp', 'gif', 'jpeg', 'jpg', 'png', 'svg', 'swf', 'webm', 'webp'];
@@ -185,7 +182,7 @@ router.post('/', (req, res, next) => {
 				fileID = getFileId(url);
 				console.log("fileID",fileID);
 				if(!isNull(fileID)) {
-					fs.readFile('credentials.json', (err, content) => {
+					fs.readFile('./certs/credentials.json', (err, content) => {
 						if (err) {
 							console.log('Error loading client secret file:', err);
 						}
@@ -1721,7 +1718,7 @@ async function downloadFile(fileId,auth) {
 	}
 };
 
-fs.readFile('credentials.json', (err, content) => {
+fs.readFile('./certs/credentials.json', (err, content) => {
 	if (err) return console.log('Error loading client secret file:', err);
 	// Authorize a client with credentials, then call the Google Drive API.
 	authorize(JSON.parse(content), listFiles);

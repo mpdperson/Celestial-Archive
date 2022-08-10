@@ -15,6 +15,7 @@ const routes = [
       { path: 'Load', component: () => import('pages/Load.vue') },
       { path: 'Save', component: () => import('pages/Save.vue') },
       { path: 'Filter', component: () => import('pages/Filter.vue') },
+      { path: 'Free', component: () => import('pages/Free.vue') },
       { path: 'Search', component: () => import('pages/Search.vue') },
       { path: 'Settings', component: () => import('pages/Settings.vue') },
       { path: 'Help', component: () => import('pages/Help.vue') },
