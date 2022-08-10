@@ -36,3 +36,4 @@ token.json
 credentials.json
 certs/*
 archive/node_modules
+public/json/menu2.json
