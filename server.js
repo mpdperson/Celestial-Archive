@@ -97,6 +97,10 @@ app.get('/forge', function(req, res, next) {
 	res.sendFile(resolve(".\\forge\\celestial_archive.html"));
 });
 
+app.get('/format', function(req, res, next) {
+	res.sendFile(resolve(".\\forge\\updatePerks.html"));
+});
+
 app.get('/archive/*', function(req, res, next) {
 	var newUrl = req.url.replace("/archive/","");
 	newUrl = newUrl.replace(/\//g,"\\");

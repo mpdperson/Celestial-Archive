@@ -1,7 +1,6 @@
-﻿The Celestial Forge of 12 Domains 
+﻿The Celestial Forge of 12 Domains
 Edited Celestial forge with perk descriptions and randomization lists.
 
- 
 
 
 
@@ -9,14 +8,15 @@ Edited Celestial forge with perk descriptions and randomization lists.
 
 
 
-Table of Contents 
+
+Table of Contents
 309 Perks Total
- 
+
 
 Toolkits Domain
 	39 Perks
 	Page 03
-	Knowledge Domain 
+	Knowledge Domain
 	44 Perks
 	Page 11
 	Vehicles Domain
@@ -28,25 +28,25 @@ Toolkits Domain
 	Crafting Skills Domain
 	28 Perks
 	Page 28
-	Clothing Domain 
+	Clothing Domain
 	15 Perks
 	Page 34
-	Magic Domain 
+	Magic Domain
 	33 Perks
 	Page 38
 	Quality Domain
 	34 Perks
 	Page 46
-	Size Domain 
+	Size Domain
 	12 Perks
 	Page 55
-	Resources Domain 
+	Resources Domain
 	26 Perks
 	Page 59
 	Magitech Domain
 	21 Perks
 	Page 65
-	Alchemy Domain 
+	Alchemy Domain
 	23 Perks
 	Page 71
 	
@@ -69,7 +69,7 @@ A small machine - big enough to hold a massive pauldron or two - that gives any 
 
 4. -Diagnostic Tools | Melee Weapon (Outlaw Star) (100CP)
  1. Diagnostic Tools (50CP)
-A small data display with numerous connectors and scanners, capable of letting you know what is wrong with simple technology and what advanced technology that has been programmed into it. 
+A small data display with numerous connectors and scanners, capable of letting you know what is wrong with simple technology and what advanced technology that has been programmed into it.
  2. Melee Weapon (50CP)
 A well-constructed sword, axe, or blunt weapon. Superior in construction to many ancient weapons of the same type and can act as a minor magical focus if you can use magic.
 
@@ -84,7 +84,7 @@ Ancient cogitators, arrays of auspex systems, and volume upon volume of document
 
 8. -Micromanipulators | vending machine (Raildex Science) (100CP)
  1. Micromanipulators (50CP)
-These delicate gloves were meant for scientific purposes. They're reinforced with small motors and electrically contracting artificial muscles to allow you to perform delicate work on the scale of a micron. While they're definitely more suited to scientific experiments, they can be put to use in any situation that requires steady hands like aiming a rifle, conducting brain surgery, cooking, defusing a bomb, or even bypassing some redirection and shielding abilities. 
+These delicate gloves were meant for scientific purposes. They're reinforced with small motors and electrically contracting artificial muscles to allow you to perform delicate work on the scale of a micron. While they're definitely more suited to scientific experiments, they can be put to use in any situation that requires steady hands like aiming a rifle, conducting brain surgery, cooking, defusing a bomb, or even bypassing some redirection and shielding abilities.
  2. Vending Machine (50CP)
 Randomly flavored during dispensing vending machine that no matter where it is placed produces a profit. Eats high dollar bills sometimes and always dispenses at least one beverage when shaken roughly. It's a little old with loose springs but won’t need repaired and is always stocked, Just watch out for the random barbecue and strawberry mixes.
 
@@ -147,9 +147,9 @@ Powered tools for cyborg disassembly and repair. Bulky diagnostic computer, ten 
 Plasteel, adamantium, armourplas, synth-leather and other sophisticated materials are used for all sorts of purposes within the Imperium and are typically far more resilient than their archaic equivalents. Archaic styles of armor are seldom effective against advanced weapons, and rarely used in any case, but many of those who hail from primitive cultures favor the styles of wargear they are accustomed to. Wrought from plasteel and armourplas instead of bronze, iron and steel, a suit of chain or plate can be a quite effective defense, often the equal of more modern armors.
 26. -The Mixing Cauldron | Melting Pot |Spirit Pyroxene (Atelier: Arland Trilogy) (300CP)
  1. The Mixing Cauldron (100CP)
-Every Alchemists’ trusty tool, the mixing cauldron is basically the alchemist’s work desk and research station combined into one. With this, no potion is out of reach –though it isn’t uncommon to find that some alchemists’ will create...other things from their cauldrons, and one would be foolish to presume that a cauldron can’t be improved... 
+Every Alchemists’ trusty tool, the mixing cauldron is basically the alchemist’s work desk and research station combined into one. With this, no potion is out of reach –though it isn’t uncommon to find that some alchemists’ will create...other things from their cauldrons, and one would be foolish to presume that a cauldron can’t be improved...
  2. Melting pot (100CP)
-It’s not uncommon to find that certain ingredients will not mix well just as attempting to stack too many enchantments into a potion can prove disastrous. In an attempt to mitigate this, the melting pot was constructed with a higher rate of mixing. This directly translates to a higher degree of homogenization, but you’ll have to understand that to maintain this level of mixing you need to have a higher energy source than just a fire under the cauldron. It does allow you to blend some ingredients that normally would not mix however, though the results may still not be as optimal as you would hope. 
+It’s not uncommon to find that certain ingredients will not mix well just as attempting to stack too many enchantments into a potion can prove disastrous. In an attempt to mitigate this, the melting pot was constructed with a higher rate of mixing. This directly translates to a higher degree of homogenization, but you’ll have to understand that to maintain this level of mixing you need to have a higher energy source than just a fire under the cauldron. It does allow you to blend some ingredients that normally would not mix however, though the results may still not be as optimal as you would hope.
  3. Spirit Pyroxene (100CP)
 No one quite knows where this pyroxene came from, but it has a very definitive effect on the items that it forms a component of. The mystical power inside the pyroxene seems to carry over into the items that it forms –at least a portion of the power does, and the crafted items became more conductive towards spiritual magic of a large variety.
 
@@ -169,11 +169,11 @@ Created by the legendary alchemist Louis Garcon, this mysterious machine combine
 
 31. -Alchemical Foundry | Mythic Forge | Dust Refinery | Arcane Smelter (Endless Legend) (400CP)
  1. Alchemical Foundry (50CP)
-You gain the equipment needed to extract, process, and refine Titaniumand Glassteel. It exacts about one ingot a week. 
+You gain the equipment needed to extract, process, and refine Titaniumand Glassteel. It exacts about one ingot a week.
  2. Mythic forge (150CP)
 You possess the tools to gather, refine, and process Mithrite and Hyperium.Good luck finding it, much less finding some that others haven't already claimed.
  3. Dust Refinery (100CP)
-Able to infuse Dust with new life, the Refinery is the staple of Dust Enchantment. While Dust infused iron is common, it pales compared to the Dust enchantments this refinery allows. Allows for the crafting of Foci and magic rings, talismans, insignias, and tomes. 
+Able to infuse Dust with new life, the Refinery is the staple of Dust Enchantment. While Dust infused iron is common, it pales compared to the Dust enchantments this refinery allows. Allows for the crafting of Foci and magic rings, talismans, insignias, and tomes.
  4. Arcane Smelter (100CP)
 A self-contained device used to extract, process, and refine Palladium and Adamantium. A must have for the smith on the go.
 
@@ -321,15 +321,15 @@ You've managed to uncover some of the secrets of old, the very same knowledge th
 
 34. -Skills (Star Trek: TNG) (600CP)
  1. Weapons (100CP)
-Knowledge in the operation and repair of personal and mounted weaponry. 
+Knowledge in the operation and repair of personal and mounted weaponry.
  2. Medicine (100CP)
-Training and knowledge in First-aid, diseases, surgery, anatomy, health and nutrition. You're a fully qualified doctor of the 24th century. 
+Training and knowledge in First-aid, diseases, surgery, anatomy, health and nutrition. You're a fully qualified doctor of the 24th century.
  3. Robotics (100CP)
-A combined study of mechanical engineering, and computer science. You learn how to make a wide array of machines, and you could even figure out Android or Borg technology if you studied it enough. 
+A combined study of mechanical engineering, and computer science. You learn how to make a wide array of machines, and you could even figure out Android or Borg technology if you studied it enough.
  4. Physics (100CP)
-How the universe works. The law of gravity, the conservation of matter & energy, quantum physics, etc. Remember though, there are dozens of creatures in this universe that defy the laws of human physics, so you may want to try and rewrite a few of these books while your here. 
+How the universe works. The law of gravity, the conservation of matter & energy, quantum physics, etc. Remember though, there are dozens of creatures in this universe that defy the laws of human physics, so you may want to try and rewrite a few of these books while your here.
  5. Physical Sciences (100CP)
-Understanding of the natural laws which govern the physical world. Biology, chemistry, geology and ecology. Again, you may want to rewrite a few of these books while you're here. 
+Understanding of the natural laws which govern the physical world. Biology, chemistry, geology and ecology. Again, you may want to rewrite a few of these books while you're here.
  6. Engineering (100CP)
 You've been trained in the maintenance and repair of Starships. Not only do you have a significant amount of mechanical and computer knowledge, but you also know a great deal about physics.
 
@@ -338,7 +338,7 @@ You have a full understanding of terran technology, and a proper foundation for 
 
 36. -Technician | Core Competence (Spiral Knights) (600CP)
  1. Technician (200CP)
-The tech knights of the spiral order are experienced mechanics, but are often not as experienced in weapon usage. Only a few, known as Technicians, have quick thinking and bravery necessary to utilize their skills in combat situations. You are a prime example of this truth, having learnt to use your skills out in the field within the fires of combat. your skills range from making quick repairs to creating, maintaining, and even rapidly dismantling complex mechanical constructs, even something as complicated as a battlepod. Needless to say, your skill in disabling locks, deploying turrets for some much-needed suppressive firepower, repairing the armor of your squad mates, and the like are greatly appreciated by your squad mates and essential to survival within a world of machines. 
+The tech knights of the spiral order are experienced mechanics, but are often not as experienced in weapon usage. Only a few, known as Technicians, have quick thinking and bravery necessary to utilize their skills in combat situations. You are a prime example of this truth, having learnt to use your skills out in the field within the fires of combat. your skills range from making quick repairs to creating, maintaining, and even rapidly dismantling complex mechanical constructs, even something as complicated as a battlepod. Needless to say, your skill in disabling locks, deploying turrets for some much-needed suppressive firepower, repairing the armor of your squad mates, and the like are greatly appreciated by your squad mates and essential to survival within a world of machines.
  2. Core Competence (400CP)
 The Cradle is a dangerous place for the Spiral Order, and not only due to it's indigenous wildlife. There are too many unknowns, too many variables to be comfortable with. That is why it falls to people like you, One of the most naturally gifted researchers within the Order, to increase the odds of safety. Your attention to detail has increased dramatically, letting you pick out and recognize patterns in the construction and design of machinery much more quickly than others. Understanding these patterns has given you incredible insights into technology found in the Cadle and in the Gremlin bases, along with how it can compare and blend with technology of the Order you are so familiar with... and your own, which you are even more familiar with. When the Order finally reaches The Core, perhaps you will be one of the most likely members of it to unlock the secrets held within.
 
@@ -358,12 +358,12 @@ You can understand how things fit together in abstract or practical ways. Unders
 
 41. -Engineer | Erudition (Halo) (800CP)
  1. Engineer (200CP)
-Yet by understanding the nature of computer systems, wouldn’t it be prudent to understand the technology those systems command? After all, what if you found yourself needing to recalibrate a Magnetic Accelerator Cannon or repair one of the dangerous Shaw-Fujikawa Translight Engines that makes faster-than-light travel possible? What if you found a cache of human weaponry that could be used if someone managed to repair it? While you don’t have the skill to create something as complex as a Shaw-Fujikawa Translight Engine, you’ll know your way around it just like much of Humanity’s26thcentury technology. You might even figure out how to make small improvements to the technology if you had the time to sit down and look it over. Hopefully the Covenant give you that time. 
+Yet by understanding the nature of computer systems, wouldn’t it be prudent to understand the technology those systems command? After all, what if you found yourself needing to recalibrate a Magnetic Accelerator Cannon or repair one of the dangerous Shaw-Fujikawa Translight Engines that makes faster-than-light travel possible? What if you found a cache of human weaponry that could be used if someone managed to repair it? While you don’t have the skill to create something as complex as a Shaw-Fujikawa Translight Engine, you’ll know your way around it just like much of Humanity’s26thcentury technology. You might even figure out how to make small improvements to the technology if you had the time to sit down and look it over. Hopefully the Covenant give you that time.
  2. Erudition (600CP)
 Ever since the rise of Dr. Catherine Halsey, many were on the lookout for who might become the next intellectual prodigy. Someone who was able to perform as well as she could, someone who could help turn the tide of the war. With this, that someone is now you. Your cognitive capabilities are on par with the good doctor now, making you exceptionally well-versed in nearly all modern human sciences while holding specialties in at least a few fields. Of course, thanks to that you are also rather exceptional at reverse-engineering technology, which allows you to do such things like obtain working knowledge of the mechanics behind Covenant technology and even begin to understand the 'hows' behind some of the mundane pieces of Forerunner technology currently littering the galaxy. Perhaps you could eventually reclaim them.
 
 42. -The Maddest Science Yet! (Tenchi Muyo) (800CP)
-This perk grants two features that in universe depend on your setting, out of universe both work unless you desire otherwise. 
+This perk grants two features that in universe depend on your setting, out of universe both work unless you desire otherwise.
  3. Slice of Life: Your brilliance is such that you can build amazing inventions to solve all kinds of problems, easily accomplishing feats depicted in pulpy science fiction novels. More importantly however, you gain an absolute certainty in your work. Nothing made by your hands or under your complete direction can harm people (or planets) unintentionally. A comically large mess may ensue however.
  4. Space­Opera: You can create supertech wonders, past mere conveniences into legitimately useful things like advanced starships, ray guns and miraculous devices. You can also enhance technology from other jumps with this skill. Note that trying to build an FTL starship from scratch on an undeveloped world will probably take ten years...
 
@@ -379,7 +379,7 @@ Curiouser and curiouser. Due to coming into contact with... well, SOMETHING, you
 
 44. -I Am Iron Man | Retro-Engineer (MCU) (1000CP)
  1. I am Iron Man (400CP)
-You're not the ACTUAL Iron Man, but you could make a fairly decent knock-off. Power armors, sonic cannons, holographic interface, laser weapons, repulsor technology, you have the knowledge to build these things and more. Furthermore, you can think of different upgrades and modifications to adapt to different situations much easier than normal when presented with a problem that's hampered your technological progress. 
+You're not the ACTUAL Iron Man, but you could make a fairly decent knock-off. Power armors, sonic cannons, holographic interface, laser weapons, repulsor technology, you have the knowledge to build these things and more. Furthermore, you can think of different upgrades and modifications to adapt to different situations much easier than normal when presented with a problem that's hampered your technological progress.
  2. Retro-Engineer (600CP)
 Your understanding of technology is so great that you've even learned to get into the basics of tinkering with alien technologies. As long as you take the time to study something and experiment properly, you'll eventually figure out a method for that tech you found. Whether it's taking that weird glowing thing and powering your machines with it, or dismantling an alien robot and putting it into a gun, you'll figure out a use for something as long as you put in time. As a bonus, you're skilled enough in research and experimentation that you're far less likely to break what you're studying on accident.
 
@@ -459,9 +459,9 @@ You know everything there is to know about repairing, maintaining, and fueling A
  2. Swiss Army Engineer (600CP)
 Most AFWs are designed by whole teams of engineers spending months, if not years, getting all the complicated systems to work together just right. But you can do it all on your own. You know how to build all AFW types from the ground up and don't have to worry about all the tedious fine-tuning most do. With further research and some time, you're confident that you can incorporate weaponry from other Jumps, albeit in a grungy, era-appropriate way.
 
-20. -PT Theory | Alpha Documents (Super Robot Wars OG) (700CP) 
+20. -PT Theory | Alpha Documents (Super Robot Wars OG) (700CP)
  1. PT theory 101 (100CP)
-You've been around robots long enough to know the basics behind their engineering, at least in regards to the structure and reasoning behind the more common mechs, including the Earth Federation's standard Gespensts, and the TLI's Grungust Type 1: the example of the average Super Robot. Weapon knowledge also included in regards to both, which is basically ballistics and some small degree of beam weaponry. 
+You've been around robots long enough to know the basics behind their engineering, at least in regards to the structure and reasoning behind the more common mechs, including the Earth Federation's standard Gespensts, and the TLI's Grungust Type 1: the example of the average Super Robot. Weapon knowledge also included in regards to both, which is basically ballistics and some small degree of beam weaponry.
  2. Alpha Documents (600CP)
 The whole kit-and-caboodle of the Earth Federation's current research, all in your head (or documented physically/digitally, your choice). Highlights include: the T-Link System to enhance psychic capability, the Black Hole Engine and the Gravicon system involve the manipulation of gravity for both energy and combat usage, the Tesla Drive: a device capable of enabling flight in battleships that can also be miniaturized to allow robots to fly, and the other systems and engineering for the Gespensts up to the MKIII "Alteisen" and MKIV "Weissreiter", the Huckebeins up to the Mark III, the Grungusts up to Type 3, and the Lion series models up to the Astelion.Of course some of this does require EOT resources, so you may be limited in what you can do when you don't have these resources, you might be able to substitute them with the right materials, given time and research.
 
@@ -473,13 +473,13 @@ Not a modification to your Knight itself, no. This is instead a pile of research
 
 22. -Fine Tuning | MT Engineering | AC Engineering | Core Competence (Armored Core Classic) (1800CP)
  1. Fine Tuning (100CP)
-A good mechanic can tune AC parts for better performance in specific areas. You're skilled at customizing them even further, at the cost of worsening some other characteristic; you can do things like modify boosters to use extra power for extra speed, or reinforce armor at the expense of added weight 
+A good mechanic can tune AC parts for better performance in specific areas. You're skilled at customizing them even further, at the cost of worsening some other characteristic; you can do things like modify boosters to use extra power for extra speed, or reinforce armor at the expense of added weight
  2. MT Engineering (400CP)
-Theoretical and practical knowledge of MT design, construction and programming. Simpler machines than ACs and much more suitable for mass production, they're the workhorse of megascale construction and the backbone of security and military forces. Your skills could earn a pretty cushy job at any of the megas. Being giant robots, these need literal tons of material and lots of labor to make. You could contract out for construction, but the simplest use for this is to design MTs for some corp instead. Also, this perk alone doesn't make you good enough to design or build really top-of-the-line MTs, the kind that might rival ACs. 
+Theoretical and practical knowledge of MT design, construction and programming. Simpler machines than ACs and much more suitable for mass production, they're the workhorse of megascale construction and the backbone of security and military forces. Your skills could earn a pretty cushy job at any of the megas. Being giant robots, these need literal tons of material and lots of labor to make. You could contract out for construction, but the simplest use for this is to design MTs for some corp instead. Also, this perk alone doesn't make you good enough to design or build really top-of-the-line MTs, the kind that might rival ACs.
  3. AC Engineering (400CP)
-Like MT Engineering, but for ACs and any associated equipment, from weapons to radar systems. ACs are all built for combat. They're modular in design and thus very versatile, and their specs let an AC match a small army of average MTs in the hands of the right pilot 
+Like MT Engineering, but for ACs and any associated equipment, from weapons to radar systems. ACs are all built for combat. They're modular in design and thus very versatile, and their specs let an AC match a small army of average MTs in the hands of the right pilot
  4. Core Competence (900CP)
-You are one of the world's best mech engineers; the corporations would literally kill to have you on payroll. High-performance MTs that compete evenly with ACs are now feasible- these are a bit cheaper and simpler to build than ACs, at the cost of far less customizability. Or, with even more work- probably most of your time in this jump- you might even come up with some sort of next-gen AC that chumps fellow ACs the way ACs chump their MT predecessors. Just don't expect to walk away from the job easily... that non-compete clause is murder 
+You are one of the world's best mech engineers; the corporations would literally kill to have you on payroll. High-performance MTs that compete evenly with ACs are now feasible- these are a bit cheaper and simpler to build than ACs, at the cost of far less customizability. Or, with even more work- probably most of your time in this jump- you might even come up with some sort of next-gen AC that chumps fellow ACs the way ACs chump their MT predecessors. Just don't expect to walk away from the job easily... that non-compete clause is murder
 
 Time Domain (12 Perks)
 
@@ -524,17 +524,17 @@ You really liked playing with building blocks as a kid. Now that you're all grow
 
 700 CP
 
-11. -Scientist: Machinery/Strong Spark (Girl Genius) (700CP) 
+11. -Scientist: Machinery/Strong Spark (Girl Genius) (700CP)
  1. Scientist (100CP)
-You have a DOCTORATE! And skill in ACTUAL SCIENCE! That doesn’t need you to go crazy to work! Admittedly, it won’t break the fabric of space and time, but meh. Tradeoffs everywhere you go. You’re highly trained in one field, and can easily apply its principles to your work. After all, building a crazed abomination upon the natural order usually requires at least a smidgen of understanding of which bones are supposed to go where (Even if you end up changing them around a little). At the very least, you’re also in the genius range of standard intelligence. 
+You have a DOCTORATE! And skill in ACTUAL SCIENCE! That doesn’t need you to go crazy to work! Admittedly, it won’t break the fabric of space and time, but meh. Tradeoffs everywhere you go. You’re highly trained in one field, and can easily apply its principles to your work. After all, building a crazed abomination upon the natural order usually requires at least a smidgen of understanding of which bones are supposed to go where (Even if you end up changing them around a little). At the very least, you’re also in the genius range of standard intelligence.
  2. Strong Spark (600CP)
-Rather than having a weak Spark (Like a PEASANT who took the “Spark” Perk, which this is incompatible with) you have an extremely powerful one. You don’t limit your scientific explorations to a single topic, but are a master of anything that meets your eye (well, at least once you’re in the Madness Place). You go further and farther than almost anyone, and when you get working, you quickly stop caring about things like “fundamental laws” and “nature of the universe” and ... well, pretty much anything. Warping the fabric of reality is a pretty common thing. Unfortunately, it’s also significantly harder to get OUT of the Madness Place, and you get sidetracked pretty easily as well. Last week you were trying to get a stain out of your carpet, and woke up with an army of death-ray-wielding mice obedient to your commands! MWAHAHAHA. 
+Rather than having a weak Spark (Like a PEASANT who took the “Spark” Perk, which this is incompatible with) you have an extremely powerful one. You don’t limit your scientific explorations to a single topic, but are a master of anything that meets your eye (well, at least once you’re in the Madness Place). You go further and farther than almost anyone, and when you get working, you quickly stop caring about things like “fundamental laws” and “nature of the universe” and ... well, pretty much anything. Warping the fabric of reality is a pretty common thing. Unfortunately, it’s also significantly harder to get OUT of the Madness Place, and you get sidetracked pretty easily as well. Last week you were trying to get a stain out of your carpet, and woke up with an army of death-ray-wielding mice obedient to your commands! MWAHAHAHA.
 
 800 CP
 
 12. -We Need Reserves/Special Attention (Gundam AGE) (800CP)
  1. We Need Reserves (400CP)
-When you’re fighting a war, you know what you need-you need troops, you need squadrons; you need a fully-armed army. You can’t fight a war without numbers, and so you can modify designs to give you just that-numbers. Your MS production capability will multiply to near 4x levels, with only a negligible decrease in quality. You can also, with time and patience, apply this design philosophy to other products. 
+When you’re fighting a war, you know what you need-you need troops, you need squadrons; you need a fully-armed army. You can’t fight a war without numbers, and so you can modify designs to give you just that-numbers. Your MS production capability will multiply to near 4x levels, with only a negligible decrease in quality. You can also, with time and patience, apply this design philosophy to other products.
  2. Special Attention (400CP)
 When you’re fighting a war, you know what you need-you need guardians, you need shields; you need a well-armed force. You can’t fight a war with a thousand scratches, and so you can modify designs to increase individual performance and quality-the biggest boon is that this only negligibly increases production times or costs, at the benefit of having much higher quality Mobile Suits. And you can apply this to other designs as well, with time.
 Crafting Skills Domain (28 Perks)
@@ -638,9 +638,9 @@ ________________
 
 28. -Techno: Armorer | Fixer | Weaponsmith (Light of Terra) (900CP)
  1. Armourer (300CP)
-A mental database containing information on the most common types of armour found in the Necromunda Hive and how to build, repair and maintain them. While this doesn't sound impressive, it is worth pointing out there are countless billions of people dwelling within the hive, and they have been here for millenia - the list of things counted as common at one time or another ranges from Power Armour in the distant past to the more common hammered metal plates made by local Gangers to the standard Imperial Guard Carapace Armour. Don't expect to start churning out Adetus Astartes Power Armour the second you get this though - the infrastructure to build the infrastructure to build the infrastructure to build the armour was lost to ruin a long time ago. There's a reason the Space Marinesuse suits thousands of years old. 
+A mental database containing information on the most common types of armour found in the Necromunda Hive and how to build, repair and maintain them. While this doesn't sound impressive, it is worth pointing out there are countless billions of people dwelling within the hive, and they have been here for millenia - the list of things counted as common at one time or another ranges from Power Armour in the distant past to the more common hammered metal plates made by local Gangers to the standard Imperial Guard Carapace Armour. Don't expect to start churning out Adetus Astartes Power Armour the second you get this though - the infrastructure to build the infrastructure to build the infrastructure to build the armour was lost to ruin a long time ago. There's a reason the Space Marinesuse suits thousands of years old.
  2. Fixer (300CP)
-This Schema contains a massive database filled with the countless bits of equipment the denizens of Necromunda Hive Primus have bought, found, built, stolen or obtained by other means over the centuries since the Hive was founded. Inexplicably it also seems to contain an extremely rare, extremely valuable and extremely heretical to own database detailing how to build and maintain Admech servitors and cybernetic parts. 
+This Schema contains a massive database filled with the countless bits of equipment the denizens of Necromunda Hive Primus have bought, found, built, stolen or obtained by other means over the centuries since the Hive was founded. Inexplicably it also seems to contain an extremely rare, extremely valuable and extremely heretical to own database detailing how to build and maintain Admech servitors and cybernetic parts.
  3. Weaponsmith (300CP)
 To weaponry what Armourer is to protective gear, this is a massive database of the various tools of mayhem the denizens of the Necromunda hive have wielded against each other. While the high tech equipment possible may seem nice, do not underestimate the value of low tech weaponry. Crafting a plasma pistol and crafting a bayonet require wildly different sets of skills, and all too often people who have one assume they have the other, to their chagrin.
 
@@ -697,9 +697,9 @@ Men and women have not wandered the wilds naked since the long-gone days of the 
 
 14. -Requiem of Souls | Weaver | Silk Spinning (Jade Cocoon) (500CP)
  1. Requiem of souls (200CP)
-You have been taught the sacred song of the Cocoon Masters, which allows you to soothe a Minion's raging heart. By playing this song to a weakened monster, you can capture it inside of an empty cocoon. The more damaged the creature is, and the more skillful your playing, the more likely you are to capture it. You can play the song again to release them, but by itself the Requiem will not make them loyal to you. This gives you basic proficiency in a musical instrument of your choice. 
+You have been taught the sacred song of the Cocoon Masters, which allows you to soothe a Minion's raging heart. By playing this song to a weakened monster, you can capture it inside of an empty cocoon. The more damaged the creature is, and the more skillful your playing, the more likely you are to capture it. You can play the song again to release them, but by itself the Requiem will not make them loyal to you. This gives you basic proficiency in a musical instrument of your choice.
  2. Weave (100CP)
-You are now an expert weaver. Doesn't sound like much, right? Remember that the silk spun from magical creatures' cocoons was so beautiful that King Karis murdered his own son over it. They have some REALLY good silk here in Parel is what I'm saying, and you are a master of working with it. 
+You are now an expert weaver. Doesn't sound like much, right? Remember that the silk spun from magical creatures' cocoons was so beautiful that King Karis murdered his own son over it. They have some REALLY good silk here in Parel is what I'm saying, and you are a master of working with it.
  3. Silk Spinning (200CP)
 With a prayer to Elhrim, you can purify a Firefly Cocoon (a cocoon filled with a monster using the Requiem of Souls perk above) and spin it into silk. This kills the monster but produces truly breathtaking silk. The stronger the monster, the better quality of silk is produced. The strongest Minions could produce silk fit for a god. Who knows what you could make from the monsters you might find out there on distant worlds?
 ________________
@@ -707,7 +707,7 @@ ________________
 
 15. -Tailoring | Life Fibers (Kill la Kill) (700CP)
  1. Tailor (300CP)
- You have the knowledge of how to safely work with life fibers, and how to make them into clothing that empowers (or inhibits) the wearer. In addition, because you know how Life Fiber uniforms work, you know their weak spots better than anyone. 
+ You have the knowledge of how to safely work with life fibers, and how to make them into clothing that empowers (or inhibits) the wearer. In addition, because you know how Life Fiber uniforms work, you know their weak spots better than anyone.
  2. Life Fibers (400CP)
  A medium-sized spool of Life Fiber. It's only enough to maybe make a pair of gloves out of, but with the proper knowledge, one could create Goku Uniforms- Or enhance existing articles of clothing to be like Goku Uniforms. One spool of thread is enough to make several one-star outfits, three two-star outfits, or a single three-star outfit, assuming you have the knowledge of how to work with Life Fibers.
 ________________
@@ -769,7 +769,7 @@ Even if you can't describe it, you can still manipulate it. You can now make phy
 
 18. -Ars Magus Creation/Armagus Creation (Blazblue) (400CP)
  1. Ars Magus Creation (100CP)
- You have basic education in the creation and modification of Ars Magus. You understand how they work and how to create non-combat Grimoires, though you require time and resources in order to do so. 
+ You have basic education in the creation and modification of Ars Magus. You understand how they work and how to create non-combat Grimoires, though you require time and resources in order to do so.
  2. Armagus Creation (300CP)
 ! requires Ars Magus Creation! You have advanced education in the creation and modification of Ars Armagus. Armagus on the whole are dangerous and unstable weapons if they're used by someone who doesn't know what they're doing, and creating them is no less dangerous because even one glimpse into the Boundary is enough to shred a man's sanity permanently. However, anything you make will invariably be better than anything you can buy in a store or on the black market.
 
@@ -823,7 +823,7 @@ These are the beginning magicks of the Shianti. ShiantiOrigin who select this ab
 
 33. -Maker's Prodigy/Maker (Darksiders) (1800CP)
  1. Maker's Prodigy(600CP)
-The makers decide to teach you the ways of creation and you may choose to become their pupil, they will teach you how to create magical artifacts, imbue places and objects with power and even how to create magical constructs with sentience. Regardless if you spend the time learning from them or not, you will find you learn future skills related to creation, enchantment and forging will come to you as if they were second nature, waiting to be remembered. 
+The makers decide to teach you the ways of creation and you may choose to become their pupil, they will teach you how to create magical artifacts, imbue places and objects with power and even how to create magical constructs with sentience. Regardless if you spend the time learning from them or not, you will find you learn future skills related to creation, enchantment and forging will come to you as if they were second nature, waiting to be remembered.
  2. Maker (1200CP)
 You gain an alternate form of a maker, broad, Immensely strong and around 12 feet tall. You also gain supernatural powers of creation, able to make impossible things from practically nothing. Though it may take many years of practice, you will be able to master the art of crafting life from clay, Forge magic spells from ideas of the mind, and matter from nothing. Creator's spark: If you ascend and receive a Planeswalkers spark, you will find your knowledge of crafting ectends unto the impossible and the laws of reality. You may eventually create new worlds from the void and forge new forces such as a unique form of magic or entropy as you create the new plane.
 
@@ -853,7 +853,7 @@ You have the skills to sacrifice neither form nor function when you design, crea
 
 7. -My Fashion Sense is Tingling | Iron Bladder (TWEWY) (100CP)
  1. My Fashion Sense is Tingling (50CP)
-You have an impeccable sense of fashion-You can make an appealing outfit out of just about anything. In addition, you will always have an innate knowledge of what is fashionable in the area wherever you go, allowing you to remain on top of your game no matter where you are. In fact, you'll usually be a trendsetter. 
+You have an impeccable sense of fashion-You can make an appealing outfit out of just about anything. In addition, you will always have an innate knowledge of what is fashionable in the area wherever you go, allowing you to remain on top of your game no matter where you are. In fact, you'll usually be a trendsetter.
  2. Iron Bladder (50CP)
 If you're really involved in something, you can do it for as long as you please. So long as you focus completely on a single task, whether that be the creation of an object, the defeat of an enemy, or just beating a videogame, you can completely ignore any bodily needs such as sleep, hunger, or pain. You're just ignoring them, though- Which doesn't make them go away. All of your needs will catch up with you when you're done, which can kill you if you're not careful.
 
@@ -887,7 +887,7 @@ ________________
 
 16. -Deity's Weapon | Weapon Synthesis (Warrior's Orochi) (300CP)
  1. Deity's Weapon (100CP)
-Naturally, your aura is not your only tool, and neither is it just for show. By imbuing a portion of your aura into a tool, you can turn it into a weapon capable of eating through physical and magical barriers alike. Naturally, as you’re infusing a portion of your mystic nature into the tool, with time it will grow to possess magical qualities as well. With a sufficient amount of time passing, you could very well find yourself bearing a mystic weapon, one that has naturally absorbed enough mystic force to rival the greatest of magical weapons. With enough time, all that energy would be enough to make it a weapon of yore. Just don’t expect it to happen anytime soon. 
+Naturally, your aura is not your only tool, and neither is it just for show. By imbuing a portion of your aura into a tool, you can turn it into a weapon capable of eating through physical and magical barriers alike. Naturally, as you’re infusing a portion of your mystic nature into the tool, with time it will grow to possess magical qualities as well. With a sufficient amount of time passing, you could very well find yourself bearing a mystic weapon, one that has naturally absorbed enough mystic force to rival the greatest of magical weapons. With enough time, all that energy would be enough to make it a weapon of yore. Just don’t expect it to happen anytime soon.
  2. Weapon synthesis (200CP)
 Out there in the Dimensional World, you might not be able to find a blacksmith, in which case, it would probably be good to learn the skill yourself. Forging a spear or a sword? Well anybody can learn that from any blacksmith, here we’re going to teach you how to perform weapon synthesis. Yes, it’s not blacksmithing as you would expect. So, that weapon of yours. It looks completely serviceable, right? Battle worthy probably, probably killed off great swathes of foot soldiers? There’s no need to sharpen it, but what about its inherent qualities? You know that magic enchantment on it? Or that spell it seems to cast every once in a while? Our form of blacksmithing works on those innate properties and spells instead. We don’t strengthen the exterior; we strengthen what’s inside, and bring the potential of that weapon up even higher. That low-level ice spell your sword casts? Yeah, let’s work at it until it casts a stream of frost. It’s going to take a while, but anything worth doing is going to take time. Better live with that fact.
 
@@ -936,7 +936,7 @@ Thanks to being taught by faeries anything you make by hand is a great deal bett
 
 30. -Material Synthesis Science | Exotic Compatibility (Gundam: After Colony) (600CP)
  1. Material Synthesis Science (200CP)
-You know a few things about getting your own materials, but you also have a bit of know-how about how the people here get such quality materials. Normally, you know how to forge, quench and mold materials into more high quality specimens, but you have a specialization in Zero-Gravity Material Synthesis as well-in microgravity conditions, you can create much more effective materials thanks to the limitations of gravity being removed. 
+You know a few things about getting your own materials, but you also have a bit of know-how about how the people here get such quality materials. Normally, you know how to forge, quench and mold materials into more high quality specimens, but you have a specialization in Zero-Gravity Material Synthesis as well-in microgravity conditions, you can create much more effective materials thanks to the limitations of gravity being removed.
  2. Exotic Compatibility (400CP)
 You have a way of working with quirky and strange materials-in your hands and machinery, it assumes the forging and abilities of plain Iron until you begin building with it. You also can integrate exotic materials into your constructions a lot easier, and if you don’t know what a material is or what it can do, you’re very good at researching applications and properties of said materials. This research could also go into things such as improving production numbers and similar.
 
@@ -948,25 +948,25 @@ ________________
 
 32. -Minor Blessings | Unnatural Skill | Divine Child (Percy Jackson) (700CP)
  1. Minor blessings (100CP)
-For one reason or another you've got a god who cares slightly about you and has seen fit to grant you some minor boon within their domains. Choose one god from any pantheon and gain a minor boon from them. The god will care slightly about you but unless you go on to further distinguish yourself it will be more of a minor interest in your affairs than someone they feel the need to help (Effectively think a diminished version of one ability a demigod might have, think minor ones are stuff along the lines of breathing water, lucid dreaming, or appropriate vague extra senses, useful but nothing especially major). This can be taken multiple times. 
+For one reason or another you've got a god who cares slightly about you and has seen fit to grant you some minor boon within their domains. Choose one god from any pantheon and gain a minor boon from them. The god will care slightly about you but unless you go on to further distinguish yourself it will be more of a minor interest in your affairs than someone they feel the need to help (Effectively think a diminished version of one ability a demigod might have, think minor ones are stuff along the lines of breathing water, lucid dreaming, or appropriate vague extra senses, useful but nothing especially major). This can be taken multiple times.
  2. Unnatural Skill (200CP)
-Whether from your heritage or just being that good you've got one particular mundane skill that your feats which border on supernatural. Whether you're a smith on the level of the Cyclopes, a near prescient tactician or a swordsman who is nigh unstoppable with a blade your feats will be legendary. You are on a level within your skill such that only other beings of legend can hope to match you. This may be taken multiple times. You may not choose magic but you may choose a particular application of magic if you have it already (so curses, enchanting might work, more specific gets a bigger boost). 
+Whether from your heritage or just being that good you've got one particular mundane skill that your feats which border on supernatural. Whether you're a smith on the level of the Cyclopes, a near prescient tactician or a swordsman who is nigh unstoppable with a blade your feats will be legendary. You are on a level within your skill such that only other beings of legend can hope to match you. This may be taken multiple times. You may not choose magic but you may choose a particular application of magic if you have it already (so curses, enchanting might work, more specific gets a bigger boost).
  3. Divine Child (400CP)
 You are the direct child of a god of your associated pantheon and gain various benefits from this. You gain lesser manifestations of your parent's domains as well as generally being better than an ordinary mortal. You may take most any god as your parent but to take one of the heads of a pantheon as a parent you must take the "Fate finds you interesting" drawback receiving no points for it (you can also do this with a lesser god to get greater powers). Generally this will give you insight into and some control over your divine parent’s domains, a son of Poseidon for example can control water and ships, talk to horses, cause minor earthquakes and is empowered within water.
 
 1100 CP
 33. -Daedalus' Student | Titan's Blood (God of War) (1100CP)
  1. 'Daedalus' student (600CP)
-It is one thing to work on forging mere sword and shield, but it is another to create truly marvelous wonders... for a mortal. You could make marvelous wings out of bird feathers and beeswax, capable of granting flight to anyone. Or maybe you wish to create an everchanging Labyrinth, that shifts and alters itself depending on how it moves. Regardless, your architect and forging skills have taken a dramatic increase, to the point where the things you create just may have properties and quality they normally shouldn't have, albeit directed towards the purpose of your creations. Through your works, your will be known... but take care that the gods do not take offense with your work. 
+It is one thing to work on forging mere sword and shield, but it is another to create truly marvelous wonders... for a mortal. You could make marvelous wings out of bird feathers and beeswax, capable of granting flight to anyone. Or maybe you wish to create an everchanging Labyrinth, that shifts and alters itself depending on how it moves. Regardless, your architect and forging skills have taken a dramatic increase, to the point where the things you create just may have properties and quality they normally shouldn't have, albeit directed towards the purpose of your creations. Through your works, your will be known... but take care that the gods do not take offense with your work.
  2. Titan's Blood (500CP)
 What a curious thing you are, to have become such a thing. One of your ancestors was a Titan, a primordial being of great power and ability that was responsible with shaping the world as it is. You are not full-blooded, but the effects have been prevalent on you nonetheless; your size may be increased up to fifteen meters in height, with your strength as such that you could throw pieces of buildings one-handed at your enemies. You may also choose one Titan you are a descendent from, gaining aesthetic appearance changes similar to them. But more importantly, you may relax yourself and 'commune' with the world and nature around you; by opening your mind to the world you can learn about it and its secrets quite quickly, along with finding what is the largest threat to the balance of nature. You are of the planet, child. It is your birthright to know these things.
 
 1200 CP
 
-34. -Soulcraft | Sage (Demons' Souls) (1200CP) 
- 1. Soulcraft (600CP) 
-With the souls of strong opponents, you may forge great weapons and armor out of them. Of course you can craft with lesser souls but the product won’t be that great. The weaker souls can only be used to upgrade things instead. You instinctively understand how to use anything you made. 
- 2. Sage (600CP) 
+34. -Soulcraft | Sage (Demons' Souls) (1200CP)
+ 1. Soulcraft (600CP)
+With the souls of strong opponents, you may forge great weapons and armor out of them. Of course you can craft with lesser souls but the product won’t be that great. The weaker souls can only be used to upgrade things instead. You instinctively understand how to use anything you made.
+ 2. Sage (600CP)
 In magic you have few equals, many of them brilliant prodigies much like yourself. Your intelligence improves the damages of your spells. With study you can turn great souls into powerful spells to be used. Weaker souls can be used to improve your magic.
 
 
@@ -1007,8 +1007,8 @@ ________________
 
 9. -Nanite Sciences | Nanite Removal and Control (Generator Rex) (500CP)
  1. Nanite sciences (100CP)
-You possess in depth knowledge of nanite technologies. With sufficient equipment and resources you could produce and control nanite machines, possibly even recreate the nanite event or maybe figure out how to reverse its effects. But that would take a long time of additional study of nanites out in the world, still you might be one of the few who could attempt this endeavor. You possess no knowledge of the meta-nanites, and understanding how they work is beyond your grasp. 
- 2. Nanite Removal and Control (400CP) 
+You possess in depth knowledge of nanite technologies. With sufficient equipment and resources you could produce and control nanite machines, possibly even recreate the nanite event or maybe figure out how to reverse its effects. But that would take a long time of additional study of nanites out in the world, still you might be one of the few who could attempt this endeavor. You possess no knowledge of the meta-nanites, and understanding how they work is beyond your grasp.
+ 2. Nanite Removal and Control (400CP)
 Many in this world would consider this is your most important ability, you can control nanites and absorb them into yourself, reverting dangerous mutations and can help people regain control of themselves. At first however this power will only work on willing targets, and will not work on incurable, especially virulent nanite infested EVOs. However with training and time, your powers can grow to circumvent these rules. Your greatest limitation is the fact that as you absorb nanites your reservoirs fill to the breaking point, causing dangerous flare ups and renders your abilities unstable. You can purge these nanities, but figuring out how to do so in a safe way with a large amount of unstable nanites may take some effort. After this Jump your nanites can be used to heal people, whether of wounds, diseases, or possibly even mutations or others turned into a monster. Success will vary depending on factors, a mystical curse is probably beyond your nanites, a really out of this world super virus might be cured, but that's iffy. If you happen to run into other nanites in other jumps, you could control and manipulate them as well.
 
 600 CP
@@ -1018,7 +1018,7 @@ You’re more than capable of inventing new and novel systems that integrate exi
 
 11. -They're Like Legoes, Right? | This Is How I want It (Kerbal Space Program) (600CP)
  1. They're Like Legoes, Right? (200CP)
-There's robust engineering, and then there's modularity. Pick one. Except for you - you seem to have the gift of designing methods that allow for seamless mixing and matching of modular technology that lack none of the parts incompatibility and fragility you'd except from such a design paradigm. While this seems focused on Kerbin technology in specific, a little work should have you applying such a paradigm to all sorts of technologies... 
+There's robust engineering, and then there's modularity. Pick one. Except for you - you seem to have the gift of designing methods that allow for seamless mixing and matching of modular technology that lack none of the parts incompatibility and fragility you'd except from such a design paradigm. While this seems focused on Kerbin technology in specific, a little work should have you applying such a paradigm to all sorts of technologies...
  2. This Is How I Want It (400CP)
  Your capability of mentally designing items is vastly boosted. It's almost as if you have a mental idea space in the fashion of a construction bay with a lists of parts you have on hand that gives you an idea of what you can build at that moment... actually, that's pretty much what you have. As a bonus, you can mix and match parts in a manner roughly akin to legos, and giving you an idea of what would work and what wouldn’t (and how much resources it would take to build). Mind, this doesn't mean that your mental creation will perform successfully, but it will function. As a final bonus, you can mentally hand-off the resultant creation to your Kerbals to build, and they'll do so without a mistake or screwup - meaning any snafu that results will be on your own head.
 
@@ -1026,7 +1026,7 @@ There's robust engineering, and then there's modularity. Pick one. Except for yo
 
 12. -Nano-technician | Nanoforge (Red Faction) (1200CP)
  1. Nano-Technician (600CP)
-Is it me or does “nanomachines” not sound like a word anymore? You now have a considerable talent in the field of nanotech. With time and study, you could recreate the Nanoforge, with dedication you could even improve on it. Keep in mind nanotech in this setting is exceptionally hard to work with, but can do anything from fixing a bridge, to disintegrating a starship, to enhancing human abilities. 
+Is it me or does “nanomachines” not sound like a word anymore? You now have a considerable talent in the field of nanotech. With time and study, you could recreate the Nanoforge, with dedication you could even improve on it. Keep in mind nanotech in this setting is exceptionally hard to work with, but can do anything from fixing a bridge, to disintegrating a starship, to enhancing human abilities.
  2. Nanoforge (600CP)
 Typically worn around the wrist, this device is an engineer’s wet dream. Using real-time scans provided by the onboard AI, the Nano-Forge emits nanites as either a proximity cloud or projectile globs that procedurally recreate objects nearby. This Nano-Forge is restricted to repair functionality, and it doesn’t work on biological material, but it does have the precision to recreate delicate electronics and the like.
 
@@ -1052,8 +1052,8 @@ When you don’t have much, it’s important to be careful with what you’ve go
 Your skills in mechanics are top notch. Your weapons, armor, and personal equipment are all easy to repair, and maintenance of all of them takes mere minutes instead of hours.
 
 6. -Super Scientific Solution (Tenchi Muyo) (100CP)
-This perk grants two features that in universe depend on your setting, out of universe both work unless you desire otherwise. 
- 1. Slice of Life: Science solves everything, even the little household problems. You can create supertech improvements to common tools and appliances, up to and including automobiles or similar works of engineering. Create dishwashers that can clean dishes in an instant, self heating plumbing or forcefield window panes that act as air conditioners. 
+This perk grants two features that in universe depend on your setting, out of universe both work unless you desire otherwise.
+ 1. Slice of Life: Science solves everything, even the little household problems. You can create supertech improvements to common tools and appliances, up to and including automobiles or similar works of engineering. Create dishwashers that can clean dishes in an instant, self heating plumbing or forcefield window panes that act as air conditioners.
  2. Space­Opera: Well established methodologies and an instinctive grasp of same allow you to draw conclusions or produce results incredibly fast. You halve the time it takes to gather data, compose research on some subject, or devise a test to prove/disprove something­ handy for when you have to figure out an enemy fortresses’ one weakness…
 
 7. -The Honed Edge (Pocky & Rocky) (100CP)
@@ -1115,7 +1115,7 @@ Thanks to those filthy communists trying to take everything (hypocrisy, anyone?)
 
 23. -Extraction Efficiency | Harmless Extraction | Rapid Growth (Final Fantasy XIV) (500CP)
  1. Extraction efficiency (100CP)
-Judging from the state of Eorzea, the Carpenters and other tradesmen here have long since improved the efficiency of their resource collecting processes. From the record books, while the presence of Aether has helped a great deal, the harvesting practices put into place played a large part as to why the natural landscape is still the way it is today. Adopting those same practices, you've improved on the harvesting efficiency for all manners of things, not just restricted to trees -but other plant life as well. So at least the plant doesn't simply die off after one round. 
+Judging from the state of Eorzea, the Carpenters and other tradesmen here have long since improved the efficiency of their resource collecting processes. From the record books, while the presence of Aether has helped a great deal, the harvesting practices put into place played a large part as to why the natural landscape is still the way it is today. Adopting those same practices, you've improved on the harvesting efficiency for all manners of things, not just restricted to trees -but other plant life as well. So at least the plant doesn't simply die off after one round.
  2. Harmeless Extraction (200CP)
 With hempen yarn and animal skins in shorter supply since the catastrophe, you and other craftsman have had to adapt your practices in order to keep the orders met. Practices to minimize the amount of animals killed, to make the most out of that which you have on hand are all crucial nowadays as resources grow scarcer. While the animals still aren't too comfortable with it, with this magic you can weave together a copy of their skin or wool, while only taking a small portion of what they have. It doesn't really feel right, but at least the animal is still alive! It’ll take time, but what you’ve taken will slowly grow back.
  3. Rapid Growth (200CP)
@@ -1131,16 +1131,16 @@ ________________
 
 25. -Reuseable Resources/Artificial Alloys (Anno 2070) (800CP)
  1. Reuseable Resources (200CP)
-Recycling requires effort. There is always a loss - in terms of energy, in terms of time, in terms of effort, in terms of materials. Your faction's knowledge of materials science has minimized this loss to the utmost; When destroying buildings, recovering crashed vehicles, or decommissioning equipment, you always recover the same amount of material put into it's construction, ripe for being re-applied to other tasks. 
+Recycling requires effort. There is always a loss - in terms of energy, in terms of time, in terms of effort, in terms of materials. Your faction's knowledge of materials science has minimized this loss to the utmost; When destroying buildings, recovering crashed vehicles, or decommissioning equipment, you always recover the same amount of material put into it's construction, ripe for being re-applied to other tasks.
  2. Artificial Alloys (600CP)
  Naturally occurring substances can offer a good start point for the development of new and innovative machinery and technology. However, often times these natural resources have limitations - whether it be rarity, difficulty of acquisition, and so on. In such cases, science steps to the fore, fashioning new materials unseen by nature to do that which mother nature started. This ability allows, with enough time and research invested, to create substances that mimic those found in nature, albeit manufactured artificially. While this new artificial substances do not surpass the original, it can for all purposes be substituted by it with no drawbacks. However, the material must still be manufactured - but, once the process is known, other factions, civilizations, and individuals, by following the process, can also create the artificial material. This ability works post-jump, even for materials that do not naturally occur in the new universe.
 
 900 CP
 
-26. -Panzerkampf | Firestorm (Sabaton) (900CP) 
+26. -Panzerkampf | Firestorm (Sabaton) (900CP)
  1. Panzerkampf (300CP)
-When it comes to building war machines, yours are top-notch! A gun made by your own hand will never jam, and a tank built by you will never bog down in mud or take damage from an IED. If they want to destroy what you've built, they'd best bring their A-game. 
- 2. Firestorm (600CP) 
+When it comes to building war machines, yours are top-notch! A gun made by your own hand will never jam, and a tank built by you will never bog down in mud or take damage from an IED. If they want to destroy what you've built, they'd best bring their A-game.
+ 2. Firestorm (600CP)
 When someone absolutely, positively needs artillery good enough to reduce the greatest castle to rubble, they come to you and accept no substitutes. You can throw a cannon together from scraps and it will still outperform the best mortars of the age. Moreover, in other worlds, if you can understand the weapon, you can produce something 1.1 times as strong with the items you would find in a rubbish heap, provided they're of equal size to the device they're replicating.
 
 
@@ -1217,11 +1217,11 @@ You can resolve the issues between magic and science, and while this does not in
 
 800 CP
 
-20. -Assault Manadrives | Defence Manadrive | Antimatter Manipulation Principle (Final Fantasy 13) (800CP) 
+20. -Assault Manadrives | Defence Manadrive | Antimatter Manipulation Principle (Final Fantasy 13) (800CP)
  1. Assault Manadrive (200CP)
- The higher ups gave you a manadrive, which you saw fit to attach with offensive spells. This manadrive allows you to attach up to intermediate level offensive spells –it will cast them autonomously freeing you up to do something else. You can designate its targeting systems appropriate to the spell. It won’t add effects the spell does not already have. 
+ The higher ups gave you a manadrive, which you saw fit to attach with offensive spells. This manadrive allows you to attach up to intermediate level offensive spells –it will cast them autonomously freeing you up to do something else. You can designate its targeting systems appropriate to the spell. It won’t add effects the spell does not already have.
  2. Defence Manadrive (200CP)
- The higher ups gave you a manadrive, which you saw fit to attach with defensive spells. This manadrive allows you to attach up to intermediate level defensive spells –it will cast them autonomously freeing you up to do something else. It also has smart targeting that you can program into it. It won’t add effects the spell does not already have. 
+ The higher ups gave you a manadrive, which you saw fit to attach with defensive spells. This manadrive allows you to attach up to intermediate level defensive spells –it will cast them autonomously freeing you up to do something else. It also has smart targeting that you can program into it. It won’t add effects the spell does not already have.
  3. Antimatter manipulation Principle (200CP)
  You understand the science at work behind Cocoon’s technology. You may not have the equipment to reproduce it, but you can manipulate gravity to a limited degree even without it –enough to save you from falls. With the suitable tools however, you could make all sorts of equipment and mechanical wonders, even up to graviton cores that can maintain giant aerial defense platforms.
 
@@ -1229,7 +1229,7 @@ You can resolve the issues between magic and science, and while this does not in
 
 21. -Mega Bomb | Guru (Chrono Trigger) (1200CP)
  1. Mega Bomb (600CP)
-Magic and Technology are both capable of some pretty fantastic things. So why not put them together, and see what happens? You now understand the secret to integrating magic seamlessly into your mechanical devices, enabling you to create devices like bombs powered with fire magic or medkits that use healing magic. While initially your devices will be one-shots that rely on a magical charge you have to deliver, in time, you'll learn how to make much more advanced fusions, such machines that run on magical power sources, or automated spellcasting devices. In the end, the only limit is your skill with machinery and magic. 
+Magic and Technology are both capable of some pretty fantastic things. So why not put them together, and see what happens? You now understand the secret to integrating magic seamlessly into your mechanical devices, enabling you to create devices like bombs powered with fire magic or medkits that use healing magic. While initially your devices will be one-shots that rely on a magical charge you have to deliver, in time, you'll learn how to make much more advanced fusions, such machines that run on magical power sources, or automated spellcasting devices. In the end, the only limit is your skill with machinery and magic.
  2. Guru (600CP)
 Back in the glory days of Zeal, “Guru” was a title reserved only for the most skilled and knowledgeable of their mages and scientists. You might not be there yet, but when I'm done with you, you'll be well on your way to deserving the title. Magic is akin to a science to you, letting you delve into the secrets of sorcery the same way a physicist would unlock the secrets of the atom. This also includes learning how to apply magical knowledge like an engineer does the sciences, letting you come up with breathtaking magical wonders. The Blackbird, the Mammon Machine, the Ocean Palace - who knows what you'll add to that list of legends.
 
@@ -1268,7 +1268,7 @@ Mix potions, elixirs, flasks, oils and other alchemical substances into vials us
 
 9. -Alchemy/Mixing Mixtures (Banjo-Kazooie) (300CP)
  1. Alchemy (100CP)
-You are incredibly capable at mixing together mundane ingredients to create effects that can only be described as magical. For a short time, these potions can create temporary copies of you, turn you invisible, or give you shielding. 
+You are incredibly capable at mixing together mundane ingredients to create effects that can only be described as magical. For a short time, these potions can create temporary copies of you, turn you invisible, or give you shielding.
  2. Mixing Mixtures (200CP)
 Your created potions can bestow multiple effects you know, however mixing too many might cause surprises. You can Reliably mix up to a dozen elixirs without them interfering with the effects of each other.
 
@@ -1305,32 +1305,32 @@ You are a powerful Alchemist, able to infuse a Diamond with the power of Redston
 19. -Master Synthesist (Kingdom Hearts) (600CP)
 To make a sword you normally need metal, a tool to shape it, and a forge to heatthe metal. Not you though, you can take strange and esoteric materials and magically combine them into a health potion, or a ring that increases your durability. Once you’ve gotten the hang of it you’ll be able to turn the rare materials you’ve collected into powerful items, weapons that can turn the tide of many a battle. A few examples are making arrowguns that shoot homing laser arrows and can combine to fire a giant bouncing blast, a stringed instrument that can make water dance to your tune to form aqueous duplicates to attack with, or even a deck of cards than can temporarily trap the loser of a game of chance in card form. The greatest expressions of this craft, Save the King, Save the Queen, and the Ultima Weapon, will require years of experience, and some resources so rare you’ll be lucky to find enough even if you scour all the worlds you can. The rarity and power of the materials used will impact the final quality and properties of the finished product.
 
-20. -Trigram Knowledge and Manipulation (Journey to the West) (600CP) 
+20. -Trigram Knowledge and Manipulation (Journey to the West) (600CP)
 Alchemy and matter manipulation with the understanding of the 8 trigrams to represent the fundamental forces of reality and how to represent and enforce change using these. Let me break this one down for you. It’s like FMA alchemy but with less focus on direct creation and more turning one thing into another of a similar size, including living things. However it cannot create life where there once was none and it requires you to write out a short formula describing the change to make it happen. Feel free to turn sand into water, sheep into boulders and anything else you can think of.
 800 CP
 
 21. -Alchemist | Formula Formulator (Secrets of Evermore) (800CP)
  1. Alchemist (200CP)
-Considered a lost art, the science of Alchemy has reawakened in Evermore, and you've been trained in its use. By combining ordinary ingredients togetherusing an alchemical formula, you can transform them into effects that can only be described as magic. You know both Light Alchemy, the art of healing or protection, and Dark Alchemy, the art of attacking. While it's theoretically possible to learn Alchemy at a later point in Evermore, this will let you skip the training and get straight to the mixing and casting, and will make you significantly better at it to boot. 
+Considered a lost art, the science of Alchemy has reawakened in Evermore, and you've been trained in its use. By combining ordinary ingredients togetherusing an alchemical formula, you can transform them into effects that can only be described as magic. You know both Light Alchemy, the art of healing or protection, and Dark Alchemy, the art of attacking. While it's theoretically possible to learn Alchemy at a later point in Evermore, this will let you skip the training and get straight to the mixing and casting, and will make you significantly better at it to boot.
  2. Formula formulator (600CP)
  Learning new alchemical formulas is pretty easy once you've got the basics down. You, on the other hand, can do something much more difficult, and much more impressive. With careful experimentation and tinkering, you can create your own formulas, allowing you to unleash entirely new alchemical effects nobody's ever seen before. Stronger or more useful effects will generally require rarer ingredients, and they usually need to relate to the effect in some metaphorical way, but as long as you keep those rules in mind you'll be coming up with new alchemy in no time.
 1000 CP
 
 22. -Synthesis: Rank 3 | Efficiency: Rank 1 (Atelier: Arland Trilogy) (1000CP)
  1. Synthesis (400CP)
- Synthesis is the most basic art of the alchemist and deals with the creation of items, usually through simple mixing, though sometimes synthesis can be a complex sequence of magical and chemical reactions. All alchemists learn this to some degree. Seeing as you’re an alchemist, the synthesis of items should really be second nature to you. That being said, even if you’re already an expert, there’s nothing saying that you don’thave room to improve further. Also there is no reason why we can’t help you improve, if you’re willing to put in the effort to learn. !!!Not sure if the ranks stack but I'm saying they do!!! Rank 0: The basics of synthesis, learning how to make basic potions and food without proper ingredients is still pretty helpful. Sure, you won’t be making anything high quality anytime soon, but at least you can make something safely edible from refuse material. It still won’t be “good” for you, but it won’t kill you. Rank 1: Don’t like the looks of what you’ve made? No matter, just give it a makeover! You can substitute the appearance of what you’ve made with something else similar to it in nature. Of course, appearances are exactly that, so don’t expect the function of your item to change. Rank 2: Enhancing what is already present, the items that you create will often possess some small trait related to its original function, generally acting as a sort of minor boost. The nature of the trait will never go against the intended purpose of the item –apotion that normally heals health may also help recover a small bit of your magic. Rank 3: Practice makes perfect, and you’re still a long ways away from perfect. Each time you make that same item, the quality of the product increases, resulting in increased magnitude of the intended effects. Though the gains will diminish the more you create a single item, you’ll find that by the time you reach the plateau you’ll have nearly twice the original effect. 
- 2. Efficiency (600CP) 
+ Synthesis is the most basic art of the alchemist and deals with the creation of items, usually through simple mixing, though sometimes synthesis can be a complex sequence of magical and chemical reactions. All alchemists learn this to some degree. Seeing as you’re an alchemist, the synthesis of items should really be second nature to you. That being said, even if you’re already an expert, there’s nothing saying that you don’thave room to improve further. Also there is no reason why we can’t help you improve, if you’re willing to put in the effort to learn. !!!Not sure if the ranks stack but I'm saying they do!!! Rank 0: The basics of synthesis, learning how to make basic potions and food without proper ingredients is still pretty helpful. Sure, you won’t be making anything high quality anytime soon, but at least you can make something safely edible from refuse material. It still won’t be “good” for you, but it won’t kill you. Rank 1: Don’t like the looks of what you’ve made? No matter, just give it a makeover! You can substitute the appearance of what you’ve made with something else similar to it in nature. Of course, appearances are exactly that, so don’t expect the function of your item to change. Rank 2: Enhancing what is already present, the items that you create will often possess some small trait related to its original function, generally acting as a sort of minor boost. The nature of the trait will never go against the intended purpose of the item –apotion that normally heals health may also help recover a small bit of your magic. Rank 3: Practice makes perfect, and you’re still a long ways away from perfect. Each time you make that same item, the quality of the product increases, resulting in increased magnitude of the intended effects. Though the gains will diminish the more you create a single item, you’ll find that by the time you reach the plateau you’ll have nearly twice the original effect.
+ 2. Efficiency (600CP)
 As you grow in your skills as a crafter, you’ll start to see more and more requests being handed your way. Before long, you’re going to realize that you don’t have all the time in the world to make everything that is requested of you, and that’s when it becomes all the more important to complete your assignments efficiently. Efficiency isn’t just a matter of time management –it’s about managing waste, reducing redundancies, and above all –improving yourself. Yes, you’ll learn how to reduce the amount of wasteful choices you have to make –but should you apply yourself to this, there’s a lot more to efficiency than what you’ll learn by scratching the surface. All it depends on is whether you’re disciplined enough to follow through. Rank 0: As advertised, you’ll learn how to reduce the amount of waste produced during your crafting process. Achieving a 1:1 conversion will not be possible with this alone, but being able to turn the waste product into a desired product can go a long ways to making synthesis more manageable. Rank 1: You can use less of an item, you won’t need to make as much. The effect of any item that you craft is increased slightly from its original magnitude, and their durations are again increased slightly. It will take you a little longer than usual to create items –but that’s an acceptable sacrifice.
 1300 CP
 
 23. -Simple | Advanced | Alkahestry | Truth (Full Metal Alchemist) (1300CP)
  1. Simple (100CP)
- You understand the connections between parts. You can make large alchemy circles far more easily and far less complex than others. You can combine this with Advanded Formulae for multipurpose combat alchemy. 
- 2. Advanced (100CP) 
-Alchemy comes to you as easily as breathing does. Your greater understanding allows you to perform more complex alchemy. you can combine this with Simplified Formulae for multipurpose combat alchemy. 
- 3. Alkahestry (300CP) 
-You understand how to perfom basic Alkahestry, an art from Xing wich can perform transmutation from a distance using linked circles, and can heal wounds of many kinds by following the pulse of the body. With practice or tutoring you can make a real skill from it. 
- 4. Truth (800CP) 
+ You understand the connections between parts. You can make large alchemy circles far more easily and far less complex than others. You can combine this with Advanded Formulae for multipurpose combat alchemy.
+ 2. Advanced (100CP)
+Alchemy comes to you as easily as breathing does. Your greater understanding allows you to perform more complex alchemy. you can combine this with Simplified Formulae for multipurpose combat alchemy.
+ 3. Alkahestry (300CP)
+You understand how to perfom basic Alkahestry, an art from Xing wich can perform transmutation from a distance using linked circles, and can heal wounds of many kinds by following the pulse of the body. With practice or tutoring you can make a real skill from it.
+ 4. Truth (800CP)
 Choose to lose either of the four. Your voice, your dominant hand, Your non-dominant arm, or your dominant arm. In return you gain the ability to perform alchemy without a transmutation circle and your knowledge of the science is expanded to the point where you have effectively mastered both simple and advanced Formulae.
 
 Page of

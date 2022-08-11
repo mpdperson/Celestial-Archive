@@ -39,6 +39,10 @@ var source_origins = [];
 $.getJSON('public/json/source_origins.json', function(data) {
     source_origins = data;
 });
+var common = [];
+$.getJSON('public/dictionaries/common_phrases.json', function(data) {
+    common = data;
+});
 
 var allSkills = magic_skills.concat(science_skills);
 allSkills = allSkills.sort();
@@ -93,7 +97,7 @@ var selectOver2		= document.getElementById("Over_Domain2");
 var sourceReg		= new RegExp(/<([^>\n]+)>/g);
 var titleReg		= new RegExp(/^([^<\n]+)/g);
 var costReg			= new RegExp(/{([0-9]+)}/g);
-var domainReg		= new RegExp(/=([^=\n]+)=/g);
+var domainReg		= new RegExp(/^\[Domain:? ([^\r\n\]]+)\]/);
 var prereqReg		= new RegExp(/^\[?Requires:? ([^\n\]]+)\]/);
 var freereqReg		= new RegExp(/^\[?Free:? ([^\n\]]+)\]/);
 var discountreqReg	= new RegExp(/^\[?Discounte?d?:? ([^\n\]]+)\]/);
@@ -269,7 +273,7 @@ input.addEventListener('change', () => {
 		importFile = lines;
 		var fileName = getFileName();
 		var ext = fileName.split(".")[1];
-		if(ext=="js" || ext=="json" || ext=="txt") {
+		if(ext=="json") {
 			if(!file.startsWith("var ") && !lines[0].includes("=")) {
 				try {
 					var obj = JSON.parse(file);
@@ -281,6 +285,9 @@ input.addEventListener('change', () => {
 					console.error(error);
 				}
 			}
+		}
+		else if(ext=="txt") {
+			processFile();
 		}
 		else if(ext=="pdf") {
 			
@@ -430,15 +437,15 @@ function saveCurrentPerk() {
 		"Dice":$("#Dice").val(),
 		"Discount_Multiplier":parseFloat($("#Discount_Multiplier").val()),
 		"Discount_Cost":roundCost(parseInt($("#Discount_Cost").val())),
-		"Discount":$("#Discount_Req").prop('checked'),
 		"Discount_Title":$("#Discount_Title").val(),
 		"Domain":$("#Domain").val(),
 		"Domain_Number":parseInt($("#Domain_Number").val()),
-		"Free":$("#Free_Req").prop('checked'),
+		"Exclude_Title":$("#Exclude_Title").val(),
 		"Free_Title":$("#Free_Title").val(),
-		"Lewd":$("#Lewd").prop('checked'),
+		"Conjoin_Title":$("#Conjoin_Title").val(),
 		"Perk_Number":parseInt($("#Perk_Number").val()),
-		"Prereq":$("#Prereq").prop('checked'),
+		"Prereq_Title":$("#Prereq_Title").val(),
+		"Restrict_Title":$("#Restrict_Title").val(),
 		"Retake":$("#Retake").prop('checked'),
 		"Retake_Cost":roundCost(parseInt($("#Retake_Cost").val())),
 		"Retake_Multiplier":parseInt($("#Retake_Multiplier").val()),
@@ -1262,6 +1269,11 @@ function parseFile() {
 		parseLine = parseLine.replaceAll("\\r","<br/>");
 		if(isDomain(parseLine)) {
 			nOver_Domain = parseLine.replaceAll("=","");
+			if(nOver_Domain == "Unknown") nOver_Domain = "";
+			trimedPerk = emptyPerk();
+		}
+		else if(domainReg.test(parseLine)) {
+			nOver_Domain = parseLine.match(domainReg)[1].trim();
 			if(nOver_Domain == "Unknown") nOver_Domain = "";
 			trimedPerk = emptyPerk();
 		}
@@ -3178,8 +3190,6 @@ function searchPerk(search,filters,att,margin) {
 	}
 	var filterSource = filters.Source;
 	var filterUSource = filters.Upper_Source;
-	
-	
 	
 	var results = [];
 	celestial_forge.forEach(function(d) {
