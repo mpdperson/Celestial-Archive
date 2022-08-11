@@ -14,6 +14,7 @@ const routes = [
       { path: 'Upload', component: () => import('pages/Upload.vue') },
       { path: 'Load', component: () => import('pages/Load.vue') },
       { path: 'Save', component: () => import('pages/Save.vue') },
+      { path: 'Conjoin', component: () => import('pages/Conjoin.vue') },
       { path: 'Filter', component: () => import('pages/Filter.vue') },
       { path: 'Free', component: () => import('pages/Free.vue') },
       { path: 'Search', component: () => import('pages/Search.vue') },

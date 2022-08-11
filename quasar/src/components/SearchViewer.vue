@@ -1,11 +1,30 @@
 <template>
 	<Store />
-	<div class="row fullWidth">
+	<div class="row fullWidth fullHeight">
 		<div class="placeHold" name="display">
 			<div class="row fullHeight">
 			</div>
 		</div>
-		<div class="col-3">
+		<div class="col-3" name="display">
+			<q-scroll-area class="fullHeight">
+				<q-list bordered name="SearchList">
+					<q-item>
+						<q-item-section>
+							<q-item-label header dark>
+								<q-input debounce="500" clearable dark v-model="searchTxt" type="text" label="Search" >
+									<template v-slot:append>
+										<q-icon name="search" @click='search(searchTxt)' />
+									</template>
+								</q-input>
+							</q-item-label>
+						</q-item-section>
+					</q-item>
+					
+				</q-list>
+				<q-scroll-observer />
+			</q-scroll-area>
+		</div>
+		<div class="col-3" name="display">
 			<q-scroll-area style="height: 100%;">
 				<q-list bordered name="DomainList">
 					<q-item>
@@ -35,7 +54,7 @@
 				<q-scroll-observer />
 			</q-scroll-area>
 		</div>
-		<div class="col-6" name="display">
+		<div class="col-3" name="display">
 			<q-scroll-area style="height: 100%;">
 				<q-list bordered name="Perk">
 					<q-item>
@@ -104,7 +123,7 @@
 			const acceptVis = ref(Store.state.canGet);
 			
 			const getDisplayList = async () => {
-				displayList.value = await Store.fetchFilteredBuild();
+				displayList.value = await Store.fetchSearchResults();
 				var canAccept = await Store.hasCurrent();
 				var isNull = await Store.isNullPerk();
 				if(canAccept && !isNull) {
@@ -132,6 +151,9 @@
 				},
 				reject(selected) {
 					Store.rejectPerk(selected);
+				},
+				search(selected) {
+					
 				},
 				triggerFreeNote(perks) {
 					var count = perks.length;
@@ -167,5 +189,25 @@
 	function setHeight() {
 		var qp = document.getElementsByClassName("q-page")[0];
 		document.documentElement.style.setProperty('--vHeight', (qp.offsetHeight - 50) + "px");
+	}
+	
+	function isNull(meh) {
+		if(meh == null || meh == undefined ) {
+			return true;
+		}
+		if(typeof meh == "string") {
+			if(meh.trim()=="") return true;
+		}
+		if(typeof meh == "number") {
+			if(isNaN(meh)) return true;
+		}
+		if(meh.constructor == [].constructor) {
+			if(meh.length == 0) return true;
+		}
+		if(meh.constructor == {}.constructor) {
+			var keys = Object.keys(meh);
+			if(keys.length==0) return true;
+		}
+		return false;
 	}
 </script>

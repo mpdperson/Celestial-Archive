@@ -46,8 +46,10 @@
 			sourceOrigins: sourceList,
 			currentFreebies: [],
 			bookmarkedPerks: [],
+			searchResults: [],
 			bookmarkLimit: 3,
 			checkDomain: [],
+			rejectedPerks: [],
 			domainNumber: {},
 			perksNum: {},
 			allDomains: {},
@@ -222,8 +224,52 @@
 			this.state.sourceOrigins = sourceTemp;
 		},
 		
-		rejectPerk() {
-			
+		rejectPerk(selPerk) {
+			this.state.rejectedPerks.push(selPerk);
+			doRoll(0,true);
+			this.fetchFreebies(this.state.currentPerk);
+			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
+		},
+		
+		doSearch(search) {
+			this.searchPerk(search.search,search.filters,search.att,search.margin);
+			var results = this.state.searchResults;
+			var newList = {};
+			var returnList = [];
+			results.forEach(function(n) {
+				if(newList.hasOwnProperty(n.Domain)) {
+					newList[n.Domain].Perks.push(n);
+				}
+				else {
+					newList[n.Domain] = {"Domain":n.Domain,"Over_Domain":n.Over_Domain,"Perks":[n]};
+				}
+			});
+			var keys = Object.keys(newList);
+			for(var i=0; i<keys.length; i++) {
+				var tmp = {"Domain":keys[i],"Over_Domain":newList[keys[i]].Over_Domain,"Perks":newList[keys[i]].Perks};
+				returnList.push(tmp);
+			}
+			return returnList;
+		},
+		
+		fetchSearchResults() {
+			var results = this.state.searchResults;
+			var newList = {};
+			var returnList = [];
+			results.forEach(function(n) {
+				if(newList.hasOwnProperty(n.Domain)) {
+					newList[n.Domain].Perks.push(n);
+				}
+				else {
+					newList[n.Domain] = {"Domain":n.Domain,"Over_Domain":n.Over_Domain,"Perks":[n]};
+				}
+			});
+			var keys = Object.keys(newList);
+			for(var i=0; i<keys.length; i++) {
+				var tmp = {"Domain":keys[i],"Over_Domain":newList[keys[i]].Over_Domain,"Perks":newList[keys[i]].Perks};
+				returnList.push(tmp);
+			}
+			return returnList;
 		},
 		
 		searchPerk(search,filters,att,margin) {
@@ -236,10 +282,10 @@
 			}
 			var filterSource = filters.Source;
 			var filterUSource = filters.Upper_Source;
-			var celestial_forge = this.state.filteredDomain;
+			var searchPerkList = this.state.filteredDomain;
 			
 			var results = [];
-			celestial_forge.forEach(function(d) {
+			searchPerkList.forEach(function(d) {
 				d.Perks.forEach(function(e) {
 					att.forEach(function(a) {
 						if((e[a].toLowerCase() == search.toLowerCase() || e[a].toLowerCase().includes(search.toLowerCase())) && checkCommon(search)) {
@@ -309,6 +355,8 @@
 					});
 				});
 			});
+			
+			this.state.searchResults = results;
 			
 			return results;
 		},
@@ -634,13 +682,16 @@
 			}
 			var doSourceFilter = this.state.sourceFilter;
 			var doCostFilter = this.state.costFilter;
+			var filtPerks = this.state.rejectedPerks;
 			var filterList = [];
 			for(var i=0; i<this.state.domainFilter.length; i++) {
 				if(this.state.domainFilter[i]) {
 					this.state.unfiltered[i].Perks.forEach(function(p) {
 						if(doSourceFilter.includes(p.Source) && doCostFilter.includes(p.Cost)) {
-							if(!p.Taken || p.Retake) {
-								filterList.push(p);
+							if(!filtPerks.includes(p)) {
+								if(!p.Taken || p.Retake) {
+									filterList.push(p);
+								}
 							}
 						}
 					});
@@ -663,6 +714,66 @@
 			});
 			this.state.filteredBuild = filterList;
 			return filterList;
+		},
+		
+		attemptConjoin(res) {
+			if(isNull(res.Conjoin_Title)) {
+				this.state.currentPerks = [res];
+				return res;
+			}
+			else {
+				this.state.currentPerks = [];
+				var cPerks = [];
+				var findP = res.Conjoin_Title.split("&&");
+				var source = res.Source;
+				for(var i=0; i<findP.length; i++) {
+					cPerks.push(findOnePerk(findP[i].trim(),source));
+				}
+				cPerks = cPerks.filter(function(n) {
+					return (!isNull(n));
+				});
+				cPerks.sort(function(a, b) {
+					if(a.Cost < b.Cost) {
+						return -1;
+					}
+					if(a.Cost > b.Cost) {
+						return 1;
+					}
+					return 0;
+				});
+				var cpnum = this.state.currentCP;
+				var availPerk = [];
+				var notBreak = true;
+				var i = 0;
+				while(cpnum>0 && notBreak && i<cPerks.length) {
+					if(cPerks[i].Cost<=cpnum) {
+						availPerk.push(cPerks[i]);
+						cpnum -= cPerks[i].Cost;
+					}
+					else {
+						notBreak = false;
+					}
+				}
+				this.state.currentPerks = availPerk;
+				if(!isNull(availPerk)) {
+					if(availPerk.length > 0) return availPerk[0];
+				}
+				else {
+					return res;
+				}
+			}
+		},
+		
+		findOnePerk(title,source) {
+			var pList = this.state.filteredDomain;
+			for(var d of pList) {
+				for(var p of d.Perks) {
+					if(p.Title==title && p.Source==source) {
+						return p;
+					}
+				}
+			}
+			return null;
 		},
 		
 		updateCostFilter(selected) {
@@ -1205,6 +1316,7 @@
 			}
 			
 			var res = this.fetchRandomPerk();
+			res = this.attemptConjoin(res);
 			
 			//Check if need Reroll
 			if(res.Taken && !res.Retake) {
@@ -1321,6 +1433,7 @@
 			}
 			
 			var res = this.fetchRandomPerk(true);
+			res = this.attemptConjoin(res);
 			
 			//Check if need Reroll
 			if(res.Taken && !res.Retake) {
@@ -1713,6 +1826,26 @@
 			return returnList;
 		},
 		
+		fetchConjoinPerks() {
+			var curPerks = this.state.currentPerks;
+			var newList = {};
+			var returnList = [];
+			curPerks.forEach(function(n) {
+				if(newList.hasOwnProperty(n.Domain)) {
+					newList[n.Domain].Perks.push(n);
+				}
+				else {
+					newList[n.Domain] = {"Domain":n.Domain,"Over_Domain":n.Over_Domain,"Perks":[n]};
+				}
+			});
+			var keys = Object.keys(newList);
+			for(var i=0; i<keys.length; i++) {
+				var tmp = {"Domain":keys[i],"Over_Domain":newList[keys[i]].Over_Domain,"Perks":newList[keys[i]].Perks};
+				returnList.push(tmp);
+			}
+			return returnList;
+		},
+		
 		findTitles(obj,titleType) {
 			var found = false;
 			var tmp = [];
@@ -1956,6 +2089,9 @@
 		setVersion: store.setVersion,
 		resetForge: store.resetForge,
 		rejectPerk: store.rejectPerk,
+		searchPerk: store.searchPerk,
+		doSearch: store.doSearch,
+		fetchSearchResults: store.fetchSearchResults,
 		setCurrentCP: store.setCurrentCP,
 		hasCurrent: store.hasCurrent,
 		isNullPerk: store.isNullPerk,
@@ -1968,6 +2104,8 @@
 		doRoll: store.doRoll,
 		getBuy: store.getBuy,
 		fetchFreebies: store.fetchFreebies,
+		fetchConjoinPerks: store.fetchConjoinPerks,
+		fetchFreePerks: store.fetchFreePerks,
 		fetchRandomPerk: store.fetchRandomPerk,
 		findTitles: store.findTitles,
 		updateBuildList: store.updateBuildList,
@@ -1978,6 +2116,7 @@
 		doBuy: store.doBuy,
 		increment: store.increment,
 		fetchBookmarks: store.fetchBookmarks,
+		attemptConjoin: store.attemptConjoin,
 	}
 	
 	function addToTP(obj) {

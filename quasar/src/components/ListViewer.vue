@@ -97,6 +97,7 @@
 </template>
 <script>
 	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
+	import { useQuasar } from 'quasar'
 	import Domain from 'components/Domain.vue'
 	import Perk from 'components/Perk.vue'
 	import Store from 'components/Store.vue'
@@ -112,6 +113,7 @@
 			
 		},
 		setup (props) {
+			const $q = useQuasar();
 			const displayList = ref(null)
 			const perkList = ref(null)
 			const bookVis = ref(!Store.state.canGet)
@@ -167,6 +169,10 @@
 					var actPerk = randomPerk.Perk;
 					Store.setDisplay(actPerk);
 					cp.value = Store.state.currentCP;
+					var freebies = Store.state.currentFreebies;
+					triggerFreeNote(freebies);
+					var conjoin = Store.state.currentPerks;
+					triggerConjoinNote(conjoin);
 					
 					if (randomPerk.Add) {
 						Store.setCurrentCP(cp.value + actPerk.Cost);
@@ -188,6 +194,25 @@
 						else {
 							result.value = getReason(actPerk);
 						}
+					}
+				},
+				triggerFreeNote(perks) {
+					var count = perks.length;
+					if(count>0) {
+						$q.notify({
+							type: 'positive',
+							message: 'You have '+count+' free Perks.'
+						});
+					}
+				},
+				triggerConjoinNote(perks) {
+					var count = perks.length;
+					count--;
+					if(count>0) {
+						$q.notify({
+							type: 'positive',
+							message: 'You have '+count+' Conjoined Perks.'
+						});
 					}
 				},
 			}

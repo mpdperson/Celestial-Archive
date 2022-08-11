@@ -5,12 +5,14 @@
 				<q-item-label lines=2>{{Cost}}</q-item-label>
 			</q-item-section>
 			<q-item-section side>
-				<q-item-label>{{Enabled}}</q-item-label>
+				{{Enabled}}
 			</q-item-section>
 		</q-item>
 	</div>
 </template>
 <script>
+	import { ref } from 'vue'
+	
 	export default {
 		name: 'ActualCost',
 		data() {
@@ -29,7 +31,7 @@
 			},
 		},
 		setup () {
-			return {}
+			
 		}
 	}
 </script>

@@ -37,26 +37,6 @@
 		</div>
 		<div class="col-6 q-pa-md" name="display">
 			<q-scroll-area style="height: 100%;">
-				<div>
-					<div class="col-12">
-						<q-list bordered :dark="true" seperator padding name="GachaButton">
-							<div class="row">
-								<div class="btnWidth q-pa-md">
-									<q-btn dark label="Gacha!" outline ripple color="blue-grey-12" @click="roll(cp, result)">
-									</q-btn>
-								</div>
-								<div class="cstWidth q-pa-md">
-									<q-btn-toggle dark :options="[{ label: cp, value: cp }]" outline ripple color="blue-grey-12" @click="buy(cp, result)" >
-									</q-btn-toggle>
-								</div>
-								<div class="rsnWidth q-pa-md">
-									{{result}}
-								</div>
-							</div>
-						</q-list>
-					</div>
-				</div>
-				
 				<div class="row">
 					<q-list>
 						<q-item>
@@ -67,8 +47,6 @@
 							</q-item-section>
 							<q-item-section side>
 								<q-btn dark label="accept" v-show="acceptVis" outline ripple color="blue-grey-12" @click="accept(storeState.displayValue)" >
-								</q-btn>
-								<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
 								</q-btn>
 								<q-btn dark label="reject" v-show="rejectVis" outline ripple color="blue-grey-12" @click="reject(storeState.displayValue)" >
 								</q-btn>
@@ -98,7 +76,6 @@
 </template>
 <script>
 	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
-	import { useQuasar } from 'quasar'
 	import Domain from 'components/Domain.vue'
 	import Perk from 'components/Perk.vue'
 	import Store from 'components/Store.vue'
@@ -114,25 +91,19 @@
 			
 		},
 		setup (props) {
-			const $q = useQuasar();
+			const displayList = ref(null)
+			const perkList = ref(null)
+			const bookVis = ref(!Store.state.canGet)
+			const rejectVis = ref(Store.state.canGet)
+			const acceptVis = ref(Store.state.canGet)
 			const cp = ref(Store.state.currentCP);
 			const result = ref("Press Gacha! button for 100 CP and a chance to pull a random perk");
-			const displayList = ref(null);
-			const perkList = ref(null);
-			const saveSelect = ref(null);
-			const bookVis = ref(!Store.state.canGet);
-			const rejectVis = ref(Store.state.canGet);
-			const acceptVis = ref(Store.state.canGet);
 			
 			const getDisplayList = async () => {
-				displayList.value = await Store.costPerkList();
-				var canAccept = await Store.hasCurrent();
-				var isNull = await Store.isNullPerk();
-				if(canAccept && !isNull) {
-					acceptVis.value = true;
-				}
-				if(isNull) {
-					bookVis.value = false;
+				displayList.value = await Store.fetchConjoinPerks();
+				if(isNull(displayList.value)) {
+					rejectVis.value = false;
+					acceptVis.value = false;
 				}
 				setHeight();
 			}
@@ -140,101 +111,60 @@
 			onMounted(getDisplayList);
 			
 			return {
-				cp,
-				result,
 				domainList: displayList,
 				perkList: perkList,
-				saveSelect: saveSelect,
-				bookVis: bookVis,
-				rejectVis: rejectVis,
-				acceptVis: acceptVis,
+				bookVis,
+				rejectVis,
+				acceptVis,
 				updateDisplay(perk) {
 					Store.setDisplay(perk);
+					rejectVis.value = true;
+					acceptVis.value = true;
 				},
 				updateList(selected) {
-					saveSelect.value = selected;
 					perkList.value = Store.fetchPerkList(selected);
 				},
-				updateView() {
-					displayList.value = Store.costPerkList();
-				},
 				bookmark(selected) {
-					//bookmark
 					Store.setBookmark(selected);
 				},
+				displayList,
+				getDisplayList,
+				query: Store.searchString,
+				cp,
+				result,
 				roll() {
-					let randomPerk = Store.getBuy();
+					let randomPerk = Store.getRoll();
 					var actPerk = randomPerk.Perk;
 					Store.setDisplay(actPerk);
 					cp.value = Store.state.currentCP;
-					var freebies = Store.state.currentFreebies;
-					triggerFreeNote(freebies);
-					var conjoin = Store.state.currentPerks;
-					triggerConjoinNote(conjoin);
 					
 					if (randomPerk.Add) {
-						Store.setCurrentCP(cp.value + actPerk.Cost);
-						cp.value = Store.state.currentCP;
 						result.value = "Perk available for purchase.";
 						
-						acceptVis.value = true;
 						rejectVis.value = true;
+						acceptVis.value = true;
 						bookVis.value = false;
 					}
 					else {
-						acceptVis.value = false;
 						rejectVis.value = false;
+						acceptVis.value = false;
 						bookVis.value = true;
 						
 						if(isNull(actPerk.Prereq_Title) && isNull(actPerk.Restrict_Title) && isNull(actPerk.Exclude_Title)) {
-							result.value = "Couldn't afford perk."
+							result.value = "Can't afford perk."
 						}
 						else {
 							result.value = getReason(actPerk);
 						}
 					}
-				},
-				buy() {
-					Store.increment();
-					cp.value = Store.state.currentCP;
-					displayList.value = Store.costPerkList();
-				},
-				triggerFreeNote(perks) {
-					var count = perks.length;
-					if(count>0) {
-						$q.notify({
-							type: 'positive',
-							message: 'You have '+count+' free Perks.'
-						});
-					}
-				},
-				triggerConjoinNote(perks) {
-					var count = perks.length;
-					count--;
-					if(count>0) {
-						$q.notify({
-							type: 'positive',
-							message: 'You have '+count+' Conjoined Perks.'
-						});
-					}
-				},
-				accept(selected) {
-					Store.setCurrentCP(cp.value - selected.Cost);
-					Store.addPerk(selected);
-				},
-				reject(selected) {
-					Store.rejectPerk(selected);
-				},
-				displayList,
-				getDisplayList,
-				query: Store.searchString,
+				}
 			}
 		},
 		data() {
 			return {
 				storeState: Store.state
 			}
-		},
+		}
 	})
 	
 	function setHeight() {

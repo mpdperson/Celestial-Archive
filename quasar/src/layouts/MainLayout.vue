@@ -1,4 +1,5 @@
 <template>
+	<Store />
 	<q-layout view="hHh LpR fFf">
 		<q-header elevated>
 			<q-toolbar>
@@ -19,12 +20,15 @@
 		<q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered>
 			<q-list>
 				<template v-for="(menuItem, index) in menuList" :key="index">
-					<q-item clickable v-ripple exact :to="menuItem.to">
+					<q-item clickable v-ripple :to="menuItem.to" >
 						<q-item-section avatar>
 							<q-icon :name="menuItem.icon" />
 						</q-item-section>
 						<q-item-section>
 							{{ menuItem.label }}
+						</q-item-section>
+						<q-item-section side top>
+							<q-badge color="red" :label="menuItem.notes" v-if="menuItem.notes > 0" />
 						</q-item-section>
 					</q-item>
 					<q-separator :key="'sep' + index"  v-if="menuItem.separator" />
@@ -50,45 +54,56 @@
 
 <script>
 	import { defineComponent, ref } from 'vue'
+	import Store from 'components/Store.vue'
 	
 	const menuList = [
-	/*/
 	{
 		icon: 'save',
 		label: 'Save',
 		to: '/Save',
+		notes: 0,
 		separator: true
 	},
 	{
 		icon: 'upload',
 		label: 'Load',
 		to: '/Load',
+		notes: 0,
 		separator: false
 	},
 	{
 		icon: 'search',
 		label: 'Search',
 		to: '/Search',
+		notes: 0,
 		separator: false
 	},
-	//*/
 	{
 		icon: 'tune',
 		label: 'Filter',
 		to: '/Filter',
+		notes: 0,
 		separator: false
 	},
 	{
 		icon: 'card_giftcard',
 		label: 'Freebies',
 		to: '/Free',
+		notes: 0,
 		separator: false
 	},
-	/*/
+	{
+		icon: 'link',
+		label: 'Conjoin',
+		to: '/Conjoin',
+		notes: 0,
+		separator: false
+	},
 	{
 		icon: 'settings',
 		label: 'Settings',
 		to: '/Settings',
+		notes: 0,
 		separator: false
 	},
 	{
@@ -96,13 +111,14 @@
 		iconColor: 'primary',
 		label: 'Help',
 		to: '/Help',
+		notes: 0,
 		separator: false
 	},
-	//*/
 	{
 		icon: 'code',
 		label: 'Source Code',
-		to: 'Code',
+		to: '/Code',
+		notes: 0,
 		separator: false
 	}];
 	
@@ -114,25 +130,51 @@
 		},
 		
 		components: {
-			
+			Store
 		},
 		
-		data () {
+		data() {
 			return {
-				
+				link: ref('')
 			}
 		},
 		
-		setup () {
+		setup() {
 			const leftDrawerOpen = ref(false);
 			
 			return {
 				leftDrawerOpen,
 				menuList,
 				toggleLeftDrawer () {
-					leftDrawerOpen.value = !leftDrawerOpen.value
+					leftDrawerOpen.value = !leftDrawerOpen.value;
+					//*/
+					for(var i=0; i<menuList.length; i++) {
+						var menuItem = menuList[i];
+						if(menuItem.label=="Free") {
+							menuList[i].notes = Store.state.currentFreebies.length;
+						}
+						if(menuItem.label=="Conjoin") {
+							menuList[i].notes = Store.state.currentPerks.length;
+						}
+					}
+					//*/
+					
+				},
+				update(notes) {
+					//*/
+					for(var i=0; i<menuList.length; i++) {
+						var menuItem = menuList[i];
+						if(menuItem.label==notes.label) {
+							menuList[i].notes = notes.notes;
+						}
+					}
+					//*/
 				}
 			}
 		}
 	})
+	
+	function getUrl() {
+		return "/Help";
+	}
 </script>

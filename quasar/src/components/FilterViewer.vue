@@ -22,8 +22,6 @@
 					<Cost v-for="d in costList" :key="d.Cost" v-bind="d" @click='updateCostFilter(d)' />
 				</q-list>
 				<q-scroll-observer />
-				
-				<q-scroll-observer />
 			</q-scroll-area>
 		</div>
 		<div class="col-3" name="display">
