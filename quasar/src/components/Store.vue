@@ -70,7 +70,9 @@
 			isRunning: false,
 			canRun: false,
 			rollLimit: 3,
-			searchString: ''
+			searchString: '',
+			fanString: '',
+			sourceString: '',
 		}),
 		
 		setVersion(str) {
@@ -93,6 +95,29 @@
 		hasCurrent() {
 			if(isNull(this.state.currentBuild)) return false;
 			return this.state.currentBuild.includes(this.state.currentPerk);
+		},
+		
+		isThisNull(perk) {
+			return (perk.Title=="Selected perk title (currently none)");
+		},
+		
+		canBuy(perk) {
+			var resCost = res.Cost;
+			if(res.Taken && res.Retake) {
+				resCost = resCost * this.getMultiplier(res.Retake_Multiplier,res.Retake_Limit);
+				if(res.Retake_Cost!=0) {
+					resCost = res.Retake_Cost;
+				}
+			}
+			if(!isNull(res.Discount_Title)) {
+				if(haveTitle(res,"Discount_Title")) {
+					resCost = roundCost(resCost * res.Discount_Multiplier);
+					if(res.Discount_Cost!=0) {
+						resCost = res.Discount_Cost;
+					}
+				}
+			}
+			return (this.state.currentCP>=resCost);
 		},
 		
 		isNullPerk() {
@@ -232,8 +257,21 @@
 		},
 		
 		doSearch(search) {
+			if(isNull(this.state.domainFilter)) {
+				this.resetPerkList();
+			}
+			if(isNull(this.state.filtered)) {
+				this.createFilteredList();
+			}
+			if(isNull(this.state.filteredDomain)) {
+				this.createFilteredDomains();
+			}
+			this.state.searchString = search.search;
+			this.state.fanString = search.filters.Upper_Source;
+			this.state.sourceString = search.filters.Source;
 			this.searchPerk(search.search,search.filters,search.att,search.margin);
 			var results = this.state.searchResults;
+			console.log("results",results);
 			var newList = {};
 			var returnList = [];
 			results.forEach(function(n) {
@@ -273,6 +311,7 @@
 		},
 		
 		searchPerk(search,filters,att,margin) {
+			this.state.searchResults = [];
 			if(isNull(margin)) {
 				//60% seems a decent threshold
 				margin = .6;
@@ -280,9 +319,13 @@
 			if(isNull(att)) {
 				att = ["Title","Description","Source","Upper_Source"];
 			}
+			if(isNull(filters)) {
+				filters = {"Source":"","Upper_Source":""};
+			}
 			var filterSource = filters.Source;
 			var filterUSource = filters.Upper_Source;
-			var searchPerkList = this.state.filteredDomain;
+			var searchPerkList = this.fetchFilteredDomains();
+			console.log("searchPerkList",searchPerkList);
 			
 			var results = [];
 			searchPerkList.forEach(function(d) {
@@ -303,9 +346,24 @@
 										}
 									}
 								}
+								var uMarg = compairThis(e.Source,filterUSource,margin);
+								var uMargs = 0;
+								if(!isNull(e.Upper_Sources)) {
+									var uArr = e.Upper_Sources;
+									uArr = uArr.concat(e.Source);
+									uMargs = compairThese(filterUSource,uArr,margin);
+								}
+								var sMarg = compairThis(e.Upper_Source,filterSource,margin);
+								if(uMarg>=margin || uMargs>=margin || sMarg>=margin) {
+									if(!results.includes(e)) results.push(e);
+								}
 							}
 							else if(!isNull(filterSource)) {
 								if(filterSource.toLowerCase() == e.Source.toLowerCase()) {
+									if(!results.includes(e)) results.push(e);
+								}
+								var sMarg = compairThis(e.Upper_Source,filterSource,margin);
+								if(sMarg>=margin) {
 									if(!results.includes(e)) results.push(e);
 								}
 							}
@@ -317,6 +375,16 @@
 									if(e.Upper_Sources.includes(filterUSource)) {
 										if(!results.includes(e)) results.push(e);
 									}
+								}
+								var uMarg = compairThis(e.Source,filterUSource,margin);
+								var uMargs = 0;
+								if(!isNull(e.Upper_Sources)) {
+									var uArr = e.Upper_Sources;
+									uArr = uArr.concat(e.Source);
+									uMargs = compairThese(filterUSource,uArr,margin);
+								}
+								if(uMarg>=margin || uMargs>=margin) {
+									if(!results.includes(e)) results.push(e);
 								}
 							}
 						}
@@ -335,9 +403,24 @@
 										}
 									}
 								}
+								var uMarg = compairThis(e.Source,filterUSource,margin);
+								var uMargs = 0;
+								if(!isNull(e.Upper_Sources)) {
+									var uArr = e.Upper_Sources;
+									uArr = uArr.concat(e.Source);
+									uMargs = compairThese(filterUSource,uArr,margin);
+								}
+								var sMarg = compairThis(e.Upper_Source,filterSource,margin);
+								if(uMarg>=margin || uMargs>=margin || sMarg>=margin) {
+									if(!results.includes(e)) results.push(e);
+								}
 							}
 							else if(!isNull(filterSource)) {
 								if(filterSource.toLowerCase() == e.Source.toLowerCase()) {
+									if(!results.includes(e)) results.push(e);
+								}
+								var sMarg = compairThis(e.Upper_Source,filterSource,margin);
+								if(sMarg>=margin) {
 									if(!results.includes(e)) results.push(e);
 								}
 							}
@@ -350,6 +433,16 @@
 										if(!results.includes(e)) results.push(e);
 									}
 								}
+								var uMarg = compairThis(e.Source,filterUSource,margin);
+								var uMargs = 0;
+								if(!isNull(e.Upper_Sources)) {
+									var uArr = e.Upper_Sources;
+									uArr = uArr.concat(e.Source);
+									uMargs = compairThese(filterUSource,uArr,margin);
+								}
+								if(uMarg>=margin || uMargs>=margin) {
+									if(!results.includes(e)) results.push(e);
+								}
 							}
 						}
 					});
@@ -357,8 +450,6 @@
 			});
 			
 			this.state.searchResults = results;
-			
-			return results;
 		},
 		
 		removeDupes() {
@@ -638,20 +729,24 @@
 			}
 		},
 		
+		createFilteredDomains() {
+			var doSourceFilter = this.state.sourceFilter;
+			var filterList = [];
+			for(var i=0; i<this.state.domainFilter.length; i++) {
+				if(this.state.domainFilter[i] && this.state.unfiltered[i].Perks.length>0) {
+					filterList.push(this.state.unfiltered[i]);
+				}
+			}
+			this.state.filteredDomain = filterList;
+			return filterList;
+		},
+		
 		fetchFilteredDomains() {
 			if(isNull(this.state.filteredDomain)) {
 				if(isNull(this.state.domainFilter)) {
 					this.resetPerkList();
 				}
-				var doSourceFilter = this.state.sourceFilter;
-				var filterList = [];
-				for(var i=0; i<this.state.domainFilter.length; i++) {
-					if(this.state.domainFilter[i] && this.state.unfiltered[i].Perks.length>0) {
-						filterList.push(this.state.unfiltered[i]);
-					}
-				}
-				this.state.filteredDomain = filterList;
-				return filterList;
+				this.createFilteredDomains();
 			}
 			else {
 				return this.state.filteredDomain;
@@ -2064,6 +2159,7 @@
 		fetchFilteredList: store.fetchFilteredList,
 		fetchFilteredBuild: store.fetchFilteredBuild,
 		fetchFilteredDomains: store.fetchFilteredDomains,
+		createFilteredDomains: store.createFilteredDomains,
 		costFilteredDomains: store.costFilteredDomains,
 		fetchList: store.fetchList,
 		fetchPerkList: store.fetchPerkList,
@@ -2095,6 +2191,8 @@
 		setCurrentCP: store.setCurrentCP,
 		hasCurrent: store.hasCurrent,
 		isNullPerk: store.isNullPerk,
+		isThisNull: store.isThisNull,
+		canBuy: store.canBuy,
 		
 		attemptPrereq: store.attemptPrereq,
 		checkPerk: store.checkPerk,
@@ -2538,6 +2636,16 @@
 		}
 	}
 	
+	function compairThese(search,arr,margin) {
+		var result = [];
+		for(var i=0; i<arr.length; i++) {
+			result.push(compairThis(search,arr[i],margin));
+		}
+		result.sort();
+		result.reverse();
+		return result[0];
+	}
+	
 	function compairThis(a,b,margin) {
 		if(isNull(margin)) {
 			//60% seems a decent threshold
@@ -2705,10 +2813,10 @@
 		var range = (Math.floor(Math.max(s1.length, s2.length) / 2)) - 1;
 		var s1Matches = new Array(s1.length);
 		var s2Matches = new Array(s2.length);
-		for (i = 0; i < s1.length; i++) {
+		for (var i = 0; i < s1.length; i++) {
 			var low	= (i >= range) ? i - range : 0;
 			var high = (i + range <= s2.length) ? (i + range) : (s2.length - 1);
-			for (j = low; j <= high; j++) {
+			for (var j = low; j <= high; j++) {
 				if (s1Matches[i] !== true && s2Matches[j] !== true && s1[i] === s2[j]) {
 					++m;
 					s1Matches[i] = s2Matches[j] = true;
@@ -2721,10 +2829,11 @@
 			return 0;
 		}
 		// Count the transpositions.
-		var k = n_trans = 0;
-		for (i = 0; i < s1.length; i++) {
+		var k = 0;
+		var n_trans = 0;
+		for (var i = 0; i < s1.length; i++) {
 			if (s1Matches[i] === true) {
-				for (j = k; j < s2.length; j++) {
+				for (var j = k; j < s2.length; j++) {
 					if (s2Matches[j] === true) {
 						k = j + 1;
 						break;
@@ -2745,5 +2854,17 @@
 			weight = weight + l * p * (1 - weight);
 		}
 		return weight;
+	}
+	
+	function checkCommon(search) {
+		search = search.toLowerCase();
+		commons.every(function(d) {
+			search = search.replaceAll(d,"");
+			search = search.trim();
+			if(search=="") {
+				return false;
+			}
+		});
+		return (search!="");
 	}
 </script>

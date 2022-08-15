@@ -31,7 +31,7 @@
     {
       "Title": "Costume",
       "Cost": 0,
-      "Description": "You have a costume of your own design that always looks good on you. It does not provide any powers, but it will never be harmed by your own powers or movements and will alter itself to always fit you perfectly. It will remember any upgrades you make to it and is self-cleaning and maintaining. <br/>&emsp;• Assimilated into what Baran is clothed for his heroic persona.",
+      "Description": "You have a costume of your own design that always looks good on you. It does not provide any powers, but it will never be harmed by your own powers or movements and will alter itself to always fit you perfectly. It will remember any upgrades you make to it and is self-cleaning and maintaining. \r&emsp;• Assimilated into what Baran is clothed for his heroic persona.",
       "Dice": "1d1",
       "Discount_Cost": 0,
       "Discount_Multiplier": 0.5,
@@ -436,7 +436,7 @@
     {
       "Title": "Scanner",
       "Cost": 200,
-      "Description": "Serves a number of purposes. Primarily, allows you to determine the location of all living creatures within a large radius around the user, although this might be blocked by certain defenses or stealth abilities. Also capable of determining molecular structure and provides blueprints when scanning objects. <br/>&emsp;• Can detect living things at large range and get molecular structure and blueprints for objects. Is portable.",
+      "Description": "Serves a number of purposes. Primarily, allows you to determine the location of all living creatures within a large radius around the user, although this might be blocked by certain defenses or stealth abilities. Also capable of determining molecular structure and provides blueprints when scanning objects. \r&emsp;• Can detect living things at large range and get molecular structure and blueprints for objects. Is portable.",
       "Dice": "1d1",
       "Discount_Cost": 0,
       "Discount_Multiplier": 0.5,
@@ -490,7 +490,7 @@
     {
       "Title": "Physical Resistance 1",
       "Cost": 50,
-      "Description": "Your body resists negative effects. <br/>&emsp;• You are immune to normal diseases, parasites, bacteria, toxins, and the degenerative effects of radiation.",
+      "Description": "Your body resists negative effects. \r&emsp;• You are immune to normal diseases, parasites, bacteria, toxins, and the degenerative effects of radiation.",
       "Dice": "1d1",
       "Discount_Cost": 0,
       "Discount_Multiplier": 0.5,

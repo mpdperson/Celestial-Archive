@@ -67,7 +67,7 @@
 							<q-item-section side>
 								<q-btn dark label="accept" v-show="acceptVis" outline ripple color="blue-grey-12" @click="accept(storeState.displayValue)" >
 								</q-btn>
-								<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
+								<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="bookmark(storeState.displayValue)" >
 								</q-btn>
 								<q-btn dark label="reject" v-show="rejectVis" outline ripple color="blue-grey-12" @click="reject(storeState.displayValue)" >
 								</q-btn>
@@ -96,11 +96,11 @@
 	</div>
 </template>
 <script>
-	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
-	import { useQuasar } from 'quasar'
-	import Domain from 'components/Domain.vue'
-	import Perk from 'components/Perk.vue'
-	import Store from 'components/Store.vue'
+	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue';
+	import { useQuasar } from 'quasar';
+	import Domain from 'components/Domain.vue';
+	import Perk from 'components/Perk.vue';
+	import Store from 'components/Store.vue';
 	
 	export default defineComponent({
 		name: 'ListViewer',

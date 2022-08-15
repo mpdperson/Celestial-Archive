@@ -13,13 +13,34 @@
 							<q-item-label header dark>
 								<q-input debounce="500" clearable dark v-model="searchTxt" type="text" label="Search" >
 									<template v-slot:append>
-										<q-icon name="search" @click='search(searchTxt)' />
+										<q-icon name="search" @click='search()' />
 									</template>
 								</q-input>
 							</q-item-label>
 						</q-item-section>
 					</q-item>
-					
+					<q-item>
+						<q-item-section>
+							<q-item-label header dark>
+								<q-input debounce="500" clearable dark v-model="fanFilter" type="text" label="Fandom" >
+								</q-input>
+							</q-item-label>
+						</q-item-section>
+					</q-item>
+					<q-item>
+						<q-item-section>
+							<q-item-label header dark>
+								<q-input debounce="500" clearable dark v-model="sourceFilter" type="text" label="Document" >
+								</q-input>
+							</q-item-label>
+						</q-item-section>
+					</q-item>
+					<q-item dark>
+						<q-checkbox v-model="titleSearch" label="Title" />
+					</q-item>
+					<q-item dark>
+						<q-checkbox v-model="descSearch" label="Description" />
+					</q-item>
 				</q-list>
 				<q-scroll-observer />
 			</q-scroll-area>
@@ -64,11 +85,9 @@
 							</q-item-label>
 						</q-item-section>
 						<q-item-section side>
-							<q-btn dark label="accept" v-show="acceptVis" outline ripple color="blue-grey-12" @click="accept(storeState.displayValue)" >
+							<q-btn dark label="buy" v-show="buyVis" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
 							</q-btn>
-							<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
-							</q-btn>
-							<q-btn dark label="reject" v-show="rejectVis" outline ripple color="blue-grey-12" @click="reject(storeState.displayValue)" >
+							<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="book(storeState.displayValue)" >
 							</q-btn>
 						</q-item-section>
 					</q-item>
@@ -98,11 +117,11 @@
 </template>
 
 <script>
-	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
-	import { useQuasar } from 'quasar'
-	import Domain from 'components/Domain.vue'
-	import Perk from 'components/Perk.vue'
-	import Store from 'components/Store.vue'
+	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue';
+	import { useQuasar } from 'quasar';
+	import Domain from 'components/Domain.vue';
+	import Perk from 'components/Perk.vue';
+	import Store from 'components/Store.vue';
 	
 	export default defineComponent({
 		name: 'BuildViewer',
@@ -114,24 +133,23 @@
 		props: {
 			
 		},
-		setup (props) {
+		setup (props) {//["Title","Description","Source","Upper_Source"];
 			const $q = useQuasar();
 			const displayList = ref(null);
 			const perkList = ref(null);
-			const bookVis = ref(!Store.state.canGet);
-			const rejectVis = ref(Store.state.canGet);
-			const acceptVis = ref(Store.state.canGet);
+			const titleSearch = ref(true);
+			const sourceSearch = ref(true);
+			const descSearch = ref(true);
+			const upSearch = ref(true);
+			const margin = ref(0.6);
+			const searchTxt = ref(Store.state.searchString);
+			const sourceFilter = ref(Store.state.sourceString);
+			const fanFilter = ref(Store.state.fanString);
+			const bookVis = ref(false);
+			const buyVis = ref(false);
 			
 			const getDisplayList = async () => {
 				displayList.value = await Store.fetchSearchResults();
-				var canAccept = await Store.hasCurrent();
-				var isNull = await Store.isNullPerk();
-				if(canAccept && !isNull) {
-					acceptVis.value = true;
-				}
-				if(isNull) {
-					bookVis.value = false;
-				}
 				setHeight();
 			}
 			
@@ -139,12 +157,24 @@
 			
 			return {
 				domainList: displayList,
+				titleSearch: titleSearch,
+				sourceSearch: sourceSearch,
+				sourceFilter: sourceFilter,
+				descSearch: descSearch,
+				fanFilter: fanFilter,
+				searchTxt: searchTxt,
+				upSearch: upSearch,
 				perkList: perkList,
 				bookVis: bookVis,
-				rejectVis: rejectVis,
-				acceptVis: acceptVis,
+				buyVis: buyVis,
+				margin: margin,
 				updateDisplay(perk) {
 					Store.setDisplay(perk);
+					
+					var canBuy = Store.canBuy(perk);
+					var isItNull = Store.isThisNull(perk);
+					buyVis.value = (canBuy && !isItNull);
+					bookVis.value = (!canBuy && !isItNull);
 				},
 				updateList(selected) {
 					perkList.value = Store.fetchPerkList(selected);
@@ -152,8 +182,37 @@
 				reject(selected) {
 					Store.rejectPerk(selected);
 				},
-				search(selected) {
-					
+				search() {
+					var att = [];
+					if(titleSearch.value) {
+						att.push("Title");
+					}
+					if(sourceSearch.value) {
+						att.push("Source");
+					}
+					if(upSearch.value) {
+						att.push("Upper_Source");
+					}
+					if(descSearch.value) {
+						att.push("Description");
+					}
+					if(!isNull(sourceFilter.value)) {
+						att.push("Source");
+					}
+					if(!isNull(fanFilter.value)) {
+						att.push("Upper_Source");
+					}
+					att = [...new Set(att)];
+					var search = {};
+					var filter = {};
+					search["att"] = att;
+					search["margin"] = margin.value;
+					search["filters"] = {
+						"Source": sourceFilter.value,
+						"Upper_Source": fanFilter.value,
+					};
+					search["search"] = searchTxt.value;
+					displayList.value = Store.doSearch(search);
 				},
 				triggerFreeNote(perks) {
 					var count = perks.length;

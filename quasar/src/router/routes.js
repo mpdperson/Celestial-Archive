@@ -21,6 +21,7 @@ const routes = [
       { path: 'Settings', component: () => import('pages/Settings.vue') },
       { path: 'Help', component: () => import('pages/Help.vue') },
       { path: 'Bookmarks', component: () => import('pages/Bookmarks.vue') },
+      { path: 'FileTest', component: () => import('pages/FileTest.vue') },
       { path: 'Code', component: () => openURL('https://github.com/mpdperson/Celestial-Archive',"Source Code") },
     ]
   },

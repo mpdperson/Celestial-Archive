@@ -1302,7 +1302,8 @@ function parseFile() {
 			trimedPerk["Cost"] = cost;
 			trimedPerk["Title"] = title;
 			trimedPerk["Source"] = source;
-			trimedPerk["Over_Domain"] = nOver_Domain;
+			trimedPerk["Domain"] = nOver_Domain;
+			trimedPerk["Over_Domain"] = nOver_Domain.split(":")[0];
 			trimedPerk["Upper_Source"] = overSource;
 		}
 		else if(isBullet(parseLine)) {
