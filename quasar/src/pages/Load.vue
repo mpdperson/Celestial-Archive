@@ -1,8 +1,8 @@
 <template>
 	<Store />
 	<q-page class="flex flex-center">
-		<q-form @submit="onSubmit" class="q-gutter-md">
-			<q-file color="teal" name="poster_file" v-model="myFile" filled label="Load" >
+		<q-form @submit="onSubmit" class="q-gutter-md" name="myForm">
+			<q-file color="teal" name="myFile" v-model="myFile" filled label="Load" accept=".txt, .pdf, .json" >
 				<template v-slot:prepend>
 					<q-icon name="cloud_upload" />
 				</template>
@@ -27,15 +27,8 @@
 			
 		},
 		setup (props) {
-			const submitEmpty = ref(false);
-			const submitResult = ref([]);
-			
 			return {
-				file: ref(null),
-				files: ref(null),
 				myFile: ref(null),
-				submitEmpty,
-				submitResult,
 				loadProgress() {
 					Store.loadProgress();
 				},
@@ -48,16 +41,107 @@
 						console.log("value",value);
 						if (value.name.length > 0) {
 							data.push({
-								name,
-								value: value.name
+								name: name,
+								value: value.name,
+								data: readFile(value.name),
+								type: "progress",
 							})
 						}
 					}
-					
-					submitResult.value = data;
-					submitEmpty.value = data.length === 0;
+					console.log("data",data);
 				}
 			}
 		}
 	})
+	
+	var importFile = [];
+	var loadedJson = {};
+	sleep(300).then(() => {
+		var eFile = document.getElementsByName("myFile");
+		var input = eFile[0];
+		input.addEventListener('change', () => {
+			let files = input.files;
+			if(files.length == 0) return;
+			const iFile = files[0];
+			let reader = new FileReader();
+			importFile = [];
+			loadedJson = {};
+			
+			reader.onload = (e) => {
+				const file = e.target.result;
+				const lines = file.split(/\r\n|\n|\r/);
+				importFile = lines;
+				var fileName = getFileName();
+				var ext = fileName.split(".")[1];
+				if(ext=="json") {
+					if(!file.startsWith("var ") && !lines[0].includes("=")) {
+						try {
+							var obj = JSON.parse(file);
+							if(!isNull(obj)) {
+								loadedJson = obj;
+							}
+						}
+						catch (error) {
+							console.error(error);
+						}
+					}
+				}
+			};
+			
+			reader.onerror = (e) => alert(e.target.error.name);
+			reader.readAsText(iFile);
+		});
+	});
+	
+	function readFile(fname) {
+		var fileName = fname;
+		var ext = fileName.split(".")[1];
+		
+		if(ext=="json") {
+			return loadedJson;
+		}
+		else if(ext=="txt") {
+			return importFile;
+		}
+		else {
+			return null;
+		}
+	}
+	
+	function isNull(meh) {
+		if(meh == null || meh == undefined ) {
+			return true;
+		}
+		if(typeof meh == "string") {
+			if(meh.trim()=="") return true;
+		}
+		if(typeof meh == "number") {
+			if(isNaN(meh)) return true;
+		}
+		if(meh.constructor == [].constructor) {
+			if(meh.length == 0) return true;
+		}
+		if(meh.constructor == {}.constructor) {
+			var keys = Object.keys(meh);
+			if(keys.length==0) return true;
+		}
+		return false;
+	}
+	
+	function sleep(ms) {
+		return new Promise(resolve => setTimeout(resolve, ms));
+	}
+	
+	function getFileName() {
+		var fullPath = document.getElementsByName("myFile")[0].value;
+		if(fullPath) {
+			var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
+			var filename = fullPath.substring(startIndex);
+			if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+				filename = filename.substring(1);
+			}
+			return filename;
+		}
+		return "";
+	}
 </script>
