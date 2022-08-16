@@ -88,14 +88,14 @@ function termFreqMap(str) {
 }
 
 function addKeysToDict(map, dict) {
-	for (var key in map) {
+	for(var key in map) {
 		dict[key] = true;
 	}
 }
 
 function termFreqMapToVector(map, dict) {
 	var termFreqVector = [];
-	for (var term in dict) {
+	for(var term in dict) {
 		termFreqVector.push(map[term] || 0);
 	}
 	return termFreqVector;
@@ -103,7 +103,7 @@ function termFreqMapToVector(map, dict) {
 
 function vecDotProduct(vecA, vecB) {
 	var product = 0;
-	for (var i = 0; i < vecA.length; i++) {
+	for(var i = 0; i < vecA.length; i++) {
 		product += vecA[i] * vecB[i];
 	}
 	return product;
@@ -111,7 +111,7 @@ function vecDotProduct(vecA, vecB) {
 
 function vecMagnitude(vec) {
 	var sum = 0;
-	for (var i = 0; i < vec.length; i++) {
+	for(var i = 0; i < vec.length; i++) {
 		sum += vec[i] * vec[i];
 	}
 	return Math.sqrt(sum);
@@ -125,10 +125,10 @@ function textCosineSimilarity(strA, strB) {
 	var termFreqA = termFreqMap(strA);
 	var termFreqB = termFreqMap(strB);
 	var dict = {};
-  
+
 	addKeysToDict(termFreqA, dict);
 	addKeysToDict(termFreqB, dict);
-  
+
 	var termFreqVecA = termFreqMapToVector(termFreqA, dict);
 	var termFreqVecB = termFreqMapToVector(termFreqB, dict);
 	return cosineSimilarity(termFreqVecA, termFreqVecB);
@@ -137,21 +137,21 @@ function textCosineSimilarity(strA, strB) {
 function JaroWrinker(s1, s2) {
 	var m = 0;
 	// Exit early if either are empty.
-	if (s1.length === 0 || s2.length === 0) {
+	if(s1.length === 0 || s2.length === 0) {
 		return 0;
 	}
 	// Exit early if they're an exact match.
-	if (s1 === s2) {
+	if(s1 === s2) {
 		return 1;
 	}
 	var range = (Math.floor(Math.max(s1.length, s2.length) / 2)) - 1;
 	var s1Matches = new Array(s1.length);
 	var s2Matches = new Array(s2.length);
-	for (i = 0; i < s1.length; i++) {
+	for(i = 0; i < s1.length; i++) {
 		var low	= (i >= range) ? i - range : 0;
     var high = (i + range <= s2.length) ? (i + range) : (s2.length - 1);
-		for (j = low; j <= high; j++) {
-			if (s1Matches[i] !== true && s2Matches[j] !== true && s1[i] === s2[j]) {
+		for(j = low; j <= high; j++) {
+			if(s1Matches[i] !== true && s2Matches[j] !== true && s1[i] === s2[j]) {
 				++m;
 				s1Matches[i] = s2Matches[j] = true;
 				break;
@@ -159,20 +159,20 @@ function JaroWrinker(s1, s2) {
 		}
 	}
 	// Exit early if no matches were found.
-	if (m === 0) {
+	if(m === 0) {
 		return 0;
 	}
 	// Count the transpositions.
 	var k = n_trans = 0;
-	for (i = 0; i < s1.length; i++) {
-		if (s1Matches[i] === true) {
-			for (j = k; j < s2.length; j++) {
-				if (s2Matches[j] === true) {
+	for(i = 0; i < s1.length; i++) {
+		if(s1Matches[i] === true) {
+			for(j = k; j < s2.length; j++) {
+				if(s2Matches[j] === true) {
 					k = j + 1;
 					break;
 				}
 			}
-			if (s1[i] !== s2[j]) {
+			if(s1[i] !== s2[j]) {
 				++n_trans;
 			}
 		}
@@ -180,7 +180,7 @@ function JaroWrinker(s1, s2) {
 	var weight = (m / s1.length + m / s2.length + (m - (n_trans / 2)) / m) / 3;
 	var l = 0;
 	var p = 0.1;
-	if (weight > 0.7) {
+	if(weight > 0.7) {
 		while (s1[l] === s2[l] && l < 4) {
 			++l;
 		}

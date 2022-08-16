@@ -138,7 +138,7 @@
 					Store.setDisplay(actPerk);
 					cp.value = Store.state.currentCP;
 					
-					if (randomPerk.Add) {
+					if(randomPerk.Add) {
 						result.value = "Perk available for purchase.";
 						
 						rejectVis.value = true;

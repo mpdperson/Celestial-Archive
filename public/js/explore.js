@@ -12,7 +12,7 @@ function displayData(data, el) {
 	var par = document.createElement('ul');
 	var idx = el.id;
 	
-	for (var i = 0; i<data.length; i++) {
+	for(var i = 0; i<data.length; i++) {
 		var item = document.createElement('li');
 		var li = par.appendChild(item);
 		
@@ -68,7 +68,7 @@ function displayData(data, el) {
 		
 		el.appendChild(par);
 		
-		if (data[i].children) {
+		if(data[i].children) {
 			displayData(data[i].children, li);
 			if(data[i].children.length == 0) {
 				item.classList.add('empty');

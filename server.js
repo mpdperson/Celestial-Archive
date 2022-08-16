@@ -146,7 +146,7 @@ app.use(function(req, res, next) {
 			}
 		}
 	}
-	catch (e) {
+	catch(e) {
 		
 	}
 });

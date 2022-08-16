@@ -144,10 +144,10 @@ function formatDesc(str) {
 
 function sortForge() {
 	celestial_forge.sort(function(a, b) {
-		if (a.Domain.toLowerCase() < b.Domain.toLowerCase()) {
+		if(a.Domain.toLowerCase() < b.Domain.toLowerCase()) {
 			return -1;
 		}
-		if (a.Domain.toLowerCase() > b.Domain.toLowerCase()) {
+		if(a.Domain.toLowerCase() > b.Domain.toLowerCase()) {
 			return 1;
 		}
 		return 0;
@@ -159,10 +159,10 @@ function sortForge() {
 		totalForge+=d.Perks.length;
 		var perkCount = 0;
 		d.Perks = d.Perks.sort(function(a, b) {
-			if (a.Title.toLowerCase() < b.Title.toLowerCase()) {
+			if(a.Title.toLowerCase() < b.Title.toLowerCase()) {
 				return -1;
 			}
-			if (a.Title.toLowerCase() > b.Title.toLowerCase()) {
+			if(a.Title.toLowerCase() > b.Title.toLowerCase()) {
 				return 1;
 			}
 			return 0;
@@ -171,10 +171,10 @@ function sortForge() {
 			p.Domain_Number = domainCount;
 			p.Perk_Number = perkCount;
 			var tmpP = Object.keys(p).sort().reduce(
-				(obj, key) => { 
-					obj[key] = p[key]; 
+				(obj, key) => {
+					obj[key] = p[key];
 					return obj;
-				}, 
+				},
 				{}
 			);
 			var tTitle = tmpP.Title;
@@ -207,7 +207,7 @@ function sameTitleDomain() {
 	$.each(celestial_forge, function(index, item) {
 		$.each(item.Perks, function(idx,value) {
 			if(!isNull(value)) {
-				if ($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
+				if($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
 					titleArray.push(value.Title.toLowerCase()+"_"+value.Source.toLowerCase());
 				}
 				else {

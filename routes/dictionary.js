@@ -184,8 +184,8 @@ function render_page(pageData) {
 	
 	return pageData.getTextContent(render_options).then(function(textContent) {
 		let lastY, text = '';
-		for (let item of textContent.items) {
-			if (lastY == item.transform[5] || !lastY){
+		for(let item of textContent.items) {
+			if(lastY == item.transform[5] || !lastY){
 				text += item.str.replace(/​/g,"")
 				.replace(/–/g,"-").replace(/"([^"\n]+)"/g,"“$1”")
 				.replace(//g,"●").replace(/…./g,"…");
@@ -246,10 +246,10 @@ function updateWordList() {
 	word_list = word_list.sort();
 	word_list = word_list.reverse();
 	word_list = word_list.sort(function(a, b) {
-		if (a.length < b.length) {
+		if(a.length < b.length) {
 			return -1;
 		}
-		if (a.length > b.length) {
+		if(a.length > b.length) {
 			return 1;
 		}
 		return 0;
@@ -266,7 +266,7 @@ function writeToFile(data,path) {
 		data = JSON.stringify(data,null,2);
 	}
 	fs.writeFile(path, data, (err) => {
-		if (err) {
+		if(err) {
 			throw err;
 		}
 		console.log("File Saved.");
@@ -283,7 +283,7 @@ function writeToFile5(data,name) {
 		data = JSON.stringify(data,null,2);
 	}
 	fs.writeFile(name, str+data+";", (err) => {
-		if (err) {
+		if(err) {
 			throw err;
 		}
 		console.log("JSON data is saved.");
@@ -298,7 +298,7 @@ function writeToFile6(data,name) {
 		data = JSON.stringify(data,null,2);
 	}
 	fs.writeFile(name, str+data+"", (err) => {
-		if (err) {
+		if(err) {
 			throw err;
 		}
 		console.log("JSON data is saved.");

@@ -241,7 +241,7 @@ function getFileName() {
 	if(fullPath) {
 		var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
 		var filename = fullPath.substring(startIndex);
-		if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+		if(filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
 			filename = filename.substring(1);
 		}
 		return filename;
@@ -281,7 +281,7 @@ input.addEventListener('change', () => {
 						loadedJson = obj;
 					}
 				}
-				catch (error) {
+				catch(error) {
 					console.error(error);
 				}
 			}
@@ -580,7 +580,7 @@ function sendJSON(jsonObj,name) {
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-Type", "application/json");
 	xhr.onreadystatechange = function () {
-		if (xhr.readyState === 4 && xhr.status === 200) {
+		if(xhr.readyState === 4 && xhr.status === 200) {
 			//result.innerHTML = this.responseText;
 			console.log("this.responseText", this.responseText);
 			//reloadPage();
@@ -787,26 +787,26 @@ function createNotes() {
 		dcount++;
 	});
 	allUpper = Object.keys(allUpper).sort().reduce(
-		(obj, key) => { 
-			obj[key] = allUpper[key]; 
+		(obj, key) => {
+			obj[key] = allUpper[key];
 			return obj;
-		}, 
+		},
 		{}
 	);
 	allFandoms.sort(function(a, b) {
-		if (a.toLowerCase() < b.toLowerCase()) {
+		if(a.toLowerCase() < b.toLowerCase()) {
 			return -1;
 		}
-		if (a.toLowerCase() > b.toLowerCase()) {
+		if(a.toLowerCase() > b.toLowerCase()) {
 			return 1;
 		}
 		return 0;
 	});
 	allSources.sort(function(a, b) {
-		if (a.toLowerCase() < b.toLowerCase()) {
+		if(a.toLowerCase() < b.toLowerCase()) {
 			return -1;
 		}
-		if (a.toLowerCase() > b.toLowerCase()) {
+		if(a.toLowerCase() > b.toLowerCase()) {
 			return 1;
 		}
 		return 0;
@@ -970,7 +970,7 @@ function inForge(res) {
 	var shouldSkip = false;
 	celestial_forge.forEach(function(d) {
 		d.Perks.forEach(function(e) {
-			if (shouldSkip) {
+			if(shouldSkip) {
 				return;
 			}
 			if(e.Source.toLowerCase() == res.Source.toLowerCase() && e.Title.toLowerCase() == res.Title.toLowerCase()) {
@@ -1012,7 +1012,7 @@ function uniqueTitles(obj) {
 	var titleArray = [];
 	var perks = [];
 	$.each(obj.Perks, function(index, value) {
-		if ($.inArray(value.Title.toLowerCase(), titleArray) === -1) {
+		if($.inArray(value.Title.toLowerCase(), titleArray) === -1) {
 			titleArray.push(value.Title.toLowerCase());
 			perks.push(value);
 		}
@@ -1024,7 +1024,7 @@ function sameTitles(obj) {
 	var titleArray = [];
 	var perks = [];
 	$.each(obj.Perks, function(index, value) {
-		if ($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
+		if($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
 			titleArray.push(value.Title.toLowerCase()+"_"+value.Source.toLowerCase());
 		}
 		else {
@@ -1067,7 +1067,7 @@ function sameTitleDomain() {
 	$.each(celestial_forge, function(index, item) {
 		$.each(item.Perks, function(idx,value) {
 			if(!isNull(value)) {
-				if ($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
+				if($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
 					titleArray.push(value.Title.toLowerCase()+"_"+value.Source.toLowerCase());
 					uniqueArray.push(value);
 				}
@@ -1106,7 +1106,7 @@ function sameTitleUpper() {
 	$.each(celestial_forge, function(index, item) {
 		$.each(item.Perks, function(idx,value) {
 			if(!isNull(value)) {
-				if ($.inArray(value.Title.toLowerCase()+"_"+value.Upper_Source.toLowerCase(), titleArray) === -1) {
+				if($.inArray(value.Title.toLowerCase()+"_"+value.Upper_Source.toLowerCase(), titleArray) === -1) {
 					titleArray.push(value.Title.toLowerCase()+"_"+value.Upper_Source.toLowerCase());
 				}
 				else {
@@ -1238,7 +1238,7 @@ function similarTitleDomain() {
 	var perks = [];
 	$.each(celestial_forge, function(index, item) {
 		$.each(item.Perks, function(idx,value) {
-			if ($.inArray(value.Title.toLowerCase(), titleArray) === -1) {
+			if($.inArray(value.Title.toLowerCase(), titleArray) === -1) {
 				titleArray.push(value.Title.toLowerCase());
 			}
 			else {
@@ -1515,9 +1515,9 @@ function isTitle(txt) {
 
 function multiReq(txt) {
 	return (
-		prereqReg1.test(txt) 
-		|| freereqReg1.test(txt) 
-		|| discountreqReg1.test(txt) 
+		prereqReg1.test(txt)
+		|| freereqReg1.test(txt)
+		|| discountreqReg1.test(txt)
 		|| restrictreqReg1.test(txt)
 		|| excludereqReg1.test(txt)
 	);
@@ -1902,29 +1902,29 @@ function addOrigin(obj) {
 
 function saveOrigins() {
 	source_origins.sort(function(a, b) {
-		if (a.Source.toLowerCase() < b.Source.toLowerCase()) {
+		if(a.Source.toLowerCase() < b.Source.toLowerCase()) {
 			return -1;
 		}
-		if (a.Source.toLowerCase() > b.Source.toLowerCase()) {
+		if(a.Source.toLowerCase() > b.Source.toLowerCase()) {
 			return 1;
 		}
 		return 0;
 	});
 	source_origins.forEach(function(d) {
 		d.Origins.Background = d.Origins.Background.sort(function(a, b) {
-			if (a.Title.toLowerCase() < b.Title.toLowerCase()) {
+			if(a.Title.toLowerCase() < b.Title.toLowerCase()) {
 				return -1;
 			}
-			if (a.Title.toLowerCase() > b.Title.toLowerCase()) {
+			if(a.Title.toLowerCase() > b.Title.toLowerCase()) {
 				return 1;
 			}
 			return 0;
 		});
 		d.Origins.Species = d.Origins.Species.sort(function(a, b) {
-			if (a.Title.toLowerCase() < b.Title.toLowerCase()) {
+			if(a.Title.toLowerCase() < b.Title.toLowerCase()) {
 				return -1;
 			}
-			if (a.Title.toLowerCase() > b.Title.toLowerCase()) {
+			if(a.Title.toLowerCase() > b.Title.toLowerCase()) {
 				return 1;
 			}
 			return 0;
@@ -1935,10 +1935,10 @@ function saveOrigins() {
 
 function sortForge() {
 	celestial_forge.sort(function(a, b) {
-		if (a.Domain.toLowerCase() < b.Domain.toLowerCase()) {
+		if(a.Domain.toLowerCase() < b.Domain.toLowerCase()) {
 			return -1;
 		}
-		if (a.Domain.toLowerCase() > b.Domain.toLowerCase()) {
+		if(a.Domain.toLowerCase() > b.Domain.toLowerCase()) {
 			return 1;
 		}
 		return 0;
@@ -1949,10 +1949,10 @@ function sortForge() {
 		totalForge+=d.Perks.length;
 		var perkCount = 0;
 		d.Perks = d.Perks.sort(function(a, b) {
-			if (a.Title.toLowerCase() < b.Title.toLowerCase()) {
+			if(a.Title.toLowerCase() < b.Title.toLowerCase()) {
 				return -1;
 			}
-			if (a.Title.toLowerCase() > b.Title.toLowerCase()) {
+			if(a.Title.toLowerCase() > b.Title.toLowerCase()) {
 				return 1;
 			}
 			return 0;
@@ -1961,10 +1961,10 @@ function sortForge() {
 			p.Domain_Number = domainCount;
 			p.Perk_Number = perkCount;
 			var tmpP = Object.keys(p).sort().reduce(
-				(obj, key) => { 
-					obj[key] = p[key]; 
+				(obj, key) => {
+					obj[key] = p[key];
 					return obj;
-				}, 
+				},
 				{}
 			);
 			var tTitle = tmpP.Title;
@@ -2221,7 +2221,7 @@ function compairTwo(o1,o2) {
 	if(o1.source == o2.source && o1.Title == o2.Title) {
 		return {"match":1,"missed":missed};
 	}
-	for (var i=0; i<min_size; i++) {
+	for(var i=0; i<min_size; i++) {
 		if(o1[k1[i]] == o2[k1[i]] || o1[k2[i]] == o2[k2[i]]) {
 			count++;
 		}
@@ -2269,12 +2269,12 @@ function compairMany(a1,o1,isList) {
 
 function roll(dmf,pf) {
 	pl = [];
-	for (i = 0; i < dmf.length; i++) {
-		if (dmf[i]) {
+	for(i = 0; i < dmf.length; i++) {
+		if(dmf[i]) {
 			pl = pl.concat(celestial_forge[i].Perks);
 		}
 	}
-	if (pf != null) {
+	if(pf != null) {
 		pl = pl.filter(function(p) {
 			return pf.includes(p.Cost.toString())
 		});
@@ -3725,9 +3725,9 @@ function saveProgress() {
 	currentPerks.forEach(function(p,idx,theArr) {
 		var tmpP = Object.keys(p).sort().reduce(
 			(obj, key) => {
-				obj[key] = p[key]; 
+				obj[key] = p[key];
 				return obj;
-			}, 
+			},
 			{}
 		);
 		var tTitle = tmpP.Title;

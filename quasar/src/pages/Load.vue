@@ -36,10 +36,8 @@
 					const formData = new FormData(evt.target);
 					const data = [];
 					
-					for (const [ name, value ] of formData.entries()) {
-						console.log("name",name);
-						console.log("value",value);
-						if (value.name.length > 0) {
+					for(const [ name, value ] of formData.entries()) {
+						if(value.name.length > 0) {
 							data.push({
 								name: name,
 								value: value.name,
@@ -81,14 +79,14 @@
 								loadedJson = obj;
 							}
 						}
-						catch (error) {
+						catch(error) {
 							console.error(error);
 						}
 					}
 				}
 			};
 			
-			reader.onerror = (e) => alert(e.target.error.name);
+			reader.onerror = (e) => console.log(e.target.error.name);
 			reader.readAsText(iFile);
 		});
 	});
@@ -137,7 +135,7 @@
 		if(fullPath) {
 			var startIndex = (fullPath.indexOf('\\') >= 0 ? fullPath.lastIndexOf('\\') : fullPath.lastIndexOf('/'));
 			var filename = fullPath.substring(startIndex);
-			if (filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
+			if(filename.indexOf('\\') === 0 || filename.indexOf('/') === 0) {
 				filename = filename.substring(1);
 			}
 			return filename;

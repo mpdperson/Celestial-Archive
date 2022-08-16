@@ -84,7 +84,7 @@ function writeToFile(data,name) {
 		data = JSON.stringify(data,null,2);
 	}
 	fs.writeFile(name, str+data+";", (err) => {
-		if (err) {
+		if(err) {
 			throw err;
 		}
 		console.log("JSON data is saved.");

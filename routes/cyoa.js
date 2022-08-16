@@ -65,7 +65,7 @@ router.post('/', (req, res, next) => {
 		var newFields = [];
 		
 		/*
-		if (!files.myFile.length) {
+		if(!files.myFile.length) {
 			var file = files.myFile;
 			var result = findFile(file);
 			if(result != "" && isNull(fields.dir)) {
@@ -111,10 +111,10 @@ router.post('/', (req, res, next) => {
 					return 0;
 				}
 				else {
-					if (a.toLowerCase() < b.toLowerCase()) {
+					if(a.toLowerCase() < b.toLowerCase()) {
 						return -1;
 					}
-					if (a.toLowerCase() > b.toLowerCase()) {
+					if(a.toLowerCase() > b.toLowerCase()) {
 						return 1;
 					}
 					return 0;
@@ -135,11 +135,11 @@ function common_substring(data) {
 	var i, ch, memo, idx = 0
 	do {
 		memo = null
-		for (i=0; i < data.length; i++) {
+		for(i=0; i < data.length; i++) {
 			ch = data[i].charAt(idx)
-			if (!ch) break
-			if (!memo) memo = ch
-			else if (ch != memo) break
+			if(!ch) break
+			if(!memo) memo = ch
+			else if(ch != memo) break
 		}
 	}
 	while (i == data.length && idx < data.length && ++idx)

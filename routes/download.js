@@ -44,7 +44,7 @@ async function runSample(fileId) {
 			})
 			.on('data', d => {
 				progress += d.length;
-				if (process.stdout.isTTY) {
+				if(process.stdout.isTTY) {
 					process.stdout.clearLine();
 					process.stdout.cursorTo(0);
 					process.stdout.write(`Downloaded ${progress} bytes`);
@@ -55,8 +55,8 @@ async function runSample(fileId) {
 	});
 }
 
-if (module === require.main) {
-  if (process.argv.length !== 3) {
+if(module === require.main) {
+  if(process.argv.length !== 3) {
     throw new Error('Usage: node samples/drive/download.js $FILE_ID');
 	}
   const fileId = process.argv[2];

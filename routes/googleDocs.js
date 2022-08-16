@@ -13,7 +13,7 @@ const TOKEN_PATH = '/certs/token.json';
 
 // Load client secrets from a local file.
 fs.readFile('credentials.json', (err, content) => {
-	if (err) return console.log('Error loading client secret file:', err);
+	if(err) return console.log('Error loading client secret file:', err);
 	// Authorize a client with credentials, then call the Google Drive API.
 	console.log("content",JSON.parse(content));
 	authorize(JSON.parse(content), listFiles);
@@ -32,7 +32,7 @@ function authorize(credentials, callback) {
 	
 	// Check if we have previously stored a token.
 	fs.readFile(TOKEN_PATH, (err, token) => {
-		if (err) return getAccessToken(oAuth2Client, callback);
+		if(err) return getAccessToken(oAuth2Client, callback);
 		oAuth2Client.setCredentials(JSON.parse(token));
 		callback(oAuth2Client);
 	});
@@ -57,11 +57,11 @@ function getAccessToken(oAuth2Client, callback) {
 	rl.question('Enter the code from that page here: ', (code) => {
 		rl.close();
 		oAuth2Client.getToken(code, (err, token) => {
-			if (err) return console.error('Error retrieving access token', err);
+			if(err) return console.error('Error retrieving access token', err);
 			oAuth2Client.setCredentials(token);
 			// Store the token to disk for later program executions
 			fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-				if (err) return console.error(err);
+				if(err) return console.error(err);
 				console.log('Token stored to', TOKEN_PATH);
 			});
 			callback(oAuth2Client);
@@ -79,9 +79,9 @@ function listFiles(auth) {
 		pageSize: 10,
 		fields: 'nextPageToken, files(id, name)',
 		}, (err, res) => {
-		if (err) return console.log('The API returned an error: ' + err);
+		if(err) return console.log('The API returned an error: ' + err);
 		const files = res.data.files;
-		if (files.length) {
+		if(files.length) {
 			console.log('Files:');
 			files.map((file) => {
 				console.log(`${file.name} (${file.id})`);

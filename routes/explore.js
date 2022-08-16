@@ -118,11 +118,11 @@ function common_substring(data) {
 	var i, ch, memo, idx = 0
 	do {
 		memo = null
-		for (i=0; i < data.length; i++) {
+		for(i=0; i < data.length; i++) {
 			ch = data[i].charAt(idx)
-			if (!ch) break
-			if (!memo) memo = ch
-			else if (ch != memo) break
+			if(!ch) break
+			if(!memo) memo = ch
+			else if(ch != memo) break
 		}
 	}
 	while (i == data.length && idx < data.length && ++idx)
@@ -156,7 +156,7 @@ function writeToFile(data,name) {
 	str = str[0];
 	if(typeof(data) != 'string') data = JSON.stringify(data,null,2);
 	fs.writeFile(name, str+" = "+data, (err) => {
-		if (err) {
+		if(err) {
 			throw err;
 		}
 		console.log("JSON data is saved.");
@@ -181,10 +181,10 @@ function sortTree(data) {
 			return 0;
 		}
 		else {
-			if (a.name.toLowerCase() < b.name.toLowerCase()) {
+			if(a.name.toLowerCase() < b.name.toLowerCase()) {
 				return -1;
 			}
-			if (a.name.toLowerCase() > b.name.toLowerCase()) {
+			if(a.name.toLowerCase() > b.name.toLowerCase()) {
 				return 1;
 			}
 			return 0;
@@ -213,10 +213,10 @@ function sortChild(data) {
 				return 0;
 			}
 			else {
-				if (a.name.toLowerCase() < b.name.toLowerCase()) {
+				if(a.name.toLowerCase() < b.name.toLowerCase()) {
 					return -1;
 				}
-				if (a.name.toLowerCase() > b.name.toLowerCase()) {
+				if(a.name.toLowerCase() > b.name.toLowerCase()) {
 					return 1;
 				}
 				return 0;

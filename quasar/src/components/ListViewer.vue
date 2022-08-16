@@ -174,7 +174,7 @@
 					var conjoin = Store.state.currentPerks;
 					triggerConjoinNote(conjoin);
 					
-					if (randomPerk.Add) {
+					if(randomPerk.Add) {
 						Store.setCurrentCP(cp.value + actPerk.Cost);
 						cp.value = Store.state.currentCP;
 						result.value = "Perk available for purchase.";

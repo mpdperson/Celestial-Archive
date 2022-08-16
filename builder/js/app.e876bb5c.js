@@ -72,7 +72,7 @@
 
     function r(n) {
         var o = t[n];
-        if (void 0 !== o) return o.exports;
+        if(void 0 !== o) return o.exports;
         var a = t[n] = {
             exports: {}
         };
@@ -81,16 +81,16 @@
     r.m = e, (() => {
         var e = [];
         r.O = (t, n, o, a) => {
-            if (!n) {
+            if(!n) {
                 var i = 1 / 0;
-                for (u = 0; u < e.length; u++) {
-                    for (var [n, o, a] = e[u], c = !0, s = 0; s < n.length; s++)(!1 & a || i >= a) && Object.keys(r.O).every((e => r.O[e](n[s]))) ? n.splice(s--, 1) : (c = !1, a < i && (i = a));
+                for(u = 0; u < e.length; u++) {
+                    for(var [n, o, a] = e[u], c = !0, s = 0; s < n.length; s++)(!1 & a || i >= a) && Object.keys(r.O).every((e => r.O[e](n[s]))) ? n.splice(s--, 1) : (c = !1, a < i && (i = a));
                     c && (e.splice(u--, 1), t = o())
                 }
                 return t
             }
             a = a || 0;
-            for (var u = e.length; u > 0 && e[u - 1][2] > a; u--) e[u] = e[u - 1];
+            for(var u = e.length; u > 0 && e[u - 1][2] > a; u--) e[u] = e[u - 1];
             e[u] = [n, o, a]
         }
     })(), (() => {
@@ -102,7 +102,7 @@
         }
     })(), (() => {
         r.d = (e, t) => {
-            for (var n in t) r.o(t, n) && !r.o(e, n) && Object.defineProperty(e, n, {
+            for(var n in t) r.o(t, n) && !r.o(e, n) && Object.defineProperty(e, n, {
                 enumerable: !0,
                 get: t[n]
             })
@@ -120,11 +120,12 @@
         r.miniCssF = e => "builder/css/vendor.51a978b7.css"
     })(), (() => {
         r.g = function() {
-            if ("object" === typeof globalThis) return globalThis;
+            if("object" === typeof globalThis) return globalThis;
             try {
                 return this || new Function("return this")()
-            } catch (e) {
-                if ("object" === typeof window) return window
+            }
+			catch(e) {
+                if("object" === typeof window) return window
             }
         }()
     })(), (() => {
@@ -133,13 +134,13 @@
         var e = {},
             t = "craft:";
         r.l = (n, o, a, i) => {
-            if (e[n]) e[n].push(o);
+            if(e[n]) e[n].push(o);
             else {
                 var c, s;
-                if (void 0 !== a)
-                    for (var u = document.getElementsByTagName("script"), l = 0; l < u.length; l++) {
+                if(void 0 !== a)
+                    for(var u = document.getElementsByTagName("script"), l = 0; l < u.length; l++) {
                         var d = u[l];
-                        if (d.getAttribute("src") == n || d.getAttribute("data-webpack") == t + a) {
+                        if(d.getAttribute("src") == n || d.getAttribute("data-webpack") == t + a) {
                             c = d;
                             break
                         }
@@ -148,7 +149,7 @@
                 var p = (t, r) => {
                         c.onerror = c.onload = null, clearTimeout(f);
                         var o = e[n];
-                        if (delete e[n], c.parentNode && c.parentNode.removeChild(c), o && o.forEach((e => e(r))), t) return t(r)
+                        if(delete e[n], c.parentNode && c.parentNode.removeChild(c), o && o.forEach((e => e(r))), t) return t(r)
                     },
                     f = setTimeout(p.bind(null, void 0, {
                         type: "timeout",
@@ -173,15 +174,15 @@
         };
         r.f.j = (t, n) => {
             var o = r.o(e, t) ? e[t] : void 0;
-            if (0 !== o)
-                if (o) n.push(o[2]);
+            if(0 !== o)
+                if(o) n.push(o[2]);
                 else {
                     var a = new Promise(((r, n) => o = e[t] = [r, n]));
                     n.push(o[2] = a);
                     var i = r.p + r.u(t),
                         c = new Error,
                         s = n => {
-                            if (r.o(e, t) && (o = e[t], 0 !== o && (e[t] = void 0), o)) {
+                            if(r.o(e, t) && (o = e[t], 0 !== o && (e[t] = void 0), o)) {
                                 var a = n && ("load" === n.type ? "missing" : n.type),
                                     i = n && n.target && n.target.src;
                                 c.message = "Loading chunk " + t + " failed.\n(" + a + ": " + i + ")", c.name = "ChunkLoadError", c.type = a, c.request = i, o[1](c)
@@ -193,9 +194,9 @@
         var t = (t, n) => {
                 var o, a, [i, c, s] = n,
                     u = 0;
-                for (o in c) r.o(c, o) && (r.m[o] = c[o]);
-                if (s) var l = s(r);
-                for (t && t(n); u < i.length; u++) a = i[u], r.o(e, a) && e[a] && e[a][0](), e[i[u]] = 0;
+                for(o in c) r.o(c, o) && (r.m[o] = c[o]);
+                if(s) var l = s(r);
+                for(t && t(n); u < i.length; u++) a = i[u], r.o(e, a) && e[a] && e[a][0](), e[i[u]] = 0;
                 return r.O(l)
             },
             n = self["webpackChunkcraft"] = self["webpackChunkcraft"] || [];
