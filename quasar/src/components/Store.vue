@@ -2,7 +2,8 @@
 	<div></div>
 </template>
 <script>
-	import  { reactive } from 'vue'
+	import { reactive } from 'vue'
+	
 	const perkListv1 = require('../../../public/json/cfv1_final.json');
 	const perkListv2 = require('../../../public/json/celestial_forge.json');
 	const perkListv3 = require('../../../public/json/celestial_forge.json');
@@ -34,6 +35,7 @@
 			docsToggle: [],
 			domainToggle: [],
 			actDomainFilter: [],
+			parseMe: null,
 			domainFilter: [],
 			unfiltered: perkListv1,
 			filtered: [],
@@ -44,6 +46,7 @@
 			allRolls: [],
 			allMisses: [],
 			sourceOrigins: sourceList,
+			tempBuild: [],
 			currentFreebies: [],
 			bookmarkedPerks: [],
 			searchResults: [],
@@ -69,25 +72,63 @@
 			untilPerk: false,
 			isRunning: false,
 			canRun: false,
+			autoAdd: false,
+			autoAddFree: false,
 			rollLimit: 3,
 			searchString: '',
 			fanString: '',
 			sourceString: '',
 		}),
 		
+		loadItem(obj) {
+			var page = handleLoad(obj[0]);
+		},
+		
+		handleLoad(obj) {
+			if(obj.type=="Document") {
+				
+				return "Process";
+			}
+			else if(obj.type=="Forge") {
+				this.loadVersion(obj.data);
+				return "Main";
+			}
+			else if(obj.type=="Progress") {
+				if(isNull(obj.data.Gained_Perks[0].Perks)) {
+					this.loadFlatProgress(obj.data.Gained_Perks);
+				}
+				else {
+					this.loadProgress(obj.data.Gained_Perks);
+				}
+				return "ProcessSave";
+			}
+		},
+		
 		setVersion(str) {
 			if(str=="v1") {
 				this.state.unfiltered = perkListv1;
 			}
-			if(str=="v2") {
+			else if(str=="v2") {
 				this.state.unfiltered = perkListv2;
 			}
-			if(str=="v3") {
+			else if(str=="v3") {
 				this.state.unfiltered = perkListv3;
 			}
-			if(str=="a1") {
+			else if(str=="a1") {
 				this.state.unfiltered = perkList;
 			}
+			else {
+				/*/
+				var filePath = path.join(app.getPath('../../../public/json/'), str+".json");
+				var jsonObj = JSON.parse(filePath);
+				//*/
+			}
+			this.resetForge();
+			this.createDefaultFilters();
+		},
+		
+		loadVersion(obj) {
+			this.state.unfiltered = obj;
 			this.resetForge();
 			this.createDefaultFilters();
 		},
@@ -2113,6 +2154,51 @@
 			saveJson(prog,"progress.js",false);
 		},
 		
+		loadFlatProgress(jsonObj) {
+			if(isNull(jsonObj)) return;
+			this.state.currentCP = jsonObj.Current_CP;
+			this.state.missedPerk = jsonObj.Missed_Perk;
+			this.state.currentRolls = jsonObj.Current_Rolls;
+			this.state.allRolls = jsonObj.All_Rolls;
+			this.state.allRollCount = jsonObj.Roll_Count;
+			this.state.allMisses = jsonObj.All_Misses;
+			var cPerks = jsonObj.Gained_Perks;
+			var flatPerks = [];
+			var freePerkList = [];
+			var count = 1;
+			cPerks.forEach(function(n) {
+				var tmp = n;
+				tmp["Order"] = count;
+				flatPerks.push(tmp);
+				freePerkList.push(fetchFreebies(n));
+				count++;
+			});
+			flatPerks.sort(function(a,b) {
+				if(a.Order.toLowerCase() < b.Order.toLowerCase()) {
+					return 1;
+				}
+				if(a.Order.toLowerCase() > b.Order.toLowerCase()) {
+					return -1;
+				}
+				return 0;
+			});
+			this.state.tempBuild = formatPerks(cPerks);
+			if(this.state.autoAdd) {
+				flatPerks.forEach(function(n) {
+					this.state.currentFreebies = fetchFreebies(n);
+					this.addToBuild(n);
+				});
+				this.state.tempBuild = [];
+			}
+			this.state.curFree = freePerkList;
+			if(this.state.autoAddFree) {
+				freePerkList.forEach(function(n) {
+					this.addToBuild(n);
+				});
+				this.state.curFree = [];
+			}
+		},
+		
 		loadProgress(jsonObj) {
 			if(isNull(jsonObj)) return;
 			this.state.currentCP = jsonObj.Current_CP;
@@ -2122,25 +2208,38 @@
 			this.state.allRollCount = jsonObj.Roll_Count;
 			this.state.allMisses = jsonObj.All_Misses;
 			var cPerks = jsonObj.Gained_Perks;
-			var flatPerks = []
+			var flatPerks = [];
+			var freePerkList = [];
 			cPerks.forEach(function(n) {
 				n.Perks.forEach(function(p) {
 					flatPerks.push(p);
+					freePerkList.push(fetchFreebies(n));
 				});
 			});
 			flatPerks.sort(function(a,b) {
 				if(a.Order.toLowerCase() < b.Order.toLowerCase()) {
-					return -1;
+					return 1;
 				}
 				if(a.Order.toLowerCase() > b.Order.toLowerCase()) {
-					return 1;
+					return -1;
 				}
 				return 0;
 			});
-			flatPerks.forEach(function(n) {
-				this.state.currentFreebies = fetchFreebies(n);
-				this.addToBuild(n);
-			});
+			this.state.tempBuild = cPerks;
+			if(this.state.autoAdd) {
+				flatPerks.forEach(function(n) {
+					this.state.currentFreebies = fetchFreebies(n);
+					this.addToBuild(n);
+				});
+				this.state.tempBuild = [];
+			}
+			this.state.curFree = freePerkList;
+			if(this.state.autoAddFree) {
+				freePerkList.forEach(function(n) {
+					this.addToBuild(n);
+				});
+				this.state.curFree = [];
+			}
 		},
 	}
 	
@@ -2167,6 +2266,7 @@
 		removeDupes: store.removeDupes,
 		resetPerkList: store.resetPerkList,
 		resetFilters: store.createDefaultFilters,
+		loadVersion: store.loadVersion,
 		setDisplay: store.setDisplayValue,
 		setCostFilter: store.setCostFilter,
 		setDomainFilter: store.setDomainFilter,
@@ -2183,6 +2283,8 @@
 		updateDomainFilterAll: store.updateDomainFilterAll,
 		costPerkList: store.costPerkList,
 		setVersion: store.setVersion,
+		handleLoad: store.handleLoad,
+		loadItem: store.loadItem,
 		resetForge: store.resetForge,
 		rejectPerk: store.rejectPerk,
 		searchPerk: store.searchPerk,
@@ -2210,6 +2312,7 @@
 		updatePerkList: store.updatePerkList,
 		saveProgress: store.saveProgress,
 		loadProgress: store.loadProgress,
+		loadFlatProgress: store.loadFlatProgress,
 		fetchMaxValue: store.fetchMaxValue,
 		doBuy: store.doBuy,
 		increment: store.increment,
@@ -2866,5 +2969,42 @@
 			}
 		});
 		return (search!="");
+	}
+	
+	function formatPerks(obj) {
+		if(obj.constructor = [].constructor) {
+			if(isFormated(obj[0])) {
+				return obj;
+			}
+		}
+		var domains = {};
+		var allDoms = [];
+		obj.forEach(function(n) {
+			if(!isNull(n)) {
+				var tmp = {"Domain":n.Domain,"Over_Domain":domainLookup(n),"Perks":[n]};
+				if(!isNull(n) && !isNull(n.Domain)) {
+					if(domains.hasOwnProperty(n.Domain)) {
+						domains[n.Domain].Perks.push(n);
+					}
+					else {
+						domains[n.Domain] = tmp;
+					}
+				}
+			}
+		});
+		var keys = Object.keys(domains);
+		keys.sort(function(a, b) {
+			if(a.toLowerCase() < b.toLowerCase()) {
+				return -1;
+			}
+			if(a.toLowerCase() > b.toLowerCase()) {
+				return 1;
+			}
+			return 0;
+		});
+		for(var i=0; i<keys.length; i++) {
+			allDoms.push(domains[keys[i]]);
+		}
+		return allDoms;
 	}
 </script>

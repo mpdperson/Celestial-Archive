@@ -1,13 +1,34 @@
 <template>
 	<Store />
-	<q-page class="flex flex-center">
-		<q-form @submit="onSubmit" class="q-gutter-md" name="myForm">
-			<q-file color="teal" name="myFile" v-model="myFile" filled label="Load" accept=".txt, .pdf, .json" >
+	<q-page class="flex flex-center blackBack">
+		<q-form @submit="onSubmit" class="q-gutter-md" name="myForm" dark>
+			<q-file color="teal" name="myFile" v-model="myFile" filled label="Load"  dark accept=".txt, .pdf, .json" >
 				<template v-slot:prepend>
 					<q-icon name="cloud_upload" />
 				</template>
 			</q-file>
-			
+			<q-select v-model="model" :options="options" label="Load Type" />
+			<q-btn-dropdown color="primary" label="Load Type">
+				<q-list>
+					<q-item clickable v-close-popup @click="onItemClick">
+						<q-item-section>
+							<q-item-label>Forge</q-item-label>
+						</q-item-section>
+					</q-item>
+					
+					<q-item clickable v-close-popup @click="onItemClick">
+						<q-item-section>
+							<q-item-label>Document</q-item-label>
+						</q-item-section>
+					</q-item>
+					
+					<q-item clickable v-close-popup @click="onItemClick">
+						<q-item-section>
+							<q-item-label>Progress</q-item-label>
+						</q-item-section>
+					</q-item>
+				</q-list>
+			</q-btn-dropdown>
 			<q-btn icon="send" label="Submit" type="submit" color="primary"/>
 		</q-form>
 		
@@ -28,6 +49,10 @@
 		},
 		setup (props) {
 			return {
+				model: ref(null),
+				options: [
+					'Forge', 'Document', 'Progress'
+				],
 				myFile: ref(null),
 				loadProgress() {
 					Store.loadProgress();
@@ -42,11 +67,12 @@
 								name: name,
 								value: value.name,
 								data: readFile(value.name),
-								type: "progress",
+								type: model.value,
 							})
 						}
 					}
 					console.log("data",data);
+					Store.loadItem(data);
 				}
 			}
 		}

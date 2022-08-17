@@ -1,0 +1,989 @@
+﻿Against the Gods!
+Blue Pole Star
+Jumpchain CYOA
+Version 1.3
+By blackshadow111
+
+
+Introduction
+
+
+Welcome to the world of Against the Gods! This is a world of cultivation, romance, death and violence, a world with legacies from ancient gods and devils, where fortunes rise and fall every day!
+
+
+This is a planet full of amazing adventure, where mighty beasts roam the lands, hunting and hunted by great Practitioners. It is full of competition and jockeying, as strength is the only thing that matters. And it is full, absolutely chock-full, of so, so fucking many assholes.
+
+
+So, let’s go over it. One planet, 97% water, three continents. One is the Azure Cloud Continent, another is the Profound Sky Continent, and the third is the Illusory Demon Realm. 
+
+
+If these names sound moronic...that’s alright, they are.
+
+
+Anyway, this is the world you need to be concerned about, at least for the most part. There are other worlds and other dangers, but they should be out of scope for this jump, barring exceptional circumstances, in which case you can bloody well go and learn about them yourself. 
+
+
+In any case you can be assured there is no imminent apocalypse coming up within ten years of your arrival, unless your meddling does something.
+
+
+Whether or not you do, though, you will most certainly need these 1000 CP, so take them, and go write your own Saga!
+
+
+Good Luck.  
+
+
+
+
+
+
+Times and Places
+
+
+Regardless of location, you arrive just as Yun Che wakes up to live his third life back in his first life’s body… unless you take a scenario. Different rules apply then.
+
+
+For your location, roll 1d8 or pay 100 CP to choose.
+
+
+1. Floating Cloud City - Where it all began. A tiny city in the Eastern region of the Blue Wind Empire, the Xiao clan is the greatest power here, although they are pitiful compared to the wider world. Of interest also are the Xia family, as the two children of the trader Xia Hongyi hold tremendously powerful secrets in their bodies.
+
+
+2. New Moon City - Close to Frozen Cloud city but immeasurably greater, this city has an actual Profound Palace, although it is at the very bottom of the totem pole. There are several competing sects here, but the most powerful is the local branch of the Xiao sect, one of the Four Great powers of the empire.
+
+
+3. Blue Wind Imperial City - The Capital of the Blue Wind Empire, this is a place with considerable intrigue and competition, and not a little danger. A sick Emperor has let the princes grow too powerful, and they curry favor with the Great Sects to seize the throne. Getting caught up in their games will not be healthy.
+
+
+4. Divine Phoenix City - Five thousand years ago, the Phoenix Spirit granted the power of the Phoenix flames unto a man. Since then, the Sect he founded grew and grew, until they took over the whole nation. This is the richest city on the Profound Sky continent, as befits the capital of the greatest empire in the land. There are great powers at work here. Thrones abound, Overlords are liberally scattered, and there is more than one Monarch in play.
+
+
+5. Demon Imperial City - The capital of the Demon Illusory Realm, this place is the heart of the only nation to cover an entire continent. There is, if anything, greater intrigue at work here than anywhere else. The royal family of the Empire, the Demon Royal family, is split between the main bloodline and the Duke Palaces. Of the former, only one girl is left, and far, far too many of the latter have varying opinions about this.
+
+
+6. Heaven Basin Secret Realm - This is a pocket realm that exists on the Profound Sky Continent, created in a bygone age. It is full of great dangers and treasures both, such as some of the richest and finest herbs and plants, which are, in turn, protected by some of the most vicious and powerful beasts out there. At least there’s no politics, except when it opens up every three years.
+
+
+7. Grandwake Mountain - A small, backwater mountain, controlled by a small sect that is nonetheless one of the most powerful in the region. The most interesting thing about this place is that it is on the Azure Cloud Continent, untold distances away from every other location on this list.
+
+
+8. Free Pick - Free pick! Pick anywhere on the Planet. For Free!
+
+
+Age and Gender
+
+
+Your age in this world is 1d8+10. You can pick any other age you like for 50 CP. Your gender remains the same, or you may change it for 50 CP.
+
+
+Origins
+
+
+Drop-in - 0 CP: What the fucking hell is wrong with this place anyway? You arrive as you are. No changes, no new memories, no ancient enemies...and no friends.
+
+
+Elder - 100 CP: You belong to a great sect too, but the difference is that you have belonged to it for decades upon decades now. You’re an elder of a clan, a vital pillar of support on which the clan rests. Discard your previous age roll and roll 2d20+50.
+
+
+Young Master - 200 CP: You are the heir to a great Clan or Sect, and grew up surrounded in the greatest luxury. You have had access to the finest resources to cultivate, limited only by your aptitude and interest. Who knows how far you may go? Or you could be a Young Mistress, of course, the name of the origin hardly matters.
+
+
+Smooth - 300 CP: Yours is a strange existence. You may be the heir to a great family, but if so, it is far, far away. Or you may be a reincarnation of an ancient power, or any of a thousand possibilities. Or maybe even more than one at the same time. Only time will tell. Simply put, you have a protagonist’s background in this world, with all that entails.
+
+
+Perks[a]
+The 100 CP perk is free for the relevant Origin, and the others cost 50%. 
+
+
+General
+
+
+Established Cultivation - Free: You are proficient in the Profound Arts, the cultivation style of this world. You start at the second level of the Elementary Profound Realm. Your profound veins are above average, but nothing particularly special. Roll a 1d20+10. That’s the number of Profound Entrances you have open. You have slightly above average talent with one element, and start with knowing one low level Profound Art each for attacking, defending and movement.
+
+
+You may cultivate up to any level you want, with no restrictions. All of your power, along with any changes made to your veins or body are carried over with full effect in all future worlds. Also in future worlds, your Profound Veins and energy can be freely converted into and back from any other Mana, Qi or other such energy you become able to use. Your pools for such energies are merged, for all intents and purposes. Once you reach Sovereign 10, you can grow Profound Veins in others with an injection of your own Profound Energy, giving them the ability to cultivate. 
+
+
+Profound Energy - Variable: Or maybe you would wish to rise higher? Instead of starting at the bottom, you may choose to start at a higher level of cultivation. The costs for the levels are like this. Two steps of the Elementary Profound Realm cost 25 CP, and costs double every realm. That is, two steps of the Nascent realm cost 50 CP, the same for True cost 100, and so on.
+
+
+You may go up to the peak of the Emperor Realm with this perk. Elders get up to Spirit 4 for free, and a discount on further improvements.
+
+
+Heavenly God’s Spiritual Veins - 100 CP/Free: Discard the roll for Profound Entrances above. With this perk, you have all of them open, meaning your cultivation is thrice as fast as the average person. This perk is free for those who take Supreme Saint of Medicine below. You get equivalent effects in all future worlds where these things are relevant.
+
+
+Wise Heavenly Scholar’s Naming Skills - 100 CP: It’s always a hit or miss with Xianxia names, and it’s no exception in this world. A name can be awesome or it can be completely dumb. On one end you can have something like a ‘Blue Wind Empire’, on the other you can have something as metal as the ‘Golden Crow’s Record of the Burning World’. You are above such things, however. 
+
+
+Not only are whatever names you decide to give something accepted without question by even the most irreverent people, they invoke exactly the kind of feelings you want them to invoke, regardless of their actual nature. 
+
+
+Extraordinary Affinity[b] - 100 CP: You have extraordinary talent for one of the elements of nature, from Fire, Water, Earth, Lightning and Wind. While nowhere close to what someone with an Evil God’s Seed would have, like, at all, you are still along the top 1%[c] most talented people in that element in the world. 
+
+
+You can buy up to Five of these, and while normally trying to learn Profound Arts of two or more elements would be more counter-productive than anything else, but elements bought here don’t ever conflict, and indeed, complement each other wherever possible.
+
+
+Outer Beauty Matching the Inner Strength - 200 CP: A general rule of this world is that the more handsome/beautiful someone is, the more powerful they are. This applies to you too. As your strength and power grows, so do your looks, and vice-versa.
+
+
+Not just this, but with this perk the baseline of this advancement is set permanently to the absolute peak possible for humanity, meaning you’re among the 0.01% of the fittest, healthiest, strongest and most beautiful non-cultivating people on the planet already, and only grow from there.
+
+
+The Tyrannical and Oppressive Presence- 200 CP: For all the cultivation you might do and achievements you can attain, can you really be considered powerful unless you’ve reduced a grown and experienced, battle-hardened adult to a blubbering mess with nothing more than your aura and the look in your eyes?
+
+
+Seems not. Good thing you have both, now! You have the ability to generate a massive, immense aura far around you, a humongous thing that stands above and beyond anything possible for people even several times more powerful than you. It can be a fear aura, wherein you appear as something out of ancient legends, a devil or demon of utterly nightmarish power, or it could be a ‘good’ aura, or perhaps it could appear as either to people depending on your mutual feelings and intentions towards each other.
+
+
+In either case, you can do a lot with this, including making it semi-visual with your shadows or a heat haze or just an illusionary presence around you or so. It reflects your power in relation to the world around you, and you can fine-tune it to reflect or not reflect anything and everything about you. Sky’s the limit, really.
+
+
+Artisan of the Supreme Holy Heavens - 300 CP: While a huge part of everything, cultivation is not all there is to life. There are things to enjoy too, such as arts and beauty. This perk gives you exemplary, extreme  talent for arts of all kinds. Anything you do, you can do unbelievably beautifully and artistically.
+
+
+And those words really do mean just that. A casual scribble from your fingers would have people paying absurd sums in auctions for it, singing a couple notes could inflame a whole new musical movement worldwide, and something you put actual effort into could drive people into rapturous adoration simply by encountering it. This works in every field of art, from writing to drawing to singing and dancing, and you can even train it to further improve things.
+
+
+The Legendary God-forging Craftsman - 400 CP: There are a lot of things in this world that go beyond martial cultivation and powering up. Sound Transmission Talismans, Profound Arks, armors and weapons, medicinal pills and teleportation formations, and so much more. And you can shake the world in all these fields.
+
+
+You are now an absolute, unbelievable genius at all such ‘support’ fields. An enchanter, smith, alchemist and formation designer without peer, your mind miles ahead of even the greatest of your would-be competitors, and ideas flow like water. You only need to look at any item, pill, weapon or formation, to know it to the innermost depths, every trick involved in making it, every flaw and potential for improvement, and how to bring them to reality.
+
+
+In future worlds too, your skills translate perfectly, granting you knowledge and skills in the local variations of these things equal to what you leave the previous world with.
+
+
+Inheritor of Ancients - 500 CP: You have had some fortunate encounters, Jumper! As suited for a Smooth guy like you, of course, You have received a True God’s bloodline directly from the source, with no dilution and a degree of purity and strength very nearly unmatched in this world.
+
+
+This is a gift beyond peer, Jumper, treat it well. You may pick one Inheritance from the following list per purchase. Smooth people get three purchases for free. If you want, you can also design your own separate inheritance instead, and have it be something equal to these.
+
+
+For an additional 400 CP, discounted to Smooth, you receive a piece of the Soul and Origin of whichever True God you buy a bloodline of in addition to the above mentioned benefits, with their own advantages. These can greatly enhance cultivation and perception, as well as blending in the terrifying power and potential of the originator of these.
+
+
+Profound Handle - The Bloodline of the Yun Clan of the Illusionary Demon Continent, this is your very own Cyan Profound Handle. Maybe you’re descended from a bastard offshoot of the clan, maybe you’re a member, it matters little.
+
+
+What does matter is what you can do with this. You have at your disposal a formless stuff, comprised of a nebulous mix of your blood and soul. It has 60% of your cultivation, soul and mental strength, in addition to what you already have.
+
+
+The profound handle resides in your left hand, and can be released at any time you want. It can use any and all abilities you can that rely on the above attributes, though no other. It can take any shape of your choice, but the colour remains fixed. You can also use it as a decoy by generating your aura from it and suppressing it at your own body, if you want.
+
+
+In addition, the Profound Handle is capable of other things like directly interacting with souls, your or other people’s. You can manifest aspects of your soul through this handle, allowing it to operate semi-autonomously and support you while you focus your attention on other things. It can also interact with other’s souls, allowing you to do things like performing surgery on them, searching their memories, and potentially much more.
+
+
+In essence the soul is as clay, to be moulded by the Profound Handle as you will. Finally, while it’s almost impossible to manifest more than one handle below the Divine Realm, there is no telling just what all you could achieve with it later on.
+
+
+As mentioned above, the handle you get is Cyan in colour, the same as the greatest geniuses of the Yun Family. However, if you want you can pay an additional 300 CP and receive the Gold coloured handle instead, which has 100% of your power, in addition to all the other abilities being proportionately strengthened. Smooth gets a discount here.
+
+
+Supreme Attribute Beast Bloodline - You have the bloodline of one of the Supreme Beasts of either Fire or Ice, which are the Vermillion Bird, the Phoenix, and the Golden Crow for Fire, and the Ice Phoenix, the Celestial Qilin, and the Blue Dragon for Ice. You have received several drops of their blood, granting you their bloodline so you count as having descended from them, along with the power of their respective flames or ice. 
+
+
+In terms of sheer destruction, the Golden Crow’s Yang-rich flames are the most powerful in this universe, while the Vermillion Bird’s power is the greatest when it comes to cleansing Devils and assorted creatures. There is likely a similar hierarchy for the Ice Beasts, but the details are unknown.
+
+
+In the Item section, this gets you the respective Profound Art Jade Tablet for free.
+
+
+Dragon God’s Bloodline - You have six drops of the Dragon God’s blood in your veins, and his marrow which will produce more, at a glacial pace of like a drop every several years until you’re 10% Dragon. This gives you extreme durability, to the extent that your bones are like tempered steel, and you gain a potent regenerative effect, regaining both your strength, health and profound energy at a rapid pace even in the middle of combat. It also makes you massively more resistant to poisons and other harmful effects.
+
+
+This perk makes it so that strictly speaking you don’t even need to cultivate now. Any powers you possess will continue getting stronger as you grow older, with no upper limits except your lifespan, which is extended to several hundred years. 
+
+
+Finally, once per jump including this jump you can produce a ‘Dragon Seed’, which you may impart to someone else of your choice through sex. This heals them of any and all injuries or illnesses they may have, and nearly doubles their powers and energies. With time, you can learn to impart it without the sex too, but one person can only benefit from it once. This changes to once every ten years after your chain ends.
+
+
+Great Way of the Buddha - This is the Divine Profound Art of the Primordial Rage God, which allows one to achieve wonders with the body. It has Twelve Stages, each more difficult to achieve than the last.
+
+
+This art does not depend in any way on one’s profound veins or profound strength, working instead from your soul, and nature itself. Your progress on this path depends on your comprehension of it, with each level unfolding as your comprehension improves.
+
+
+This art provides you two things to begin with, those being increasing strength, and increased healing ability. Both stem from the power of Heaven and Earth around you flowing into you through the mysteries of this art, enhancing your body dramatically.
+
+
+At the first level, this art passively gives you strength of almost two tons, and the ability to heal from all wounds in a couple of days.
+
+
+At the second level, this art gives you strength of four tons, and provides significant improvements to your healing speed.
+
+
+At the third level, this art gives you strength of ten tons, and increases your durability to the level of pure steel. Your healing abilities enter the realm of active regeneration here, although it will still take hours to deal with grievous injuries. The silver pagoda you manifested so far also turns into a faint gold color.
+
+
+At the fourth level, this art gives you a strength of fifty tons and you enter the intermediate level of the art. The pagoda becomes a dull gold in color and your blood is slightly tinted gold. Your body now cultivates at all times, providing a slow but steady benefit to you continuously, but fast enough that you could gain a level of Emperor rank in a couple of months even if you do nothing else.
+
+
+At the seventh level, this art gives you the ability to restore important bodily necessities such as vision but it is impossible to reach this level even at the Sovereign realm while remaining in the Mortal World. Trying will cause your body to explode.
+
+
+Benefits provided by further levels are unspecified, except that the twelfth level is the peak, and it grants you the original physique of the Rage God.
+
+
+Evil God’s Profound Veins - You have the Profound Veins of the Evil God himself, one of the True Primordial Gods of a Bygone age.
+
+
+These veins do not provide you any qualitative advantage, in that they are not really much better than human veins when it comes to channeling Profound Power. But in your veins, there exist seven Gates. Each gate may be safely opened at a certain level of Profound Power, so that your body can survive the process. 
+
+
+The first gate multiplies your powers by three fold, the second gate four-fold, and so on. In addition, you also gain mastery of certain Profound Arts as long as the gates are open, one with each gate. These veins also let you absorb the Evil God’s Seeds for various elements as you find them. In the item section, you get these at a discount.
+
+
+Gifted of the Heaven-Blessed Body- 600 CP: One of the few things in the world that really compares to having a True God Inheritance. And indeed, exceeds it. You have been blessed by the heavens, with a body and cultivation possibility above and beyond what anyone else can imagine having. You may pick one body from the following list per purchase. Young Masters get two for free.
+
+
+If you want, you can also design your own separate body/mind instead, and have it be something equal to these.
+
+
+The Tyrannical Emperor’s Divine Veins - Suited for highly aggressive, driven people, this gift bestows a body like that of the Primordial God of War on a mortal. 
+
+
+Simply through your boundless aggression and ego, you are able to grow in leaps and bounds on the Profound Way. As soon as the veins are activated, an action that would take almost unmatched will to fight, extreme injuries for months on end and a limitless will, you are instantly propelled into the Tyrant realm, to be heralded by the world as an Overlord. 
+
+
+From there your growth is similarly huge, allowing you to skip entire realms, but requires correspondingly more dire circumstances.
+
+
+Nine Profound Exquisite Body - Your body is utterly exquisite and unmatched. You have a ‘small world’ inside you, which allows you to hold far more power within you than would otherwise be possible.
+
+
+Simply put, you can preserve your Profound Energy without needing to strain your Profound Veins, allowing you to perform techniques and measures requiring any level of Profound Cultivation without suffering the consequences anyone else would suffer in your place.
+
+
+The inner world in you can hold any quantities of energy of any and all kinds, and you can channel this energy without any damage to your body. But it doesn’t generate any energy by itself, requiring you to save it up.
+
+
+Heart of Snow Glazed Glass - Your mind is extraordinary, allowing you to perfectly remember and recall anything you have so much as seen or heard once, and your perception matches and complements this perfectly. Not only are your natural senses massively boosted, you can also view  ‘beyond the veil’, to see past even the greatest illusions and directly perceive and interact with the ‘laws’ of the world and see it as it really is, beyond what anyone else can. 
+
+
+This also gives you an extreme sensitivity to even the faintest concepts and skills, allowing you an absolutely monstrous level of comprehension towards even the most complex ideas, codes or patterns, allowing you to comprehend any and all techniques, whether or not you’re capable of using them. Even techniques restricted to specific bloodlines or sects are open to you, although how well you can use them depends on your other abilities.
+
+
+Finally, you’re blessed by the heavens, meaning that you can instinctively sense danger in any situation, and look into people’s hearts and see if they are good, evil or anywhere in between.
+
+
+Drop-in
+
+
+Shadow Demon’s Secret Retaining - 100 CP: You are a virtually unmatched expert when it comes to the art and science of information suppression. Be it the methods of rooting out spies, simple disguise or concealment or whatever, if you’re trying to hide something, a person, an item or just some news, it’s very, very difficult for it to get out.
+
+
+Celestial Profound Basic Decency Inducement - 200 CP: This world… you don’t know what exactly is wrong with it, but you can at least do your part in making it better.
+
+
+You have the incredible power of making people act like rational human beings. Through a conversation, a beating, or whatever other method you like, you can beat the intricate mysteries of Common Sense and Basic Human Decency into people lacking them, and make it stick.
+
+
+Divine Godly Deity’s Beast Taming Method - 400 CP: This world abounds with Profound Beasts, and not entirely because of their own power. As it happens, these beasts can be useful too.
+
+
+You have incredible skill when it comes to taming these beasts, whether through bribing them with food, subordinating their will with force, or any other means. You know just how to stimulate them, just what they like, their habitats… and what you don’t know, you can learn very quickly.
+
+
+Not just this, but you find that once tamed, your tamed beasts almost never rebel, peacefully working your will for as long as you want them to, barring extreme mistreatment. This talent also lends you an almost superhuman charm and convincing ability when it comes to intelligent beasts, and indeed all non-human races. They seem to view you as one of their own, or at least a very close ally or friend.
+
+
+Body of the Reaction God - 600 CP: A very important way used to improve one’s strength and abilities in this world is the use of herbs and medicines, and certain other substances such as crystals and other supplements. Lesser known styles even use mystical aspects such as the Mystical Yin or Yang of people, allowing for great benefits through sex.
+
+
+You are especially fortunate in such things, possessing a body and soul that allows you to reap over thrice the normal rewards from any such methods you use. Regardless of whether they affect your body, soul or profound veins, the rewards are immense enough to leave even veteran experts mind-boggled. At the same time, the harmful effects of any poisons or venoms you might have been exposed to are entirely removed. Barring the absolute greatest threats like the Absolute God Slaying Poison, nothing else holds a chance of affecting you.
+
+
+Young Master
+
+
+Wielder of the Golden Rule - 100 CP: It’s surprising what all the simple power of Money can still make people do. You know it better than most, of course. You are a profound genius when it comes to the arts of bribery, favor trading and corruption.
+
+
+You know just what someone would most likely want for something, and what they will be willing to take. You’re used to throwing your money around and getting results.
+
+
+Punishment and Enforcement Elders’ Grandson - 200 CP: There’s something to be said about fanatics. Not that those who follow you are always fanatics, but they do share one trait. No matter what you do, how immoral or monstrous your actions may be, how obviously repugnant your nature and actions may be, it won’t affect anyone who follows you at all. Even the more moral people will harden their hearts and obey you, and dismiss all thought of it once they’re done. 
+
+
+Clever Fiendish Devil’s Bullshit Spinning - 400 CP: You’re good at lying, Jumper. Not just good, but it’s more like you are an artist of the lie. You know just what emotions to fake and how to say things that will convince others of your professed sincerity, and can spin almost endless bullshit while knowing just how to keep it  believable.
+
+
+Also, and perhaps more importantly, this perks also makes it so any supernatural effects aimed to detect your thoughts, emotions or morality will fail, and return generic harmless results.
+
+
+Genius Rare as Qilin Horns and Phoenix Feathers - 600 CP: To be the heir of a mighty clan, you must be a great genius like no other, even among the luminaries of your generation. You are undoubtedly one such figure.
+
+
+Your rate of learning new things, techniques and ideas and even entirely new arts, is something almost beyond imagining. You are a peerless genius, the kind of person who can master entire martial styles, or new fields of magic or practice, in days, weeks at the most.
+
+
+This doesn’t just affect your mind, either. Your body can keep up perfectly with everything your mind learns, growing at an equal pace with every new insight you gain.
+
+
+Elder
+
+
+Management Elder - 100 CP: It takes a lot of work to keep immortal kung-fu wizards in pills and medicines and weapons, y’know. Someone has to know how to balance an account, how to trade and setup businesses, and all the necessary infrastructural work. That’s you now.
+
+
+You’re nothing short of an utter wizard at all things financial, logistical ands managerial. You know the nuts and bolts of bargaining and negotiation. You can tell the true value of anything you look at at first glance, and know just how to bargain the opposing party down or up to it. You understand how to make and manage alliances with other sects, how to setup businesses and industries, go about properly setting up a distribution schedule for the weapons your sect acquires… and everything else required to keep such a force running.
+
+
+Supremely Ancient Experienced Expert- 200 CP: These young brats all think they’re hot shit. What do they know? You were already old before they were born. But that doesn’t mean you’re any weaker.
+
+
+With this perk, your skills remain in top form, regardless of how old you are or how long it has been since you used them last. You never forget a trick, and your talents never wane. You could sit in the lotus position cultivating for half a millennium, and come out twirling your sword, ready to cut down all who oppose you. This perk also prevents you from permanently losing potential through injury. While you can be set back, you can always regain it with time and effort. 
+
+
+Devilish Patient Web Spinning - 400 CP: At the uppermost levels of this world, among the great Clans and Sects and Empires, there is quite a lot more to things than just Cultivation. The games played here are lethal, long, complicated, and more often than not extraordinarily filthy in their immorality.
+
+
+You now have the same ability at such plans as the best there are in this world. You can account for hundreds of factors, gather information and extrapolate more, and set up extraordinarily intricate and robust plans, to bring about whatever events you desire.
+
+
+You have an extraordinary grasp of the human psyche, of how people act and react to things. You know just what to say, what to do, what strings to pull to achieve the exact thing you desire.
+
+
+Heaven Defying Bottleneck Transcender - 600 CP: As your powers grow, as your strength reaches higher and more advanced levels, advancing further becomes ever more difficult.
+
+
+Not for you. No one knows how, maybe you can somehow access the richer energies and better quality laws of the Higher Realms, maybe you can just grasp certain crucial principles others miss, it depends on the circumstances. But the result is the same.
+
+
+Where others would require decades, if not centuries to grow through a level, not to mention proportionately higher effort, you simply don’t suffer these diminishing returns or bottlenecks. You can advance through even the highest levels of cultivation just as easily and quickly as you grew through the very first ones, while losing none of the benefits.
+
+
+Smooth
+
+
+Wild Devil Screaming at the Heavens - 100 CP: As things happen, you may end up undergoing a lot of things that would leave normal people with broken minds and crushed souls. Not you. Your willpower is now boundless, absolute and limitless. It doesn’t matter what kind of challenge, how terrible the pain or how immense the despair, your will remains undaunted.
+
+
+This also helps you in quickly recovering from old trauma, letting you forget and/or move on unbelievably quickly.
+
+
+Unabashed, Unmatched Sex Fiend - 200 CP: You’re one. Really, you are. When it comes to wooing others, you have the kind of skills that the very best casanovas in the world would come together to declare you the One True Sex Fiend.
+
+
+You know just how to talk the right way, how to behave in the short and long term, how to touch them just right, so as to inflame the passions of even the most frigid, hard-to-crack people in the world. You can make them fall in love with you or in bed with you, or both. And yes, you have the skills and endurance to thoroughly satisfy any number of people you may have brought to your bed.
+
+
+Furthermore, you also have the skills to ensure that your existing partners have no problem with you fucking, or marrying or entering into relationships with any number of other partners. Indeed, your partners tend to grow close by themselves, even getting romantically involved if their personalities fit right. This works on any member of your preferred sex you set your mind at, be they people, spirits, gods or anything in between.
+
+
+Supreme Saint of Medicine - 400 CP: You are a peerless expert without equal, when it comes to the arts of healing. Not only can you tell everything wrong with a person with a single glance at them, you also possess an unerring instinct that guides you as to the best possible treatment for said ailment.
+
+
+For this world, your medical knowledge and skills completely equal the great Medical Saint Yun Gu, unquestionably the best healer on the planet. Just like him, you know long lost techniques to both heal and improve the body, and have an immense knowledge of peripheral skills like refining herbs and animal parts. While you don’t start on quite the same level in future jumps, you’re very close, and can catch up rapidly. 
+
+
+Also, you have a vast, encompassing knowledge of acupuncture and related techniques, such as opening profound entrances and all others. This gives you the Heavenly God’s Spiritual Veins for free, and you can obviously grant them to anyone you want, at will. Can’t take it back, though.
+
+
+Beloved of the Infinite Mysterious Samsara - 600 CP: You have a way with beings that are beyond mortality. Be it gods, spirits of nature, even devils or other similar beings, you find they all tend to have an inexplicable fondness for you.
+
+
+Firstly, they always start with a good opinion of you. Unless you knowingly do something to offend them, even the most unreasonable beings tend to be understanding and friendly.
+
+
+But a more relevant part of this is that such beings are excessively likely to grant you powerful blessings and treasures, even forgiving any transgressions or irregularities. Simply put, if there exists a possibility of something being granted to a mortal by a divine spirit, not only do you find yourself propelled to the absolute front of the waiting list, you also find that such beings go far above and beyond in rewarding you, granting you favors and powers far beyond those they would otherwise bestow, all other things being equal.
+
+
+This can even, time to time, go to ridiculous extents, like a spirit granting you something it really shouldn’t, even things it might need to survive in the future.
+
+
+Items
+The 100 CP item is free for the relevant Origin, and the others cost 50%. 
+Wherever applicable, you may import existing items with no additional cost. 
+You can take multiples of everything unless stated otherwise in the item text.
+
+
+General
+
+
+Profound Beast - 100 CP: This is a tamed profound beast of your own, a giant bird or animal of some sort of . These Profound beasts aren’t all that great at fighting, as a matter of fact they run away from all enemies you try to make them face, but they’re excellent for transportation. Very fast, they can travel thousands of miles at a speed of hundreds of miles an hour before tiring.
+
+
+Land-based beasts are nowhere near as fast, but are good at attacking and defending, depending on the type of animal. Both types only require sustenance for taste, and can be stored in a small imprint on your hand at will.
+
+
+Acquisition Imprint - 200 CP: There is a lot of stuff to be had in this world, it sure would suck if you had to leave it behind or have it stop working, wouldn’t it? Well, there’s no more danger of that for you. This small imprint, upon being placed on an item, grants them complete fiat-backing, letting you have them perfectly functional in future worlds. You can buy more at a discount. 
+
+
+Jade Tablets - 100/300 CP: These are jade tablets, holding the complete details of exactly one Profound Art of the highest quality. Profound Arts are typically classified into Movement skills, Concealment skills and Profound Skills, which are basically attacking techniques. There are also special cultivation measures, illusion techniques, armed or unarmed techniques… and so many other options.
+
+
+For 100 CP these tablets can be any canonical Profound art not connected to the divine realm, but some of the absolute best stuff possible within this constraint, easily a peer with the finest arts practiced by the geniuses of the greatest sects and Sacred Grounds. If not a canonical art, you can design one for yourself, within these constraints.
+
+
+For 300 CP, the art can be any and all that exist in this setting, from the arts of the highest King Realms to the Legendary Beast arts like the Word Ode of the Phoenix or the Golden Crow’s Record of the Burning World. Again, you may design your own if you want, so long as the power levels correspond.
+
+
+Everyone gets one purchase of the 100 tier tablets for free. In addition, those who have bought a bloodline receive the related profound art for free.
+
+
+Ancient Emperor’s Replication Treasure - 400 CP: Okay, this is a pretty fascinating thing you’ve got here! If anyone knew… anyway, what this does is that simply by placing an item inside it, you can make unlimited copies of it.
+
+
+Now hold your horses, there are a few details. This treasure has a limited amount of power, and it takes time to replenish it. Depending on how powerful an item is, the treasure takes proportionately long to copy it. Something utterly rare or priceless, like, say, a drop of blood from a True God, might take several days, whereas you could probably copy ordinary pills and stuff continuously. 
+
+
+Jumper Sect - 200/400/600 CP: That’s right! A sect of your very own! This is a clan or a sect, with a name of your choosing. It has the usual sect structure, with a Master/Lord, a Young Master, elders, disciples, etcetera. You may freely assign any of these positions to yourself and/or your companions, or any other positions you want. It has all the resources such a sect would have, like a compound, or multiple ones as the case may be, associated Herb Gardens and forests, a collection of weapons, and the rest. 
+
+
+For 200 CP, you get a sect the size and power of the branch sect of the Xiao Sect at New Moon City, a thousand year old establishment with hundreds if not thousands of disciples and members of Earth Realm or below, about half a dozen of so Sky Realm elders and such, a treasury of ancient medicines, weapons, armors and devices of all kinds that are accumulated over these years, and the reputation, collected favors and all the rest that go with.
+
+
+For 400 CP it becomes equal to the Main Sects of the Blue Wind Empire, like the Xiao Sect or Frozen Cloud Asgard, a mighty overlord of the region. You have two, maybe three Emperor realm cultivators, hundreds of Sky rank members, and thousands upon thousands of members at the Earth realm and below. The fullness of your power, while it pales compared to entities like the Divine Phoenix Empire or the Four Sacred Grounds that dominate the continent, is nonetheless comparable to all others below that lofty position.
+
+
+For 600 CP, however, all bets are off. Your Sect/Clan/Family is now a peer to forces like the Four Great Sacred grounds, above and beyond even the greatest Duke Palaces of the Illusionary Demon Continent. Your history goes back to well over ten thousand years, and your resources, power and everything else matches the same. You have the mightiest forces on this planet, genuine Monarchs in plenty, with just over a dozen of them at Sovereign 10 and many times their number in the various levels under that.
+
+
+Below them you have thousands upon thousands of Tyrant level members, and proportionate numbers of Thrones and below members. The average teenager of this sect is expected to be a Throne at the least, and to be a genius you have to be at least a middle level Overlord. The value of the treasures this force can call upon boggles the mind, with billions upon billions of Purple coins’ worth in weapons, armors, herbs and the rest, a vast territory where you are respected and feared, libraries with ancient and penetrating knowledge of all things on heaven and earth, and in general anything and everything else an institution of such age and power can be expected to have.
+
+
+After this jump, you can choose between the sect coming with you in a pocket dimension that you can then place anywhere in the world, or preexisting local copies of it wherever you go. In the latter case the members all have skills and abilities in whatever local systems exist matching what they have here, but in the former they gain the potential for that and can train it up in no time at all. If you choose the pocket dimension version, you can also merge in any other similar dimensions you gain into that one, and have the resultant keep all the advantages from both.
+
+
+The Leaping Bouncing Nation - 300/700 CP: Or maybe you’d rather be a secular ruler? This is a kingdom, a nation of your very own that you rule, which will follow you after this jump. The 300 CP version is a bit bigger and more powerful than the Blue Wind nation, while the 700 CP one instead is a massive empire covering a whole continent, like the Illusory Demon Realm.
+
+
+While the size you pick decides the actual scale, in any case your nation is top tier for its size in terms of economy, resources, cultivators and everything else. There are sects and experts across the land, say 3-4 like in Blue Wind or the thousands in the whole continent. Their powers, again, are proportional. The 300 CP nation would have about a dozen Thrones as their top powers, while the 700 CP realm would have Sovereigns by the bucketload, exotic arts, and all the other little things that comprise a proper nation in this setting.
+
+
+Evil God’s Seed[d][e] - 600 CP: This is one of the elemental seeds of the Evil God, or a perfect copy of it, your choice. It gives you an affinity for one element, your choice, unmatched anywhere in Heaven or Earth at its height.  You receive no damage whatsoever from this element, no matter the type or scale or nature, be it mortals, gods or demons trying to hurt you with it. It doesn’t matter if it’s a kitchen flame or fires from the depth of hell or anything in between, it does no damage to you. 
+
+
+At the same time, your control over the element is nothing short of ludicrous. The scale at which you can control it depends on both your innate profound power and how much time and effort you put into it, but you start out capable of controlling it on a personal level, such as tossing small fireballs or singular lightning bolts. You’d be surprised how quickly you can train it up, though.
+
+
+Your control extends over all forms and aspects of an element, meaning that the fire seed lets you control even magical or divine flames, while the water seed lets you control ice and vapor too. As a matter of fact, this seed makes it so any elemental controlling abilities you have automatically develop these aspects[f][g], letting you control the exotic versions just as well and the the same scale as the base one.
+
+
+In addition, this seed assists you in mastering any techniques related to the element you discover, to the extent that you can grasp even the most advanced and complex techniques and skills in hours at most, and master them to unparalleled extents in weeks, if not days.
+
+
+While you don’t need them to use the seeds bought here, those with the Evil God’s Profound Veins get these at a discount. Known examples so far are Fire, Wind, Earth, Lightning, Water, and Darkness. Don’t go spreading around information about that last one, though.
+
+
+Drop-in
+
+
+Assets - 100 CP: Going around empty handed isn’t exactly a wise idea, you know. Take this. It’s a purple coloured card that is most definitely not a credit card by another name. This is a Black Moon card, which denotes that the bearer has credit with the Black Moon Merchant Guild equal to Ten Million Purple Profound Coins.
+
+
+This amount is regenerated every month, and you get equal amounts in whatever relevant currencies you encounter in all other worlds, adjusting for inflation where needed or required. The card appears in your hand when desired and disappears when it isn’t, and is accepted as legal payment everywhere.
+
+
+Sky Overlord’s Ancient Profound Ark - 200 CP: An airship by any other name. This is a Profound Ark of the highest quality and finest make, something crafted not by mortals but by Divine Way practitioners in a bygone age. It has a vast inner space, easily in multiple square miles, give or take, and moves extremely fast, covering thousands of miles an hour.
+
+
+While it doesn’t exactly require any fuel, it goes faster the more energy you pour in, and will accept any form of power or power generation you can provide. Being a creation of the Ancient times, it can even go into space, the inside magically taking care of any atmospheric requirements.
+
+
+Star and Night Wonder Realm - 400 CP: A realm of your very own! This is a space many thousands of times the total surface area of Blue Pole Star, accessible only to you and those you expressly give permission to.
+
+
+The land is completely livable, and possesses a wide variety of terrains, complete with myriad flora and fauna. The natural laws and cultivation resources in this world are generally of the same kind as the Blue Pole Star, with proportional amounts of excellent and average places. This dimension is incredibly receptive to any attempts to improve it, though, almost eagerly growing and changing as you will.
+
+
+You can enter any point in this realm at will, but upon leaving you’re directed to the spot you left from.
+
+
+You can choose any means you would like to allow entry and exit from this realm, from opening permanent gates to opening temporary portals back and forth.
+
+
+Finally, you have complete control over the inside of this realm, and can change it however you want, except creating sapient life. [h]
+
+
+Supreme Emerald Spirit Garden - 600 CP: This is a garden worthy of being in legends, Jumper. A vast expanse of earth richly covered with grass, located in either an attachment to your warehouse, one of your other pocket dimensions or on a real world spot of your choice, this has exactly as much space as needed for its purposes. Which are twofold. 
+
+
+Firstly, it has prime, finest-quality samples of every single herb, flower etc in existence. It doesn’t matter how rare or valuable they are, you can find at least one of every one, and potentially many more. Plants breed and spread at rates proportional to their rarity and rates of breeding in the outside world. Something like the Emperor Awakening Heart Lotus, a plant normally found once in centuries or millennia, takes a full year to bloom, and others take proportionately lesser time.
+
+
+In future jumps the garden won’t acquire any plants that are absolutely unique, like Yggdrasil in Norse Myth, but everything else is fair game, even divine or mythical plants of all types. And as for those plants, you need to find a seed and sow them here, at which point they become as any other plants. 
+
+
+Additionally, this garden has the property of ‘adapting’ any plants seeded here to the local settings. That is, a fruit that provides ki or magical energy in its original world would provide Profound Energy in this one, and the equivalent in future settings. They retain the ability to provide any previous ‘versions’ at your will.
+
+
+Young Master
+
+
+Purple Spatial Ring - 100 CP: A spatial ring of the highest quality. Made by the finest experts, this ring holds a pocket dimension exactly 1000 cubic meters in size inside it. You can put anything you can lift into the dimension at will, at retrieve it just as easily. Also, you can have a full list of everything in the ring with a thought. 
+
+
+High Quality Armor - 200 CP: This is Profound Armor, of the very highest quality. To be exact, it’s level is always at least two realms higher than your own. This armor looks however you want it to look, but it can block all types of mundane attacks, and also provides significant resistance to magical/supernatural ones.
+
+
+Bound to your soul, you can summon it at will, and dismiss it back to wherever with a thought too.
+
+
+Power Concealing Talisman - 400 CP: A small, intricate amulet, this is a powerful magical device that you can use to pretend to be weaker than you are. Using this amulet  you can set your cultivation level to any level lower than your actual one, and that is what you have, for all intents and purposes.
+
+
+You can regain all your power simply by taking it off, and in future worlds you can choose any number or quantity of your powers to suppress, partially or completely. Multiple purchases of this item lets you create multiple ‘layers’ of your powers, which may be unveiled sequentially. Other people can not use this item on you against your will.
+
+
+Heavenly Azure Profound Jungle[i] - 600 CP: Pills, pellets and crystals are a cornerstone of cultivation. Even one or two powerful pills can redefine the fates of entire clans or sects, as it so happens. Equally important, however, are Profound Beasts, or rather their bodies. There is the blood, which is a great tool in cultivation, the flesh and bones, used for their own purposes, but the most special are the Profound Cores found within these beasts that make life in so many parts of these worlds so difficult.
+
+
+You have something completely amazing, in that regard. This is a dense jungle, filled with all sorts of dangerous profound beasts. As a matter of fact, it has one of every single species and race of Profound Beasts in this setting, all ready and waiting for you. Because you see, while the blood, flesh, bones, core and everything of these beasts is at the level they’re supposed to be, their actual fighting abilities are dramatically lower. Three entire realms lower, as a matter of fact. That is, the Emperor level monsters can only do damage on the level of a True Realm monster, and so on. Unless you want them at full power for some reason, that is, Then they are.
+
+
+This doesn’t apply to beasts below the Sky Profound Realm, so the weakest any of them get is to Elementary. Also, each Realm monsters are isolated in their own 'zone’ of the Jungle they practically never leave, with the weakest ones on the outermost circle and so on. The numbers of the beasts inside are proportional to how rare they are in the outside world, as is the rate of replenishment if killed. Even the rarest beasts only take a few months, though, maybe a full year for the absolute rarest of them.
+
+
+In future worlds, the Jungle provides beasts from the local setting too.
+
+
+Elder
+
+
+Sound Transmission Jade - 100 CP: A phone by any other name. You have a jade of the highest quality, so high that you don’t even need imprints to call people. Simply through their name, you can call anyone on the same planet who has a Transmission jade of their own, or any other long distance communication device.
+
+
+Spies and Contacts - 200 CP: Through your years, you have developed a wide network of informants and allies, which you can call upon in times of need. These are people on every level of society, from fellow elders in rival sects, to shopkeepers, people on the street and even lesser reputable people.
+
+
+In future jumps, you have the same skills to develop these networks. In a matter of days you could be among the best informed and connected people in a given city, in a few months the same for a small country, or dozens of cities, with your span continuing at the same speed.
+
+
+Cultivation Spot [j]- 400 CP: The best space to practice cultivation, bar none. This is a small forest clearing, about the size of a small lawn. The important thing about it is that this place is full of the best and richest possible energies, letting a person cultivate much more easily and rapidly than anywhere else.
+
+
+To be clear, this place always has the energies and laws of exactly one realm above whatever you deploy it in, which changes as you move to different realms. Post jump it can become a warehouse attachment, in which case it’s always one realm above what you have currently cultivated to. You could also attach it to any other area you own through CP backing, of course.
+
+
+Senior Jumper - 600 CP: While not equal to a Clan’s Leader or Heir, being an elder is still quite a powerful position. And it is one you can be assured to keep, now.
+
+
+You’re assured to have a high position in your clan now, with many responsibilities and greater powers, and extensive access to all of the clan’s resources. This position carries over to the future, meaning you can choose one faction in all future worlds to have a similar position in.
+
+
+This is not constrained by departments or Pavilions in this world, I guess. You can be a diplomat in one world and a General in another, remaining assured of having positions with similar influence and power regardless.
+
+
+Smooth
+
+
+Disguise Kit - 100 CP: You have a box full of disguise-useful materials of the highest quality. You have everything, from colors to fake hair, everything required for you to pretend to be another person is here. You are also good at using them, so much so that no mundane ways of detection can even tell your appearance is fake, let alone detect who you really are.
+
+
+Profound Weapon - 200 CP: A sword, a spear, or maybe something exotic like a… ribbon? Whatever. This is a Profound Weapon of your very own, and the important thing about it is, it’s linked directly to your soul. 
+
+
+Meaning you can have it in your hand with just a thought no matter where it may have been an instant ago, and perhaps more importantly, it grows with you. Not only does it perfectly channel any and all energies you can use, it even enriches and enhances them just by being passed through it. It’s also extraordinarily receptive to enhancements of any and all kinds, magical, technological or otherwise.
+
+
+For this world, it’s always exactly one Realm ahead of you, and the growth is similar in the future. 
+
+
+Trial Grounds - 400 CP: Time to time, you may want to pass on some of your powers to people for whatever reason. Finding a worthy bearer can be problematic and troublesome, quite extremely so. Not with these grounds. You may decide whatever of your powers or skills or abilities you want to hand out, and package them into a single bundle.
+
+
+This bundle then acquires a rudimentary sentience, and occupies these grounds. They take whatever form is appropriate with the powers you’re using them for, although you can override this. This sentience will generate appropriate tests according you guidelines you set and reward whoever passes with the powers you hand out. If you wish, you can discard this and set the exact tests yourself.
+
+
+Any number of people can get powers through this, but imbuing these lands with your power weakens them proportionately for a fairly extended period, depending on how much you have left. They do recover, though, in time.
+
+
+Heavenly Profound Treasure- [k][l]600 CP: Oh, this is big. You are in possession of one of the Seven Heavenly Profound Treasures, the most valuable, precious and powerful items in the entirety of this world. You can, if you wish, choose to fuse them to your own self, instead of just using them as items. This can be undone and redone at will. 
+
+
+These items are all indestructible, but can be taken from you unless fused. If taken away, you get them back only once the jump is over, unless you actually get off your ass and take it back. While possessed by another, they work for them just as well as they do for you. This is unless the item possesses a Treasure Spirit, in which case it depends on your relationship with the spirit.
+
+
+
+
+
+
+
+
+
+
+
+
+Companions
+Companions can’t purchase Companion options.
+
+
+Import - 50 CP: Bring in one of your existing companions, or create a new one. Either way, they get 800 CP to spend.
+
+
+100/200 CP - Canon Companion: Take any one person from the canon story along with you. You may take a mortal for 100 CP, and someone from the higher realms costs 200.
+
+
+200 CP - Beloved: Your own true love. Or loves, depending on you. They are of your preferred gender and appearance, and their personality always compliments you perfectly, matching you just right in every way, with full loyalty and devotion. You get one person per purchase, and they get 800 CP to spend.
+
+
+Scenarios
+Before getting into this section, please take a look at the scenario rules bit in the Notes. 
+
+
+Empire Building - Well, you can probably guess what this means. You need to build an empire on this planet, a nation of supreme and surpassing power and might equal, if not greater, than the 700 CP version of the Nation item, and the Illusory Demon Realm.
+
+
+You will face obvious problems in the process, such as the existing nations, sects and cultivators who like things as they are, and it remains up to you to overcome them all. You must conquer, or play the diplomatic game if that’s more your tune, and bring together a nation covering a whole continent.
+
+
+And once so assembled, you must rule it, for a minimum of ten years as the absolute lord and master of all the lands and the people and things in them. 
+
+
+For obvious reasons you cannot purchase any form of the nation item if you take this scenario, but if you do accomplish this in the time you have, you take the empire with you, with a very interesting feature. That is, you take the whole of it, no matter how big it gets. If you managed to conquer all three of this world’s continents, you can take this whole planet in a pocket dimension, and even selectively plant parts of it on the worlds you visit.
+
+
+Finally, this nature of your empire doesn’t actually change in the future. That is, even in the future any new lands you add to this empire become part of it, and continue to come with you. The experience also changes you, as you acquire an inhuman charisma that makes you come across as a great conqueror and statesman to everyone you encounter, while providing you extraordinary abilities regarding war, conquest, diplomacy and the management and running of nations in all their aspects.
+
+
+Great Founder - Kind of the same as before, except not really. You have the task to establish a sect, or a palace or clan or pavilion… it matters very little what you call it. The point is, you need to establish a cultivating organization and take it to the very top in this world.
+
+
+Your cultivators should be no weaker than those of the sacred grounds of the Azure Cloud Continent or the Profound Sky Continent. That is, there should be at least a dozen Sovereign 9/10 level members, and about… 50? Yeah, let’s call it 50 members at the lesser stages of the Sovereign Realm.
+
+
+That is, you have to build the 600 CP version of the sect, but entirely from the ground up. You see, you’re barred from taking any level of the Jumper Sect if you take this scenario, and also from taking Senior Jumper in case this needs to be said. In addition, halfway through your stay you find that the existing great powers of this world have taken notice of your plan to supplant them, and you find yourself targeted and opposed by the existing clans and sects of this world.
+
+
+In the beginning they will be like the four great powers of the Blue Wind Nation, but their levels, and the levels of the experts they send over to squash you will rise as you continue to endure. At the very end you find yourself labouring under not one but two instances of Sacred Rage, to be faced and opposed no matter what. At least it won’t go any further if you beat them off.
+
+
+That said, if you win not only does this sect follow you into future jumps with all of its people, resources and everything else intact, the members of this sect, as a rule, are discovered to be exemplary geniuses in pretty much all forms of skills and arts that exist in the future jumps. That is, don’t take this to mean that all your members are skilled in all arts of the future jumps, but rather that you have a random assortment of geniuses in numerous fields, just lying around.
+
+
+Also, your own skill in spotting, developing and honing potential and talent of all kinds is proven to be borderline supernatural, and indeed, it becomes actually supernatural. Not only can you teach just about any skill a person has potential for on speeds that practically turn them into ’ Geniuses Rare as Qilin Horns and Phoenix Feathers’, you can ignite potential in people even where there was none before!
+
+
+Jumper Che - You knew this was coming, didn’t you? You now take the place of one Yun Che, and must live his life in this world. While on the surface this may seem an incredible opportunity, and it is, it comes with an obligation.
+
+
+Over the course of the story Yun Che has positively impacted a number of people and organizations. He’s also negatively impacted more of them, but we’re trying to be constructive here. Your impact must be, at the very least, twice as good as him, on all those things. This applies only on quantitatively measurable things, so you don’t have to worry about making Jasmine twice as decent a person, but you must heal twice as many people as Yun Che healed, save twice as many members of each organization that he saved, foil twice as many plots, and so on.
+
+
+It’s going to be a complicated existence for you, that’s for sure. Of course, this scenario binds you to the traditional jump duration too, so there’s that. Once you do this, though… I mean do I need to mention it, really? You start with a number of artefacts in your position, and the equivalent of a number of perks. You may well get more over the course of your stay. Regardless of what it is, everything obtains full fiat-backing at once, as if you’d bought them from the doc. If that’s not a reward… oh, yes. You also get everyone you’re close to as companions. Not just waifus, but your friends, allies, family… everyone.
+
+
+Like No One Ever Was - Well, you’re not alone if you walk this path. But yours is the way of cultivation, jumper. You find yourself driven by an inner need, a fire to just cultivate, to grow beyond anything this world has seen before, and to rise and thrive over all others. Your goal in this world is not just the Sovereign 10 realm, but instead the Half-Step Divine Realm, the absolute height of power in this world.
+
+
+There is a complication, though. If you take this scenario, you’re barred from taking any of the capstones, be it of the items or perks. At least they’re sealed till after the jump, if you must still take them. You must walk this road the long way, one step at a time. That said, upon the successful completion of this scenario you receive an additional 1200 CP to be spent on capstones alone, so maybe it’s for the best, yeah?  
+
+
+A second reward you receive… is something a lot of people in the higher levels of this setting would kill for. Well, a lot of people in any level of this setting would kill for speaking to them funny, but you get the point.
+
+
+Hide it well, jumper, because you receive a complete, unabridged copy of the World Defying Heaven Manual upon the completion of this scenario. What it does isn’t very well known, but at a minimum it’s the finest collection of profound techniques and arts in this universe, detailing untold thousands upon thousands of cultivation techniques, fighting methods, movement arts and so much more, all of the absolute finest quality possible… and a way, somehow, of becoming a True God.
+
+
+Probably be real useful when you come back to this realm for charging into the Divine Realms, eh?
+
+
+Medical Saint Jumper - There are far too many people carrying out slaughters and murders in this world anyway, and far too few doing anything good. Even ‘Genius Doctors’ have their own masquerades and schemes running pretty much at all times. But when it comes to true, sincere attempts to do good, to heal the world and the people in it instead of hurting them, there really are far too few.
+
+
+… just one, actually, as far as anyone can tell. Out of however many there are on this planet. Well, not anymore, hopefully. You have an opportunity that’s utterly unique in this world, which so many people would give their own souls to have. You have a copy, a complete and unabridged copy of the Miracle of Life, also called the Heavenly Medicine Scripture.
+
+
+Your task, over the course of your stay, is to comprehend this manual, and use the findings inside to heal as many people as possible around you. These scriptures detail the healing of every wound and injury, and the ways to remove every poison and disease, and you must do the same, now. 
+
+
+If and when you succeed in this scenario, you find that your skills skyrocket not just in the field of healing people, but in any of the fields that can be considered similar to it. You seem to emanate an aura of peace and serenity, and just radiate profound goodness and decency.
+
+
+You are now a peerless diplomat and negotiator, a therapist and adviser beyond peer, always able to help people become better than they were before, in all ways that matter. Finally, on a more ‘tangible’ level, you find that your actual healing skills transcend any and all levels, beyond all rhyme or reason.
+
+
+Not only can you heal people or animals, you can even cure gods, or demons, or even beings you have never seen before that moment. Your skills cover all forms of injuries, even emotional, and all illnesses, mental, physical or magical. You really are the greatest Medical Saint ever. 
+
+
+Place of Power - Did you know that the current civilizations of the Blue Pole Star are only about 10%, at the most, of what they were once? When the planet was created way back when, it was 40% land and 60% water. Then the war between gods and devils happened, and now it’s 3% land and 97% water.
+
+
+Well, here is your task. I don’t even know how you’re going to do this, but somewhere on this planet, specifically in the 97% of land now underwater, there exists a spot where the laws of heaven and earth are of utterly, unbelievably supernal quality. 
+
+
+That is, not only are comparable to the Divine Realm’s lands, they’re instead comparable to the finest cultivation grounds of King Level realms, with all the benefits entailed. What your task is to find this spot, and somehow make it fit for cultivation usage, all within the first half of your stay.
+
+
+Because you see, as soon as you start using it’s energies in a meaningful quantity, and you’re going to have to, just about everyone of the Sovereign level on the planet can sense it and will head over to see it, and then fight for and take it.
+
+
+You must defend this place for your own use, or those you choose to let use it, for at least a full quarter of your stay here. That is, if your stay is a thousand years then you don’t fail the scenario so long as the total duration of your absolute, uncontested control of this place  amounts to more than 250 years.
+
+
+If you accomplish this then in the future you find that not only does this place retain its power and come with you as a warehouse attachment/pocket dimension, it also develops equal value in all future jumps. That is, in a sci-fi jump this would be a warehouse full of insanely high technology, or a priceless collection of artifacts and pure magic in a magical jump… so on and so forth.
+
+
+Drawbacks
+You may take any number of drawbacks you want for full CP, with no limits.
+
+
+Not Done Yet +50 CP: Maybe the traditional arrival point and duration don’t interest you? You may choose instead to arrive at any point in the past of this planet, to see how things were back before Yun Che started on his journey to shake the skies. Whatever point you go back to, you need only to stay for 10 years. Unless... you receive 50 CP for every additional decade you spend in this world. 
+
+
+I'm Surrounded By Assholes +100 CP: Did I mention that this was a planet full of assholes? Because this is a planet full of assholes. By sheer virtue of living and cultivating here you will inevitably keep running into petty, touchy, oversensitive, entitled, sociopathic, possibly psychopathic, and just plain insufferable jerks. It’s not that everyone you meet will be a dick, more that on a regular basis you will run into someone who just has to be a dick. Even if you are trying your best not to give offense they will trump up an excuse to take offense anyway, or else simply decide that you or your friends have been chosen for the honor of being their next bullying victim.
+
+
+Don't bother trying to reason with them; if they were willing to listen to reason, they wouldn't be stereotypical Xianxia assholes in the first place. You could in theory placate them by simply giving them whatever they want, but that would just make them come back later with another round of even more obnoxious demands.
+
+
+Fortunately for you, this Drawback does not scale; antagonists will be no more powerful than they would normally be. Furthermore, if you are obviously too powerful for them to confront then they will (usually) not be stupid enough to directly confront you. They will, however, go behind your back to try and intrigue against you, slander you to the general populace, inform on you to your enemies, steal your shinies when you're not looking, attack you when you're weak, sexually harass your waifus, or bully your less powerful friends.
+
+
+You can - and almost certainly will - thump these assholes hard enough that they lose all interest in hassling you further, if not hard enough to make them lose interest in continuing to use oxygen, and this will solve your current asshole problem... for a while. Then you get new assholes.
+
+
+If you have Celestial Profound Basic Decency Inducement that does still work to encourage the assholes you encounter to learn the ways of the not-asshole, but it does nothing to slow down how often you encounter new assholes.
+
+
+Coward +100 CP : You’re just not very brave. Faced with seriously heavy auras like those of the Emperor realm or above, let alone genuinely dangerous situations, you start feeling skittish and sweaty, and the chances of intestinal accidents start climbing.
+
+
+Cold and Aloof +200 CP: You have a very off-putting manner. You’re excessively reserved, barely even speaking to anyone, even when you know them well and they have done favors for you. You speak little, hate being touched to the point that you could launch killing hits at someone even while they’re healing you, and in general act immensely ungrateful even to people who have literally saved your life.
+
+
+Bad Translations +200: You can’t really talk well. When you say something, it comes out strangely stilted and awkward, as if it was inexpertly translated from a different language. Even your thoughts are like this. This doesn’t hamper you all that much, really, but is really, really annoying.
+
+
+The Wrong Head +200 CP: What can you do, you have needs! You are far too needy of sex and the associated comforts, to your active detriment now and then. You will take time off of cultivation to chase skirts, you will dream over cute people when you really should be fulfilling your duties...it’s a hassle for everyone around you, really.
+
+
+Necessary Sovereignty +200 CP: You may not leave this world before you achieve Sovereign 10 in your cultivation. If necessary, your jump is extended to however long it takes you. 
+
+
+Profoundly Delicious +300 CP: All kind of Profound Beasts think you’re very tasty, and want to kill and eat you. You can’t go two steps into a forest or untamed area without getting swarmed, and even tamed beasts try to snap at you if their masters aren’t firm enough. Which they rarely will be.
+
+
+Disproportionate +300 CP: Your sense of proportions is wacky. You tend to go above and beyond in repaying people for anything they do to or for you, sometimes far too much and far too often to your own detriment.
+
+
+Unnecessarily passing on crucial herbal boosts for a pseudo-romantic gesture, dropping whole fortunes in return for minor services, exterminating entire clans for small slights, all these are within the realm of possibility for the kind of things you do.
+
+
+Yun Big Asshole +300 CP: Game over man, game over! Maybe you remind him of someone he hated in his past life, maybe someone close to you killed or abducted his friends or family, but Yun Che is on your ass now. He hates you, wants to destroy you and won’t stop until you’re dead under any conditions. 
+
+
+Sacred Rage +400 CP: One of the Four Sacred Grounds, the Mighty Heavenly Sword Region, the Sun Moon Divine Hall, the Supreme Ocean Palace or the Absolute Monarch Sanctuary are after you. They will hunt you to the ends of the earth, and will never stop, unless you destroy them completely and utterly. While they won’t commit to you so extremely that their existence could be threatened, don’t expect one or two setbacks to even slow them down.
+
+
+You may take this drawback multiple times, for another Sacred Ground, up to four times. If your location roll placed you out of the Profound Sky Continent, it is discarded and you must choose a place in that continent. 
+
+
+You’re Asking for Death! +400 CP: Is the kind of thing you say a lot. You are arrogant, amoral and completely overbearing, in simple terms, the stereotypical Xianxia Antagonist. You will underestimate everyone you meet, act in a truly vile manner, and in general be a completely despicable person.
+
+
+The only people exempt from this treatment are your companions. 
+
+
+Crippled Profound Veins +600 CP: Your profound veins are completely crippled, making you entirely unable to channel Profound Energy. While it’s possible for them to be fixed or replaced if you have the means, as they are you can never cultivate beyond the first level of the Elementary Profound Realm.  
+
+
+Treasured +600 CP: News has spread through the cosmos, wondrous and terrible news. Wondrous for some, terrible for you. About an year after your arrival, information spreads like wildfire that you have one or more of the Divine Profound Treasures. Which one they believe it to be is up to you, except that it can’t be the Evil Infant’s Wheel, unless you actually buy that one.
+
+
+Gods of various ranks, intelligent Profound Beasts, divinely empowered clans are all coming to relieve you of your treasure, and they will not stop for any reason at all. In the beginning you may expect minor underlings to be sent to you, but this will escalate as time passes or they are killed, until more and more powerful gods target you. By the end of your stay, getting the King of the Star Gods himself after you is not out of the realm of possibility.
+
+
+For this to be survivable at all, one exception will be made. The Star Goddess of Slaughter, Princess Jasmine, will be unaffected by this drawback.  
+
+
+
+
+Choices
+
+
+Stay: Yeah, right.
+
+
+Go Home: Really? Pull the other one.
+
+
+Continue: There are realms beyond this one. Go on and grow even greater!
+
+
+Notes
+
+
+Cultivation
+
+
+Cultivation in this world is pretty straightforward. Your veins’ ability to take in and contain energy grows, and so the energy inside them does too… and that’s pretty much it. There are certain powers tied to levels, such as flight, which is unlocked at the Sky realm, or the manipulation of the laws of space to create an inner pocket dimension, which can be done at the Sovereign realm.
+
+
+It’s also possible for certain clan bloodline abilities to show up only at specific levels, but we only know of one.
+
+
+Cultivation Realms
+
+
+There are Nine profound realms in the Mortal Way. Having transcended these a mortal immediately starts becoming a god, though only the modern day, weaker version. It’s supposed to be possible to become a True God eventually, but more on that later.
+
+
+This jump is supposed to be concerned only with the Blue Pole Star, and the realms that are found here in any significant capacity are as follows:
+
+
+Elementary Profound Realm
+Nascent Profound Realm
+True Profound Realm
+Spirit Profound Realm
+Earth Profound Realm
+Sky Profound Realm
+Emperor Profound Realm
+Tyrant Profound Realm
+Sovereign Profound Realm
+
+
+Each realm has ten levels, and the power of each level is significant higher than the last, with the difference growing at every level. Three or four people at Elementary 3 could possibly beat up one person at Elementary 4, but one man at Sovereign 3 could slaughter Level 2 Sovereigns by the dozen.
+
+
+Also, Emperor and above level cultivators have nicknames. Emperors are called ‘Thrones’, Tyrants ‘Overlords’, and Sovereign level cultivators are called ‘Monarchs’.
+
+
+The Divine realms aren’t really the concern of this doc, but what the hell, right?
+
+
+
+
+They go as:
+
+
+Divine Origin Realm
+Divine Soul Realm
+Divine Tribulation Realm
+Divine Spirit Realm
+Divine King Realm
+Divine Sovereign Realm
+Divine Master Realm
+
+
+As the name suggests, a tribulation is faced at the bottleneck between Divine Tribulation 10 and Divine Spirit 1. Lightning bolts hit you really hard, and only those who survive make it onwards.
+
+
+Divine King level and higher cultivators are deemed fit to rule over planets as Kings. Only lesser ones, though. Divine Master is about as high as you can go without sketchy stuff lying around in the secret books of King level divine realms, authentic stuff from the World Defying Heaven Manual, the inheritances of Creation Gods… or Jumper-grade OCP.
+
+
+List of Heavenly Profound Treasures
+
+
+Heaven Punishing Ancestral Sword: A sword born with the universe, this is an item of the purest Yang energy, a weapon without peer. It is the First Sword, King and Ancestor of all swords. And it is an item just as powerful as one would imagine with the name.
+
+
+With the sword in hand, there is no one superior to the wielder, no one who can stand against you. No supernatural powers work on the wielder, be they magical, poisons or reality twisting. One mortal with this weapon in hand could tear down the heavens virtually unopposed.
+
+
+Your immunity lasts as long as this sword is drawn and in your hand.
+
+
+Evil Infant's Wheel of Myriad Tribulations: One of the first two Profound Treasures, this wheel was born at the dawn of time, and is quite possibly the single most evil thing in existence… at least from others’ perspective.
+
+
+A thing of pure, dark and vile Yin energy, this item creates the most deadly poison in the universe. When activated, the sound of a baby’s laughter emanates from it, along with a dark mist. Anything this dark mist touches dies, with no exceptions. It doesn’t matter how durable they are, or whether or not they are killable or not, or if they are gods or abominations or demons. This is the single deadliest poison in the universe, and the most anyone can do is to survive longer than others. In any case, no one can survive longer than a few hours, once the mist has so much as touched them.
+
+
+In truth, the wheel’s story is a tragic one. It is an infant, with an infant’s mind, who just does not want to be left in the cold and the dark. But it has no control over its own powers, so…
+
+
+Primordial Seal of Life & Death: One of the most sought out of the treasures, this seal renders you completely ageless. While external effects may still kill you, you will never die of old age.
+
+
+Heavenly Time Pearl: This pearl is one of the two greatest aids to Cultivation in the whole universe. The way it works is simple. It has a pocket dimension inside, which holds the power of limitless time itself. In this dimension, time moves much faster, meaning one day in the outside world is equal to one hundred years inside the pearl.
+
+
+This pearl has fused with you completely, and has recognized you as its master. This means that you can go in and out of its inner dimension at will, and can also take anyone you want with you, in any numbers you want. The inside has breathable air and limitless space, but nothing to eat or drink except what you take in.
+
+
+Heavenly Poison Pearl: The second of the world’s greatest cultivation aids, and one of the most useful items on this list. This pearl has the power to interact perfectly with all kinds of poisons, herbs and plants. It can neutralize even the worst mundane poison effortlessly. Magical or divine poisons are also within its power to remove, but they may take more time and effort, depending on how bad it is. For other people, that is. The master of this pearl is completely immune to poison of all kinds.
+
+
+One thing to note is that while the pearl can protect it’s master from it quite easily, it cannot neutralize the Evil Infant’s Wheel poison in others. The pearl can also produce its own poison, called the Heaven Wounding Thought Severing Poison. This poison can instantly melt mortals, and can also severely wound immortals. Once introduced to other poisons, it can produce those too, again barring the poison of the Evil Infant’s Wheel.
+
+
+Beyond this, it has a limitless storage space which you can access by thought alone, and the power to perfectly refine any herbs or medicines you may encounter, no matter how difficult they may normally be to refine. The energy of the pearl perfectly simulates any and all environmental requirements, and can perform complex chemical processes in an instant, letting you turn raw herbs directly into pills and elixirs, performing a process that can take years in seconds.
+
+
+Finally, this pearl can sense the aura of any nearby medicinal items of significant potency, and guide you to them.
+
+
+World Piercer: An item capable of violating the laws of space. This item provides you perfect teleportation across any distance, even across planets, galaxies and/or dimensions.
+
+
+You just need to know the location well, and this thorn can take you there, completely ignoring any protections or obstructions. You can also take any number of people or items you want with you, but they can only be unattached items. No moving buildings or fields.
+
+
+Mirror of Samsara: A device that opposes the laws of fate and reincarnation. This is quite possibly the most powerful item on this list, but it it’s own, subtle way. It’s most permanent effect is that it tampers with destiny, providing you absolutely unbelievable luck. 
+
+
+Your luck is almost a tangible thing, so much so that you could factor it into your plans and be remarkably certain to come out ahead. You come across long lost treasures without even looking for them, can be assured that something that’s only available for a couple of days in multiple decades will definitely be there when you need it, suitably powerful help arrives to rescue you just as you need it, and so on. Even those associated with you or have your favor share in this, primarily through the fact that you seem to always arrive just in the nick to time to save them.
+
+
+Beyond the luck, this mirror allows you to, from time to time, say once a year, achieve minor impossibilities. The limits of what is possible and what isn’t bend for you, letting you do something like master the final stages of an extremely advanced martial art without knowing anything about the basics of it, and so on. Finally, once a jump, you can use this mirror to completely defy fate and the heavens. You can skip one person through the cycle of reincarnation, completely skipping whatever rewards or punishments they earned and bring them back. This is resurrection, for all intents and purposes. And yes, it can be you, without losing the mirror even. Can be done once a decade post-chain.
+
+
+Scenario Rules:
+
+
+Taking a scenario (or more) changes certain aspects of the jump. While you must still fulfill the conditions of any drawbacks you’ve taken, all other conditions are superseded by scenario rules. You may take any number of scenarios you can make fit together.  Failure of a scenario does not cause chain failure, but instead causes forfeiture of any potential rewards.
+
+
+There is a certain complication that applies to most of the scenarios., the end date for your jump is set as the day Yun Che in canon leaves the Blue Pole Star (BPS) with Mu Bingyun. That’s because this jump is ATG-BPS, see? 
+
+
+Regarding additional CP for taking scenarios, here’s how it works. Barring the ones where this doesn’t apply, you receive an additional 500 CP… with a twist. The furthest back you can start in this world is 10,000 years before modern day, when the current titanic powers of the planet rose to greatness.
+
+
+So default start date, which is also the latest possible date, is set to two years before the start of canon. That is, when Yun Che is 14. And going earlier from this point, you lose 50 CP for every millennium in time you choose to go back by. That is, if you start 1000 years before Yun Che leaves BPS, you receive 450 CP to spend. 400 CP if you go back 2000 years, and so on. Regardless of how far back you go, you have till Yun Che leaves, or would have left in canon, to accomplish the objectives of your scenario(s).
+
+
+Evil God’s Gates:
+
+
+1st Realm: Evil Soul
+Skill Unlocked: Falling Moon Sinking Star
+You can compress vast amounts of Profound Energy in one place, and release it in a mighty, devastating burst.
+
+
+2nd Realm: Burning Heart
+Skill Unlocked: Sealing Cloud Locking Sun
+A defense skill. This skill creates a powerful barrier, which can hold out against even massively powerful attacks. It’s strength depends on the power you put into it. 
+
+
+3rd Realm: Purgatory
+Skill Unlocked: Destroying Sky Decimating Earth
+You can release your energy in a wide burst, which decimates a huge area around you, depending on the power put into it.
+
+
+4th Realm: Rumbling Heaven
+Skill Unlocked: Moon Star 
+
+
+5th Realm: Hades
+Skill Unlocked: Other Shore Ashura
+
+
+The details about the sixth and seventh gate are entirely unknown, except that they exist.
+
+
+The immunity an Evil God Seed provides you is a conceptual immunity to all damage from that element and those associated with it. For example, someone with a Water seed would be immune to both Ice and Vapor too, as well as the pressure at the bottom of the ocean.
+
+
+Any items, if lost or destroyed, will be restored in a year’s time, unless the item text says otherwise. 
+
+
+[a]The number of General Perks vs the Origin Perks are too unbalanced can you make it two in every tier for Origin Perks?
+[b]Is there any chance of Light being added as a potential affinity, here or elsewhere in the doc? Light affinity is extremely rare and apparently not an element that the Evil God had, but some sort of Evil God Seed-alike for Light would be cool too. Especially since it's a bit of a mystery how Yun Che was able to get light affinity as he did in canon.
+Come to think of it, an option to use Darkness as an affinity rather than using it through the Evil God Seed would be nice, but unprecidented in canon outside devils and that one poor bugger who was out for revenge and got himself killed during the tournament arc.
+[c]This seems quite low, blue pole star has so many people 1% is an absurdly high number. It should probably be more like 0.001%
+[d]These seeds are one use only type items or they will be replaced by new ones after a period of time (a week, a month or longer?) when they absorbed by the Jumper?
+[e]Fairly certain they're unique one-use items. Once used that's it, they give their power to the person that used them and then they're gone. That's how they were in canon, but then again in canon literally only one person could ever use them to begin with, since only one drop of immortal blood containing the essence of the Evil God was made and only someone with that immortal blood can use the evil god seeds.
+[f]Would this mean if you only took one seed such as fire and then somewhere down the line decided to start using say lighting would you get the benefits of the lighting seeds immunity and control or would it just apply to fire abilities in the future?
+[g]Fire
+[h]This is a bit insane no? This would allow you to spawn anything in this plane as long as it's not sentient. God machines, as much true god blood as you need, the best cultivation spaces. Pretty much anything you can imagine as long as it's not sentient. This invalidates a shit ton of other items in this doc if this is truly how it works.
+[i]This place is a Warehouse attachment or something like a pocket dimension only accessible by the Jumper and others given permission to enter by the Jumper?
+[j]Is it possible to add this small area to an already owned porerty of the Jumper (like a house or mansion or maybe become part of the Heavenly Time Pearl which fused with the Jumper)? 
+Or it must be a separate small area somewhere in the world?
+[k]Are we only aloud to buy one?
+[l]You can purchase all of them if you want to. At the start of the Item section it is mentioned that unless it is stated otherwise, you can buy any item multiple times.

@@ -94,7 +94,6 @@ input.addEventListener('change',() => {
 		var fileName = getFileName();
 		var ext = fileName.split(".")[1];
 		if(ext=="json") {
-			console.log("jsonParse");
 			try {
 				var obj = JSON.parse(file);
 				if(!isNull(obj)) {
@@ -107,7 +106,6 @@ input.addEventListener('change',() => {
 			}
 		}
 		else if(ext=="txt") {
-			console.log("txtParse");
 			processFile();
 		}
 	};
@@ -1121,16 +1119,21 @@ function parseFile() {
 			cost = cost.replaceAll("{","");
 			cost = cost.replaceAll("}","");
 			cost = parseInt(cost);
+			var ovDom = nOver_Domain.split(":")[0];
+			if(isNull(ovDom)) {
+				ovDom = nOver_Domain;
+			}
+			if(!nOver_Domain.includes(ovDom)) {
+				ovDom = nOver_Domain;
+			}
 			
-			if(cost < 50 && cost < 30) { cost = 0;}
-			if(cost < 50 && cost >= 30) { cost = 50;}
 			title = capitalSentance(title);
 			
-			trimedPerk["Cost"] = cost;
+			trimedPerk["Cost"] = roundCost(cost);
 			trimedPerk["Title"] = title;
 			trimedPerk["Source"] = source;
 			trimedPerk["Domain"] = nOver_Domain;
-			trimedPerk["Over_Domain"] = nOver_Domain.split(":")[0];
+			trimedPerk["Over_Domain"] = ovDom;
 			trimedPerk["Upper_Source"] = overSource;
 		}
 		else if(isBullet(parseLine)) {
@@ -1141,7 +1144,7 @@ function parseFile() {
 				}
 			}
 			else {
-				trimedPerk["Description"] = trimedPerk["Description"] + " \r&emsp; " + parseLine.trim();
+				trimedPerk["Description"] = trimedPerk["Description"] + " \n&emsp; " + parseLine.trim();
 				if(getMulti(trimedPerk["Description"])) {
 					trimedPerk["Retake"] = true;
 				}
@@ -1203,7 +1206,7 @@ function parseFile() {
 				}
 			}
 			else {
-				trimedPerk["Description"] = trimedPerk["Description"] + " \\r&emsp; " + parseLine.trim();
+				trimedPerk["Description"] = trimedPerk["Description"] + " \\n&emsp; " + parseLine.trim();
 				if(prereqReg1.test(parseLine)) {
 					if(isNull(trimedPerk["Prereq_Title"])) {
 						trimedPerk["Prereq_Title"] = parseLine.match(prereqReg1)[1].trim();
@@ -1246,7 +1249,7 @@ function parseFile() {
 				}
 			}
 			else {
-				trimedPerk["Description"] = trimedPerk["Description"] + " \\r&emsp; " + parseLine.trim();
+				trimedPerk["Description"] = trimedPerk["Description"] + " \\n&emsp; " + parseLine.trim();
 				if(getMulti(trimedPerk["Description"])) {
 					trimedPerk["Retake"] = true;
 				}
@@ -1262,7 +1265,7 @@ function parseFile() {
 				}
 			}
 			else {
-				trimedPerk["Description"] = trimedPerk["Description"] + " \\r&emsp; " + parseLine.trim();
+				trimedPerk["Description"] = trimedPerk["Description"] + " \\n&emsp; " + parseLine.trim();
 				if(getMulti(trimedPerk["Description"])) {
 					trimedPerk["Retake"] = true;
 				}
@@ -1278,7 +1281,7 @@ function parseFile() {
 				}
 			}
 			else {
-				trimedPerk["Description"] = trimedPerk["Description"] + " \\r&emsp; " + parseLine.trim();
+				trimedPerk["Description"] = trimedPerk["Description"] + " \\n&emsp; " + parseLine.trim();
 				if(getMulti(trimedPerk["Description"])) {
 					trimedPerk["Retake"] = true;
 				}
@@ -1343,6 +1346,12 @@ function parseFile() {
 			}
 			toAdd.push(trimedPerk);
 			trimedPerk = emptyPerk();
+		}
+		if(i==(importFile.length-1)) {
+			if(trimedPerk.Description!="") {
+				toAdd.push(trimedPerk);
+				trimedPerk = emptyPerk();
+			}
 		}
 	}
 	

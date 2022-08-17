@@ -356,10 +356,6 @@ async function doDrive(dir) {
 	}
 }
 
-function createFileForParse(obj) {
-	
-}
-
 function sleepFile() {
 	console.log("sleepFile "+count);
 	uploadFile(files[count]);
@@ -413,14 +409,166 @@ function processFile(file) {
 		var rawData = fs.readFileSync(oldPath)
 		
 		switch(extension) {
+			case "json":
+				return jsonToArray(file);
+				break;
 			case "pdf":
 				return pdfToTxtFinal(file);
 				break;
 			case "txt":
 				return readFileTxtFinal(file);
 				break;
+			default:
+				break;
 		}
 	}
+}
+
+function jsonToArray(file) {
+	fs.readFile(oldPath, 'utf8', function(err, data) {
+		if(err) {
+			console.log(err);
+		}
+		var obj = JSON.parse(data);
+		return flatJson(createNotes(checkPerks(formatPerks(obj))));
+	});
+}
+
+function formatPerks(obj) {
+	if(obj.constructor = [].constructor) {
+		if(isFormated(obj[0])) {
+			return obj;
+		}
+	}
+	var domains = {};
+	var allDoms = [];
+	obj.forEach(function(n) {
+		if(!isNull(n)) {
+			var tmp = {"Domain":n.Domain,"Over_Domain":domainLookup(n),"Perks":[n]};
+			if(!isNull(n) && !isNull(n.Domain)) {
+				if(domains.hasOwnProperty(n.Domain)) {
+					domains[n.Domain].Perks.push(n);
+				}
+				else {
+					domains[n.Domain] = tmp;
+				}
+			}
+		}
+	});
+	var keys = Object.keys(domains);
+	keys.sort(function(a, b) {
+		if(a.toLowerCase() < b.toLowerCase()) {
+			return -1;
+		}
+		if(a.toLowerCase() > b.toLowerCase()) {
+			return 1;
+		}
+		return 0;
+	});
+	for(var i=0; i<keys.length; i++) {
+		allDoms.push(domains[keys[i]]);
+	}
+	return allDoms;
+}
+
+function checkPerks(obj) {
+	obj.forEach(function(d) {
+		d.Perks.forEach(function(p,idx,theArr) {
+			theArr[idx] = checkPerk(p,d.Over_Domain);
+		});
+	});
+	return obj;
+}
+
+function checkPerk(jsonObj,overStr) {
+	if(isNull(jsonObj.Title)) {
+		jsonObj["Title"] = "";
+	}
+	if(isNull(jsonObj.Domain)) {
+		jsonObj["Domain"] = "Add";
+	}
+	if(isNull(jsonObj.Restrict_Title)) {
+		jsonObj["Restrict_Title"] = "";
+	}
+	if(isNull(jsonObj.Exclude_Title)) {
+		jsonObj["Exclude_Title"] = "";
+	}
+	if(isNull(jsonObj.Over_Domain)) {
+		if(isNull(overStr)) {
+			if(isNull(jsonObj.Domain)) {
+				jsonObj["Over_Domain"] = "Add";
+			}
+			else {
+				jsonObj["Over_Domain"] = jsonObj.Domain;
+			}
+		}
+		else {
+			jsonObj["Over_Domain"] = overStr;
+		}
+	}
+	if(isNull(jsonObj.Description)) {
+		jsonObj["Description"] = "";
+	}
+	else {
+		jsonObj["Description"] = jsonObj["Description"].replace(/([ ]+)/g," ");
+		jsonObj["Description"] = jsonObj["Description"].trim();
+	}
+	if(isNull(jsonObj.Retake_Multiplier)) {
+		jsonObj["Retake_Multiplier"] = 1;
+	}
+	if(isNull(jsonObj.Retake_Limit)) {
+		jsonObj["Retake_Limit"] = 0;
+	}
+	if(isNull(jsonObj.Dice)) {
+		jsonObj["Dice"] = "1d1";
+	}
+	if(isNull(jsonObj.Retake)) {
+		jsonObj["Retake"] = false;
+	}
+	if(isNull(jsonObj.Taken)) {
+		jsonObj["Taken"] = false;
+	}
+	if(isNull(jsonObj.Tags)) {
+		jsonObj["Tags"] = [];
+	}
+	if(isNull(jsonObj.Discount_Title)) {
+		jsonObj["Discount_Title"] = "";
+	}
+	if(isNull(jsonObj.Discount_Multiplier)) {
+		jsonObj["Discount_Multiplier"] = 0.5;
+	}
+	if(isNull(jsonObj.Free_Title)) {
+		jsonObj["Free_Title"] = "";
+	}
+	if(isNull(jsonObj.Prereq_Title)) {
+		jsonObj["Prereq_Title"] = "";
+	}
+	if(isNull(jsonObj.Conjoin_Title)) {
+		jsonObj["Conjoin_Title"] = "";
+	}
+	if(isNull(jsonObj.Cost)) {
+		jsonObj["Cost"] = 0;
+	}
+	if(isNull(jsonObj.Retake_Cost)) {
+		jsonObj["Retake_Cost"] = 0;
+	}
+	if(isNull(jsonObj.Discount_Cost)) {
+		jsonObj["Discount_Cost"] = 0;
+	}
+	if(isNull(jsonObj.Source)) {
+		jsonObj["Source"] = "Add";
+	}
+	if(isNull(jsonObj.Upper_Source)) {
+		jsonObj["Upper_Source"] = getUpper(jsonObj);
+	}
+	if(!isNull(jsonObj.Upper_Sources)) {
+		if(jsonObj.Upper_Sources.length == 1) {
+			if(jsonObj.Upper_Sources[0]=="") {
+				delete jsonObj.Upper_Sources;
+			}
+		}
+	}
+	return jsonObj;
 }
 
 function readFileTxt(file) {
@@ -1898,11 +2046,9 @@ function parseFile(importFile) {
 			cost = cost.replaceAll("}","");
 			cost = parseInt(cost);
 			
-			if(cost < 50 && cost < 30) { cost = 0;}
-			if(cost < 50 && cost >= 30) { cost = 50;}
 			title = capitalSentance(title);
 			
-			trimedPerk["Cost"] = cost;
+			trimedPerk["Cost"] = roundCost(cost);
 			trimedPerk["Title"] = title;
 			trimedPerk["Source"] = source;
 			trimedPerk["Over_Domain"] = nOver_Domain;
@@ -2044,6 +2190,19 @@ function parseFile(importFile) {
 	}
 	writeToFilePath(toAdd,"addPerks.json","./public/json/");
 	return toAdd;
+}
+
+function roundCost(obj) {
+	var value = Math.round(obj);
+	var remainder = obj % 50;
+	remainder = Math.floor(remainder);
+	if(value>0) {
+		value = value - remainder;
+	}
+	else {
+		value = value + remainder;
+	}
+	return value;
 }
 
 function multiReq(txt) {
@@ -2221,16 +2380,15 @@ function arraySimilar(a,b) {
 	return o;
 }
 
-function createNotes() {
-	console.log("createNotes");
+function createNotes(obj) {
 	allDomains = [];
 	allFandoms = [];
 	allSources = [];
-	allUpper = {};
-	sortForge();
+	minDomains = {};
+	obj = sortForge(obj);
 	var count = 0;
 	var dcount = 0;
-	celestial_forge.forEach(function(d) {
+	obj.forEach(function(d) {
 		if(!minDomains.hasOwnProperty(d.Domain)) {
 			minDomains[d.Domain] = count;
 			count++;
@@ -2252,22 +2410,21 @@ function createNotes() {
 			if(!allFandoms.includes(p.Upper_Source)) {
 				allFandoms.push(p.Upper_Source);
 			}
-			if(!allUpper.hasOwnProperty(p.Source) && !isNull(p.Upper_Source)) {
-				//allUpper[p.Source] = p.Upper_Source;
-				allUpper[p.Source] = isNull(p.Upper_Sources) ? [p.Upper_Source] : p.Upper_Sources.sort();
+			if(!upperDict.hasOwnProperty(p.Source) && !isNull(p.Upper_Source)) {
+				upperDict[p.Source] = isNull(p.Upper_Sources) ? [p.Upper_Source] : p.Upper_Sources.sort();
 			}
 			else if(!isNull(p.Upper_Source)) {
-				allUpper[p.Source].concat(isNull(p.Upper_Sources) ? [p.Upper_Source] : p.Upper_Sources.sort());
-				allUpper[p.Source] = [...new Set(allUpper[p.Source])];
-				allUpper[p.Source] = allUpper[p.Source].sort();
+				upperDict[p.Source].concat(isNull(p.Upper_Sources) ? [p.Upper_Source] : p.Upper_Sources.sort());
+				upperDict[p.Source] = [...new Set(upperDict[p.Source])];
+				upperDict[p.Source] = upperDict[p.Source].sort();
 			}
 			pcount++;
 		});
 		dcount++;
 	});
-	allUpper = Object.keys(allUpper).sort().reduce(
+	upperDict = Object.keys(upperDict).sort().reduce(
 		(obj, key) => {
-			obj[key] = allUpper[key];
+			obj[key] = upperDict[key];
 			return obj;
 		},
 		{}
@@ -2290,11 +2447,12 @@ function createNotes() {
 		}
 		return 0;
 	});
+	return obj;
 }
 
-function sortForge() {
-	console.log("sortForge");
-	celestial_forge.sort(function(a, b) {
+function sortForge(obj) {
+	if(isNull(obj)) return obj;
+	obj.sort(function(a, b) {
 		if(a.Domain.toLowerCase() < b.Domain.toLowerCase()) {
 			return -1;
 		}
@@ -2305,8 +2463,7 @@ function sortForge() {
 	});
 	var simP = [];
 	var domainCount = 0;
-	celestial_forge.forEach(function(d) {
-		totalForge+=d.Perks.length;
+	obj.forEach(function(d) {
 		var perkCount = 0;
 		d.Perks = d.Perks.sort(function(a, b) {
 			if(a.Title.toLowerCase() < b.Title.toLowerCase()) {
@@ -2350,73 +2507,7 @@ function sortForge() {
 		});
 		domainCount++;
 	});
-	sameTitleDomain();
-}
-
-function sameTitleDomain() {
-	console.log("sameTitleDomain");
-	var titleArray = [];
-	var uniqueArray = [];
-	var matchArray = [];
-	var perks = [];
-	$.each(celestial_forge, function(index, item) {
-		$.each(item.Perks, function(idx,value) {
-			if(!isNull(value)) {
-				if($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
-					titleArray.push(value.Title.toLowerCase()+"_"+value.Source.toLowerCase());
-					uniqueArray.push(value);
-				}
-				else {
-					matchArray.push(titleArray.findIndex(value.Title.toLowerCase()+"_"+value.Source.toLowerCase()));
-					perks.push(value);
-				}
-			}
-		});
-	});
-	perks.sort(function(a, b) {
-		if(a.Domain_Number < b.Domain_Number) return 1;
-		else if(a.Domain_Number > b.Domain_Number) return -1;
-		else if(a.Perk_Number < b.Perk_Number) return 1;
-		else if(a.Perk_Number > b.Perk_Number) return -1;
-		else return 0;
-	});
-	for(var i=0; i<perks.length; i++) {
-		var deleteMe = getSmallerIndex(uniqueArray[matchArray[i]],perks[i]);
-		delete celestial_forge[deleteMe.Domain_Number].Perks[deleteMe.Perk_Number];
-	}
-	celestial_forge = celestial_forge.filter(function(p) {
-		return (!isNull(p));
-	});
-	celestial_forge.forEach(function(d) {
-		d.Perks = d.Perks.filter(function(p) {
-			return (!isNull(p));
-		});
-	});
-}
-
-function getSmallerIndex(a,b) {
-	var result = {"Domain_Number":b.Domain_Number,"Perk_Number":b.Perk_Number};
-	var aKeys = Object.keys(a);
-	var bKeys = Object.keys(b);
-	if(aKeys.length>bKeys.length) {
-		return {"Domain_Number":b.Domain_Number,"Perk_Number":b.Perk_Number};
-	}
-	if(bKeys.length>aKeys.length) {
-		return {"Domain_Number":a.Domain_Number,"Perk_Number":a.Perk_Number};
-	}
-	if(bKeys.length==aKeys.length) {
-		for(var i=0; i<aKeys.length; i++) {
-			if(typeof a[aKeys[i]] == "string") {
-				if(a[aKeys[i]].length>b[abKeys[i]].length) {
-					return {"Domain_Number":b.Domain_Number,"Perk_Number":b.Perk_Number};
-				}
-				if(b[abKeys[i]].length>a[aKeys[i]].length) {
-					return {"Domain_Number":a.Domain_Number,"Perk_Number":a.Perk_Number};
-				}
-			}
-		}
-	}
-	return result;
+	return obj;
 }
 
 function emptyPerk() {
@@ -2481,15 +2572,21 @@ function parseArray(importFile) {
 			cost = cost.replaceAll("}","");
 			cost = parseInt(cost);
 			
-			if(cost < 50 && cost < 30) { cost = 0;}
-			if(cost < 50 && cost >= 30) { cost = 50;}
+			var ovDom = nOver_Domain.split(":")[0];
+			if(isNull(ovDom)) {
+				ovDom = nOver_Domain;
+			}
+			if(!nOver_Domain.includes(ovDom)) {
+				ovDom = nOver_Domain;
+			}
+			
 			title = capitalSentance(title);
 			
-			trimedPerk["Cost"] = cost;
+			trimedPerk["Cost"] = roundCost(cost);
 			trimedPerk["Title"] = title;
 			trimedPerk["Source"] = source;
 			trimedPerk["Domain"] = nOver_Domain;
-			trimedPerk["Over_Domain"] = nOver_Domain.split(":")[0];
+			trimedPerk["Over_Domain"] = ovDom;
 			trimedPerk["Upper_Source"] = overSource;
 		}
 		else if(isArrayBullet(parseLine)) {
@@ -2703,9 +2800,15 @@ function parseArray(importFile) {
 			toAdd.push(trimedPerk);
 			trimedPerk = emptyPerk();
 		}
+		if(i==(importFile.length-1)) {
+			if(trimedPerk.Description!="") {
+				toAdd.push(trimedPerk);
+				trimedPerk = emptyPerk();
+			}
+		}
 	}
 	
-	createNotes(checkPerks(formatPerks(toAdd)));
+	return createNotes(checkPerks(formatPerks(toAdd)));
 }
 
 function emptyPerk() {
@@ -2732,6 +2835,16 @@ function isArrayBullet(txt) {
 	}
 	var regex = new RegExp(/^([A-Za-z0-9]+):/);
 	return regex.test(txt);
+}
+
+function flatJson(obj) {
+	var newArr = [];
+	obj.forEach(function(d) {
+		d.Perks.forEach(function(p) {
+			newArr.push(p);
+		});
+	});
+	return newArr;
 }
 
 //updateCommons();
