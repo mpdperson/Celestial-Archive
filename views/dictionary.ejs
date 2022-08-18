@@ -31,6 +31,7 @@
 		var allWords = $("#ADD_WORDS").val();
 		allWords = allWords.trim();
 		word = word.trim();
+		word = word.toLowerCase();
 		word = capital(word.replaceAll(" ",""));
 		allWords = allWords + " " + word;
 		allWords = allWords.trim();

@@ -4,13 +4,13 @@
 <script>
 	import { reactive } from 'vue'
 	
-	const perkListv1 = require('../../../public/json/cfv1_final.json');
-	const perkListv2 = require('../../../public/json/celestial_forge.json');
-	const perkListv3 = require('../../../public/json/celestial_forge.json');
-	const perkList = require('../../../public/json/celestial_forge.json');
-	const sourceDict = require('../../../public/json/source_origins.json');
-	const upperDict = require('../../../public/json/all_upper.json');
-	const sourceList = require('../../../public/json/source_origins.json');
+	const perkListv1 = require('../../../public/json/Forge/cfv1_final.json');
+	const perkListv2 = require('../../../public/json/Forge/celestial_forge.json');
+	const perkListv3 = require('../../../public/json/Forge/celestial_forge.json');
+	const perkList = require('../../../public/json/Forge/celestial_forge.json');
+	const sourceDict = require('../../../public/json/Ref/source_origins.json');
+	const upperDict = require('../../../public/json/Ref/all_upper.json');
+	const sourceList = require('../../../public/json/Ref/source_origins.json');
 	const commons = require('../../../public/dictionaries/common_phrases.json');
 	var cTitles = [];
 	var tPerks = [];

@@ -4,39 +4,39 @@ $.getJSON('public/json/addPerks.json', function(data) {
     addPerks = data;
 });
 var body_mod = [];
-$.getJSON('public/json/body_mod.json', function(data) {
+$.getJSON('public/json/Docs/body_mod.json', function(data) {
     body_mod = data;
 });
 var celestial_forge = [];
-$.getJSON('public/json/celestial_forge.json', function(data) {
+$.getJSON('public/json/Forge/celestial_forge.json', function(data) {
     celestial_forge = data;
 });
 var craft_list = [];
-$.getJSON('public/json/craft_list.json', function(data) {
+$.getJSON('public/json/Dice/craft_list.json', function(data) {
     craft_list = data;
 });
 var deities = [];
-$.getJSON('public/json/deities.json', function(data) {
+$.getJSON('public/json/Dice/deities.json', function(data) {
     deities = data;
 });
 var magic_skills = [];
-$.getJSON('public/json/magic_skills.json', function(data) {
+$.getJSON('public/json/Dice/magic_skills.json', function(data) {
     magic_skills = data;
 });
 var reality_mod = [];
-$.getJSON('public/json/reality_mod.json', function(data) {
+$.getJSON('public/json/Docs/reality_mod.json', function(data) {
     reality_mod = data;
 });
 var science_skills = [];
-$.getJSON('public/json/science_skills.json', function(data) {
+$.getJSON('public/json/Dice/science_skills.json', function(data) {
     science_skills = data;
 });
 var sciences = [];
-$.getJSON('public/json/sciences.json', function(data) {
+$.getJSON('public/json/Dice/sciences.json', function(data) {
     sciences = data;
 });
 var source_origins = [];
-$.getJSON('public/json/source_origins.json', function(data) {
+$.getJSON('public/json/Ref/source_origins.json', function(data) {
     source_origins = data;
 });
 var common = [];

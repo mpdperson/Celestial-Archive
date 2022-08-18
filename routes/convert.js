@@ -13,16 +13,18 @@ var resolve = require('path').resolve;
 var pdf = require('pdf-parse');
 var spelling = require('spelling');
 var { PdfReader } = require("pdfreader");
-var commons = require('../public/dictionaries/commons.json');
-var dictionary = require('../public/dictionaries/new_dict.js');
 var dict = new spelling(dictionary);
-var wordList = require('../public/dictionaries/wordList.json');
-var ending = require('../public/dictionaries/ending.json');
-var celestial_forge = require('../public/json/celestial_forge.json');
 var XRegExp = require('xregexp');
 
 const {GoogleAuth} = require('google-auth-library');
 const {google} = require('googleapis');
+
+var commons = require('../public/dictionaries/commons.json');
+var dictionary = require('../public/dictionaries/new_dict.js');
+var wordList = require('../public/dictionaries/wordList.json');
+var ending = require('../public/dictionaries/ending.json');
+
+//var celestial_forge = require('../public/json/Forge/celestial_forge.json');
 
 const TOKEN_PATH = './certs/token.json';
 const API_KEY = fs.readFileSync("./certs/API_KEY.txt").toString('UTF8');
@@ -374,25 +376,25 @@ async function uploadFile(file) {
 		
 		switch(extension) {
 			case "pdf":
-			pdfToTxt(file);
-			break;
+				pdfToTxt(file);
+				break;
 			case "txt":
-			readFileTxt(file);
-			break;
+				readFileTxt(file);
+				break;
 			default:
-			fs.writeFile(newPath, rawData, function(err){
-				if(err) {
-					console.log(err);
-					stat = "Fail";
-					message = "Failed upload";
-				}
-				else {
-					console.log("Success");
-					stat = "Success";
-					message = "Successfully uploaded";
-				}
-			});
-			break;
+				fs.writeFile(newPath, rawData, function(err){
+					if(err) {
+						console.log(err);
+						stat = "Fail";
+						message = "Failed upload";
+					}
+					else {
+						console.log("Success");
+						stat = "Success";
+						message = "Successfully uploaded";
+					}
+				});
+				break;
 		}
 	}
 }
@@ -599,7 +601,7 @@ function readFileTxt(file) {
 }
 
 function readFileTxtFinal(file) {
-	console.log("readFileTxt");
+	console.log("readFileTxtFinal");
 	var oldPath = file.filepath;
 	var fileName = file.originalFilename.split(".")[0];
 	var nameAdd = fileName.replace(/_/g, " ");
@@ -665,7 +667,7 @@ let options = {
 };
 
 function pdfToTxt(file) {
-	console.log("readFileTxt");
+	console.log("pdfToTxt");
 	var oldPath = file.filepath;
 	var fileName = file.originalFilename.split(".")[0];
 	var nameAdd = fileName.replace(/_/g, " ");
@@ -686,7 +688,7 @@ function pdfToTxt(file) {
 }
 
 function pdfToTxtFinal(file) {
-	console.log("readFileTxt");
+	console.log("pdfToTxtFinal");
 	var oldPath = file.filepath;
 	var fileName = file.originalFilename.split(".")[0];
 	var nameAdd = fileName.replace(/_/g, " ");

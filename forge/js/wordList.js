@@ -1,4 +1,4 @@
-[
+var wordList = [
   "",
   "a",
   "I",
@@ -199449,4 +199449,4 @@
   "Calcareo-argillaceous",
   "pseudo-monocotyledonous",
   "Pseudo-monocotyledonous"
-]
+];
