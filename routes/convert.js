@@ -78,23 +78,24 @@ var title15 = new RegExp(/^([^\n\r]+)\((Discounted for|Free for)([^\n\r\)]*)\)([
 var title16 = new RegExp(/^([^\n\r]+)\[([0-9\+\-\/\\]+)([ ])?(CP|MP)([^\n\r]*)/g);
 var title17 = new RegExp(/^([^\n\r]+)\[(Free\Discounted)([^\n\r]*)/g);
 
-var section1 = new RegExp(/^Age and Gender:?/);
-var section2 = new RegExp(/^Time and Place:?/);
-var section3 = new RegExp(/^Locations:?/);
-var section4 = new RegExp(/^Origins:?/);
-var section5 = new RegExp(/^Species:?/);
-var section6 = new RegExp(/^Races:?/);
-var section7 = new RegExp(/^General:?/);
-var section8 = new RegExp(/^Drop-in:?/);
-var section9 = new RegExp(/^Endings?:?/);
-var section10 = new RegExp(/^Notes:?/);
-var section11 = new RegExp(/^Genders:?/);
-var section12 = new RegExp(/^Age:?/);
-var section13 = new RegExp(/^Drawbacks:?/);
-var section14 = new RegExp(/^Identity:?/);
-var section15 = new RegExp(/^Drawbacks and Objectives:?/);
-var section16 = new RegExp(/^Objectives:?/);
-var section17 = new RegExp(/^Changes:?/);
+var section1 = new RegExp(/^(Age and Gender|AGE AND GENDER):?/);
+var section2 = new RegExp(/^(Time and Place|TIME AND PLACE):?/);
+var section3 = new RegExp(/^(Locations|LOCATIONS|Location|LOCATION):?/);
+var section4 = new RegExp(/^(Origins|Origin|ORIGIN|ORIGINS):?/);
+var section5 = new RegExp(/^(Species|SPECIES):?/);
+var section6 = new RegExp(/^(Races|RACES|RACE|Race):?/);
+var section7 = new RegExp(/^(General|GENERAL):?/);
+var section8 = new RegExp(/^(Drop-in|DROP-IN|Drop-In|Drop In|DROP IN):?/);
+var section9 = new RegExp(/^(Ending|ENDING|Endings|ENDINGS):?/);
+var section10 = new RegExp(/^(Notes|NOTES):?/);
+var section11 = new RegExp(/^(Genders|GENDERS|GENDER|Gender):?/);
+var section12 = new RegExp(/^(Age|AGE):?/);
+var section13 = new RegExp(/^(Drawbacks|DRAWBACKS):?/);
+var section14 = new RegExp(/^(Identity|IDENTITY):?/);
+var section15 = new RegExp(/^(Drawbacks and Objectives|DRAWBACKS AND OBJECTIVES):?/);
+var section16 = new RegExp(/^(Objectives|OBJECTIVES):?/);
+var section17 = new RegExp(/^(Changes|CHANGES):?/);
+var section18 = new RegExp(/^(TIME|Time)\/(LOCATION|Location):?/);
 
 router.get('/static/*', function(req, res, next) {
 	console.log(req.url);
@@ -132,7 +133,9 @@ router.get('/', function(req, res, next){
 });
 
 var saveFileName = "";
-pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError));
+pdfParser.on("pdfParser_dataError", errData => {
+	console.error("pdfParser_dataError",errData.parserError);
+});
 pdfParser.on("pdfParser_dataReady", pdfData => {
 	fs.writeFile("./public/json/Docs/"+saveFileName, JSON.stringify(pdfData, null, 2));
 });
@@ -363,15 +366,10 @@ async function uploadFile(file) {
 	if(isValid) {
 		var oldPath = file.filepath;
 		var extension = file.originalFilename.split(".").pop();
-		var newPath = path.join(__dirname, '../public/converted')+ '/'+fileName;
-		var newPath2 = path.join(__dirname, '../public/docs/sources') + '/' + fileName;
-		var actPath = path.join(__dirname, '../public/docs/sources');
+		var newPath = path.join(__dirname, '../public/converted')+ '\\'+fileName;
+		var newPath2 = path.join(__dirname, '../public/docs/sources') + '\\' + fileName;
 		var rawData = fs.readFileSync(oldPath);
 		saveFileName = fileName.replace(".pdf","") + ".json";
-		console.log("oldPath",oldPath);
-		console.log("newPath2",newPath2);
-		console.log("saveFileName",saveFileName);
-		//var downfile = fs.createWriteStream(curdir + "/" + fileName + extension);
 		var newFile = {
 			"filepath":newPath2,
 			"originalFilename":fileName,
@@ -385,7 +383,7 @@ async function uploadFile(file) {
 		switch(extension) {
 			case "pdf":
 				pdfToTxt(newFile);
-				//pdfParser.loadPDF(newPath2);
+				pdfParser.loadPDF(newPath2);
 				break;
 			case "txt":
 				readFileTxt(newFile);
@@ -1279,56 +1277,56 @@ function respaceDoc(txt) {
 		if(isSection(txts[i])) {
 			switch(previous) {
 				default:
-				result+="\n\n"+txts[i]+"\n\n";
-				break;
+					result+="\n\n"+txts[i]+"\n\n";
+					break;
 			}
 			previous="Section";
 		}
 		else if(isTitle(txts[i])) {
 			switch(previous) {
 				default:
-				result+="\n\n"+txts[i];
-				break;
+					result+="\n\n"+txts[i];
+					break;
 			}
 			previous="Title";
 		}
 		else if(isBullet(txts[i])) {
 			switch(previous) {
 				default:
-				result+=" "+txts[i];
-				break;
+					result+=" "+txts[i];
+					break;
 			}
 			previous="Bullet";
 		}
 		else if(isPrereq(txts[i])) {
 			switch(previous) {
 				default:
-				result+="\n"+txts[i];
-				break;
+					result+="\n"+txts[i];
+					break;
 			}
 			previous="Prereq";
 		}
 		else if(isFreereq(txts[i])) {
 			switch(previous) {
 				default:
-				result+="\n"+txts[i];
-				break;
+					result+="\n"+txts[i];
+					break;
 			}
 			previous="Prereq";
 		}
 		else if(isDiscountreq(txts[i])) {
 			switch(previous) {
 				default:
-				result+="\n"+txts[i];
-				break;
+					result+="\n"+txts[i];
+					break;
 			}
 			previous="Prereq";
 		}
 		else {
 			switch(previous) {
 				default:
-				result+="\n"+txts[i];
-				break;
+					result+="\n"+txts[i];
+					break;
 			}
 			previous="Other";
 		}
@@ -1531,6 +1529,9 @@ function isSection(txt) {
 	}
 	if(section17.test(txt)) {
 		return 17;
+	}
+	if(section18.test(txt)) {
+		return 18;
 	}
 	
 	return 0;
