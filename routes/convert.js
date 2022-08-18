@@ -16,6 +16,8 @@ var { PdfReader } = require("pdfreader");
 var dict = new spelling(dictionary);
 var XRegExp = require('xregexp');
 
+const PDFParser = require("pdf2json");
+const pdfParser = new PDFParser();
 const {GoogleAuth} = require('google-auth-library');
 const {google} = require('googleapis');
 
@@ -32,22 +34,6 @@ const scopes = [
   'https://www.googleapis.com/auth/drive',
   'https://www.googleapis.com/auth/documents',
 ];
-
-/*/
-const oauth2Client = new google.auth.OAuth2(
-  "118357583635978584041",
-  YOUR_CLIENT_SECRET,
-  YOUR_REDIRECT_URL
-);
-
-const url = oauth2Client.generateAuthUrl({
-  // 'online' (default) or 'offline' (gets refresh_token)
-  access_type: 'offline',
-
-  // If you only need one scope you can pass it as a string
-  scope: scopes
-});
-//*/
 
 var word_list = wordList;
 
@@ -143,6 +129,12 @@ router.get('/', function(req, res, next){
 		error:error,
 		stat:stat
 	});
+});
+
+var saveFileName = "";
+pdfParser.on("pdfParser_dataError", errData => console.error(errData.parserError));
+pdfParser.on("pdfParser_dataReady", pdfData => {
+	fs.writeFile("./public/json/Docs/"+saveFileName, JSON.stringify(pdfData, null, 2));
 });
 
 var fileID = "";
@@ -372,14 +364,31 @@ async function uploadFile(file) {
 		var oldPath = file.filepath;
 		var extension = file.originalFilename.split(".").pop();
 		var newPath = path.join(__dirname, '../public/converted')+ '/'+fileName;
-		var rawData = fs.readFileSync(oldPath)
+		var newPath2 = path.join(__dirname, '../public/docs/sources') + '/' + fileName;
+		var actPath = path.join(__dirname, '../public/docs/sources');
+		var rawData = fs.readFileSync(oldPath);
+		saveFileName = fileName.replace(".pdf","") + ".json";
+		console.log("oldPath",oldPath);
+		console.log("newPath2",newPath2);
+		console.log("saveFileName",saveFileName);
+		//var downfile = fs.createWriteStream(curdir + "/" + fileName + extension);
+		var newFile = {
+			"filepath":newPath2,
+			"originalFilename":fileName,
+		}
+		if(extension=="pdf" || extension=="txt") {
+			fs.rename(oldPath, newPath2, function (err) {
+				if (err) console.log("Error",err);
+			});
+		}
 		
 		switch(extension) {
 			case "pdf":
-				pdfToTxt(file);
+				pdfToTxt(newFile);
+				//pdfParser.loadPDF(newPath2);
 				break;
 			case "txt":
-				readFileTxt(file);
+				readFileTxt(newFile);
 				break;
 			default:
 				fs.writeFile(newPath, rawData, function(err){
@@ -408,7 +417,7 @@ function processFile(file) {
 		var oldPath = file.filepath;
 		var extension = file.originalFilename.split(".").pop();
 		var newPath = path.join(__dirname, '../public/converted')+ '/'+fileName;
-		var rawData = fs.readFileSync(oldPath)
+		var rawData = fs.readFileSync(oldPath);
 		
 		switch(extension) {
 			case "json":
@@ -588,10 +597,8 @@ function readFileTxt(file) {
 			console.log(err);
 		}
 		doc = data;
-		data = data.replace(/​/g,"")
-		.replace(/–/g,"-").replace(/"([^"\n]+)"/g,"“$1”")
-		.replace(//g,"●").replace(/…./g,"…")
-		.replace(/‘([^‘’\n]+)’/g,"“$1”");
+		data = data.replace(/​/g,"").replace(/–/g,"-").replace(/"([^"\n]+)"/g,"“$1”")
+		.replace(//g,"●").replace(/…./g,"…").replace(/‘([^‘’\n]+)’/g,"“$1”");
 		writeToFile(data,"original.txt");
 		console.log("Finished Writing readFileTxt");
 		var txt = data;
@@ -616,7 +623,7 @@ function readFileTxtFinal(file) {
 		}
 		doc = data;
 		data = data.replace(/​/g,"").replace(/–/g,"-").replace(/"([^"\n]+)"/g,"“$1”").replace(//g,"●")
-			.replace(/…./g,"…");
+		.replace(/…./g,"…");
 		var txt = data;
 		txt = parseTxt(data,fileName);
 		return parseFile(txt);
@@ -782,25 +789,6 @@ function writeToFile5(data,name) {
 		console.log("JSON data is saved.");
 	});
 }
-
-/*
-	function writeToFile3(data,name) {
-	console.log("writeToFile3",name);
-	var variable = name.split(".")[0];
-	name = '../../Fun Stuff/CYOA/Rollers/Celestial Forge/js/'+name;
-	
-	var str = "var "+variable+" = ";
-	if(typeof(data) != 'string') {
-	data = JSON.stringify(data,null,2);
-	}
-	fs.writeFile(name, str+data+";", (err) => {
-	if(err) {
-	throw err;
-	}
-	console.log("JSON data is saved.");
-	});
-	}
-//*/
 
 function writeToFile(data,name) {
 	console.log("writeToFile",name);
@@ -1088,88 +1076,88 @@ function parseLines(txts,fileName) {
 		if(titleType) {
 			switch(titleType) {
 				case 0:
-				break;
+					break;
 				case 1://(
-				var ts = t.match(title1);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title1);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 2://[
-				var ts = t.match(title2);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title2);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 3:
-				var ts = t.match(title3);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title3);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 4:
-				var ts = t.match(title4);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title4);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 5:
-				var ts = t.match(title5);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title5);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 6:
-				var ts = t.match(title6);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title6);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 7:
-				var ts = t.match(title7);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title7);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 8:
-				var ts = t.match(title8);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title8);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 9:
-				var ts = t.match(title9);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title9);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 10:
-				var ts = t.match(title0);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title0);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 11:
-				var ts = t.match(title11);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title11);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 12:
-				var ts = t.match(title12);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title12);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 13:
-				var ts = t.match(title13);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title13);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 14:
-				var ts = t.match(title14);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title14);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 15:
-				var ts = t.match(title15);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title15);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 16:
-				var ts = t.match(title16);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title16);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 17:
-				var ts = t.match(title17);
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.match(title17);
+					t = createTitle(ts,fileName,t);
+					break;
 				case 99:
-				var ts = t.split("-");
-				t = createTitle(ts,fileName,t);
-				break;
+					var ts = t.split("-");
+					t = createTitle(ts,fileName,t);
+					break;
 				default:
-				t = t.replace(/\[/g," [");
-				t = t.replace(/\(/g," (");
-				t = t.replace(/\{/g," {");
-				t = t.replace(/\</g," <");
-				t = t.replace(/ ([ ]+)/g," ");
-				var ts = t.split(" ");
-				t = createTitle(ts,fileName,t);
-				break;
+					t = t.replace(/\[/g," [");
+					t = t.replace(/\(/g," (");
+					t = t.replace(/\{/g," {");
+					t = t.replace(/\</g," <");
+					t = t.replace(/ ([ ]+)/g," ");
+					var ts = t.split(" ");
+					t = createTitle(ts,fileName,t);
+					break;
 			}
 		}
 		else if(isBullet(t)) {
@@ -1177,7 +1165,6 @@ function parseLines(txts,fileName) {
 		}
 		
 		t = t.trim();
-		
 		txts[i] = t;
 	}
 	return txts;

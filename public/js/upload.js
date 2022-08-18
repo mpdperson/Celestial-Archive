@@ -1,8 +1,6 @@
-console.log("upload loaded");
 const url = '/cyoa';
 
 $('#myform').submit(
-  console.log("Is this working?");
   const files = document.querySelector('[type=file]').files;
   const formData = new FormData();
 
