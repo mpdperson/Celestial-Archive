@@ -137,7 +137,8 @@ pdfParser.on("pdfParser_dataError", errData => {
 	console.error("pdfParser_dataError",errData.parserError);
 });
 pdfParser.on("pdfParser_dataReady", pdfData => {
-	fs.writeFile("./public/json/Docs/"+saveFileName, JSON.stringify(pdfData, null, 2));
+	//fs.writeFile("./public/json/Docs/"+saveFileName, JSON.stringify(pdfData, null, 2));
+	writeToFilePath(pdfData,saveFileName,"./public/json/Docs/");
 });
 
 var fileID = "";
@@ -1792,7 +1793,7 @@ function arrayToDictionary(wordArr) {
 		new_dict = new_dict + " " + keys[i] + " " + temp_dict[keys[i]];
 	}
 	new_dict = new_dict + "\"";
-	writeToFile2(new_dict, "new_dict.js");
+	writeToFilePath(new_dict,"new_dict.js","./public/dictionaries/","module.exports = ",";")
 }
 
 function sortList(arr) {
@@ -1835,8 +1836,7 @@ function fileToWordList(name) {
 			return 0;
 		});
 		
-		//writeToFile6(word_list, "wordList.json");
-		writeToFile5(word_list, "wordList.js");
+		writeToFilePath(word_list,"wordList.js","var wordList = ",";")
 	});
 }
 
