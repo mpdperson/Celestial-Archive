@@ -7,31 +7,9 @@
 					<q-icon name="cloud_upload" />
 				</template>
 			</q-file>
-			<q-select v-model="model" :options="options" label="Load Type" />
-			<q-btn-dropdown color="primary" label="Load Type">
-				<q-list>
-					<q-item clickable v-close-popup @click="onItemClick">
-						<q-item-section>
-							<q-item-label>Forge</q-item-label>
-						</q-item-section>
-					</q-item>
-					
-					<q-item clickable v-close-popup @click="onItemClick">
-						<q-item-section>
-							<q-item-label>Document</q-item-label>
-						</q-item-section>
-					</q-item>
-					
-					<q-item clickable v-close-popup @click="onItemClick">
-						<q-item-section>
-							<q-item-label>Progress</q-item-label>
-						</q-item-section>
-					</q-item>
-				</q-list>
-			</q-btn-dropdown>
+			<q-select filled bottom-slots clearable v-model="loadType" :options="options" :dense="dense" label="Load Type" dark />
 			<q-btn icon="send" label="Submit" type="submit" color="primary"/>
 		</q-form>
-		
 	</q-page>
 </template>
 
@@ -48,8 +26,11 @@
 			
 		},
 		setup (props) {
+			const loadType = ref(null);
 			return {
 				model: ref(null),
+				dense: ref(true),
+				loadType: loadType,
 				options: [
 					'Forge', 'Document', 'Progress'
 				],
@@ -67,12 +48,12 @@
 								name: name,
 								value: value.name,
 								data: readFile(value.name),
-								type: model.value,
+								type: loadType.value,
 							})
 						}
 					}
-					console.log("data",data);
-					Store.loadItem(data);
+					var pageTo = Store.loadItem(data);
+					//nav(pageTo);
 				}
 			}
 		}
@@ -116,6 +97,13 @@
 			reader.readAsText(iFile);
 		});
 	});
+	
+	function nav(url) {
+		var first = window.location.href;
+		var last = first.split("/").pop();
+		first = first.replace(last,"");
+		window.location.href = first + url;
+	}
 	
 	function readFile(fname) {
 		var fileName = fname;

@@ -8,7 +8,7 @@ $.getJSON('public/json/Docs/body_mod.json', function(data) {
     body_mod = data;
 });
 var celestial_forge = [];
-$.getJSON('public/json/Forge/celestial_forge.json', function(data) {
+$.getJSON('public/json/Forge/archive.json', function(data) {
     celestial_forge = data;
 });
 var craft_list = [];
@@ -1066,15 +1066,13 @@ function sameTitleDomain() {
 	var perks = [];
 	$.each(celestial_forge, function(index, item) {
 		$.each(item.Perks, function(idx,value) {
-			if(!isNull(value)) {
-				if($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
-					titleArray.push(value.Title.toLowerCase()+"_"+value.Source.toLowerCase());
-					uniqueArray.push(value);
-				}
-				else {
-					matchArray.push(titleArray.findIndex(value.Title.toLowerCase()+"_"+value.Source.toLowerCase()));
-					perks.push(value);
-				}
+			if($.inArray(value.Title.toLowerCase()+"_"+value.Source.toLowerCase(), titleArray) === -1) {
+				titleArray.push(value.Title.toLowerCase()+"_"+value.Source.toLowerCase());
+				uniqueArray.push(value);
+			}
+			else {
+				matchArray.push(findIdx(titleArray,value.Title.toLowerCase()+"_" +value.Source.toLowerCase()));
+				perks.push(value);
 			}
 		});
 	});
@@ -1097,6 +1095,13 @@ function sameTitleDomain() {
 			return (!isNull(p));
 		});
 	});
+}
+
+function findIdx(arr,item) {
+	for(var i=0; i<arr.length; i++) {
+		if(arr[i]==item) return i;
+	}
+	return -1;
 }
 
 function sameTitleUpper() {
@@ -1626,7 +1631,7 @@ function doStarters() {
 	createNotes();
 	redoPerkCheckList();
 	sleep(2000).then(() => {
-		qs("#Starters").innerText = "Starters (0)";
+		if(!isNull(qs("#Starters"))) qs("#Starters").innerText = "Starters (0)";
 	});
 	
 	totalPerks = currentPerks.length;

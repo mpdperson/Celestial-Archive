@@ -5,15 +5,15 @@
 	import { reactive } from 'vue'
 	
 	const perkListv1 = require('../../../public/json/Forge/cfv1_final.json');
-	const perkListv2 = require('../../../public/json/Forge/celestial_forge.json');
-	const perkListv3 = require('../../../public/json/Forge/celestial_forge.json');
-	const perkList = require('../../../public/json/Forge/celestial_forge.json');
+	const perkListv2 = require('../../../public/json/Forge/cfv1_final.json');
+	const perkListv3 = require('../../../public/json/Forge/cfv1_final.json');
+	const perkListvA = require('../../../public/json/Forge/archive.json');
 	const sourceDict = require('../../../public/json/Ref/source_origins.json');
 	const upperDict = require('../../../public/json/Ref/all_upper.json');
 	const sourceList = require('../../../public/json/Ref/source_origins.json');
 	const commons = require('../../../public/dictionaries/common_phrases.json');
 	var cTitles = [];
-	var tPerks = [];
+	var ctPerks = [];
 	
 	const store = {
 		debug: true,
@@ -81,7 +81,8 @@
 		}),
 		
 		loadItem(obj) {
-			var page = handleLoad(obj[0]);
+			var page = this.handleLoad(obj[0]);
+			return page;
 		},
 		
 		handleLoad(obj) {
@@ -91,14 +92,14 @@
 			}
 			else if(obj.type=="Forge") {
 				this.loadVersion(obj.data);
-				return "Main";
+				return "";
 			}
 			else if(obj.type=="Progress") {
 				if(isNull(obj.data.Gained_Perks[0].Perks)) {
-					this.loadFlatProgress(obj.data.Gained_Perks);
+					this.loadFlatProgress(obj.data);
 				}
 				else {
-					this.loadProgress(obj.data.Gained_Perks);
+					this.loadProgress(obj.data);
 				}
 				return "ProcessSave";
 			}
@@ -119,8 +120,8 @@
 			}
 			else {
 				/*/
-				var filePath = path.join(app.getPath('../../../public/json/'), str+".json");
-				var jsonObj = JSON.parse(filePath);
+					var filePath = path.join(app.getPath('../../../public/json/'), str+".json");
+					var jsonObj = JSON.parse(filePath);
 				//*/
 			}
 			this.resetForge();
@@ -2166,18 +2167,25 @@
 			var flatPerks = [];
 			var freePerkList = [];
 			var count = 1;
+			var tmp = {
+				"canGet":this.state.canGet,
+				"doFree":this.state.doFree,
+				"doUpper":this.state.doUpper,
+				"unfiltered":this.state.unfiltered,
+			};
+			setOut(tmp);
 			cPerks.forEach(function(n) {
 				var tmp = n;
 				tmp["Order"] = count;
 				flatPerks.push(tmp);
-				freePerkList.push(fetchFreebies(n));
+				freePerkList = freePerkList.concat(outFetchFreebies(n));
 				count++;
 			});
 			flatPerks.sort(function(a,b) {
-				if(a.Order.toLowerCase() < b.Order.toLowerCase()) {
+				if(a.Order < b.Order) {
 					return 1;
 				}
-				if(a.Order.toLowerCase() > b.Order.toLowerCase()) {
+				if(a.Order > b.Order) {
 					return -1;
 				}
 				return 0;
@@ -2190,12 +2198,12 @@
 				});
 				this.state.tempBuild = [];
 			}
-			this.state.curFree = freePerkList;
+			this.state.currentFreebies = freePerkList;
 			if(this.state.autoAddFree) {
 				freePerkList.forEach(function(n) {
 					this.addToBuild(n);
 				});
-				this.state.curFree = [];
+				this.state.currentFreebies = [];
 			}
 		},
 		
@@ -2210,17 +2218,24 @@
 			var cPerks = jsonObj.Gained_Perks;
 			var flatPerks = [];
 			var freePerkList = [];
+			var tmp = {
+				"canGet":this.state.canGet,
+				"doFree":this.state.doFree,
+				"doUpper":this.state.doUpper,
+				"unfiltered":this.state.unfiltered,
+			};
+			setOut(tmp);
 			cPerks.forEach(function(n) {
 				n.Perks.forEach(function(p) {
 					flatPerks.push(p);
-					freePerkList.push(fetchFreebies(n));
+					freePerkList = freePerkList.concat(outFetchFreebies(n));
 				});
 			});
 			flatPerks.sort(function(a,b) {
-				if(a.Order.toLowerCase() < b.Order.toLowerCase()) {
+				if(a.Order < b.Order) {
 					return 1;
 				}
-				if(a.Order.toLowerCase() > b.Order.toLowerCase()) {
+				if(a.Order > b.Order) {
 					return -1;
 				}
 				return 0;
@@ -2233,12 +2248,12 @@
 				});
 				this.state.tempBuild = [];
 			}
-			this.state.curFree = freePerkList;
+			this.state.currentFreebies = freePerkList;
 			if(this.state.autoAddFree) {
 				freePerkList.forEach(function(n) {
 					this.addToBuild(n);
 				});
-				this.state.curFree = [];
+				this.state.currentFreebies = [];
 			}
 		},
 	}
@@ -2321,11 +2336,11 @@
 	}
 	
 	function addToTP(obj) {
-		tPerks.push(obj);
+		ctPerks.push(obj);
 	}
 	
 	function hasTP(obj) {
-		return tPerks.includes(obj);
+		return ctPerks.includes(obj);
 	}
 	
 	function addToCT(obj) {
@@ -2340,7 +2355,7 @@
 		if(isNull(isList)) {
 			isList = false;
 		}
-		if(isNull(a1)) a1 = tPerks;
+		if(isNull(a1)) a1 = ctPerks;
 		var tmpArr = [];
 		for(var i=0; i<a1.length; i++) {
 			tmpArr.push(trimPerk(a1[i]));
@@ -2434,9 +2449,9 @@
 		}
 	}
 	
+	var para = new RegExp(/\s*\(.*?\)\s*/g);
 	function haveTitle(obj,title) {
-		var base = title.split("_")[0];
-		if(obj[base]) {
+		if(!isNull(obj[title])) {
 			if(!obj[title].includes("&&") && !obj[title].includes("||")) {
 				var tmpTitle = obj[title]+"-"+obj.Upper_Source;
 				if(cTitles.includes(tmpTitle)) {
@@ -2971,6 +2986,11 @@
 		return (search!="");
 	}
 	
+	function isFormated(obj) {
+		if(isNull(obj)) return false;
+		return (obj.hasOwnProperty("Domain") && obj.hasOwnProperty("Over_Domain") && obj.hasOwnProperty("Perks"));
+	}
+	
 	function formatPerks(obj) {
 		if(obj.constructor = [].constructor) {
 			if(isFormated(obj[0])) {
@@ -3006,5 +3026,157 @@
 			allDoms.push(domains[keys[i]]);
 		}
 		return allDoms;
+	}
+	
+	function domainLookup(obj) {
+		if(isNull(obj.Domain)) return "";
+		if(isNull(obj.Over_Domain)) {
+			if(obj.Domain.includes(":")) {
+				return obj.Domain.split(":")[0].trim();
+			}
+			else {
+				return obj.Domain;
+			}
+		}
+		else {
+			return obj.Over_Domain;
+		}
+	}
+	
+	function setOut(obj) {
+		if(!isNull(obj.canGet)) {
+			_canGet = obj.canGet;
+		}
+		if(!isNull(obj.doFree)) {
+			_doFree = obj.doFree;
+		}
+		if(!isNull(obj.doUpper)) {
+			_doUpper = obj.doUpper;
+		}
+		if(!isNull(obj.unfiltered)) {
+			_unfiltered = obj.unfiltered;
+			console.log("_unfiltered",_unfiltered);
+		}
+	}
+	
+	var _canGet = false;
+	var _doFree = false;
+	var _doUpper = false;
+	var _unfiltered = [];
+	function outFetchFreebies(perk) {
+		var freeList = [];
+		var isDoUp = _doUpper;
+		_unfiltered.forEach(function(d) {
+			d.Perks.forEach(function(e) {
+				var ct = e.Title+"-"+e.Upper_Source;
+				if(e.Source == perk.Source || (e.Upper_Source == perk.Upper_Source && isDoUp)) {
+					if(e.Cost == 0 && haveTitle(e,"Prereq_Title") && haveTitle(e,"Restrict_Title") && !haveTitle(e,"Exclude_Title")) {
+						var temp = compairMany(null,e);
+						var tmp = trimPerk(e);
+						if(!temp && !hasTP(tmp) && !hasCT(ct)) {
+							if(perk != e) {
+								freeList.push(e);
+							}
+						}
+						else {
+							temp = compairMany(null,e,true);
+							var add = false;
+							for(var i=0; i<temp.length; i++) {
+								if(temp[i].missed.length == 1) {
+									add = false;
+									break;
+								}
+								else {
+									add = true;
+								}
+							}
+							if(add && !hasTP(tmp) && !hasCT(ct)) {
+								if(perk != e) {
+									freeList.push(e);
+								}
+							}
+						}
+					}
+					else if(e.Free_Title != "" && haveTitle(e,"Free_Title") && haveTitle(e,"Prereq_Title") && haveTitle(e,"Restrict_Title") && !haveTitle(e,"Exclude_Title")) {
+						var temp = compairMany(null,e);
+						var tmp = trimPerk(e);
+						if(!temp && !hasTP(tmp) && !hasCT(ct)) {
+							if(perk != e) {
+								freeList.push(e);
+							}
+						}
+						else {
+							temp = compairMany(null,e,true);
+							var add = false;
+							for(var i=0; i<temp.length; i++) {
+								if(temp[i].missed.length >= 1) {
+									add = false;
+									break;
+								}
+								else {
+									add = true;
+								}
+							}
+							if(add && !hasTP(tmp) && !hasCT(ct)) {
+								if(perk != e) {
+									freeList.push(e);
+								}
+							}
+						}
+					}
+				}
+				else if(!isNull(perk.Upper_Sources) && isDoUp) {
+					perk.Upper_Sources.forEach(function(z) {
+						if(z == e.Upper_Source || z == e.Source) {
+							if(e.Cost == 0  && haveTitle(e,"Prereq_Title") && haveTitle(e,"Restrict_Title") && !haveTitle(e,"Exclude_Title")) {
+								var temp = compairMany(null,e);
+								var tmp = trimPerk(e);
+								if(!temp && !hasCT(ct)) {
+									freeList.push(e);
+								}
+								else {
+									temp = compairMany(null,e,true);
+									var add = false;
+									for(var i=0; i<temp.length; i++) {
+										if(temp[i].missed.length >= 1) {
+											add = false;
+											break;
+										}
+										else {
+											add = true;
+										}
+									}
+									if(add && !hasCT(ct)) {
+										freeList.push(e);
+									}
+								}
+							}
+							else if(!isNull(e.Free_Title) && haveTitle(e,"Free_Title") && haveTitle(e,"Prereq_Title") && haveTitle(e,"Restrict_Title") && !haveTitle(e,"Exclude_Title")) {
+								var temp = compairMany(null,e,true);
+								if(temp.length == 0 && !hasCT(ct)) {
+									freeList.push(e);
+								}
+								else {
+									var add = false;
+									for(var i=0; i<temp.length; i++) {
+										if(temp[i].missed.length == 1) {
+											add = false;
+											break;
+										}
+										else {
+											add = true;
+										}
+									}
+									if(add && !hasCT(ct)) {
+										freeList.push(e);
+									}
+								}
+							}
+						}
+					});
+				}
+			});
+		});
+		return freeList;
 	}
 </script>
