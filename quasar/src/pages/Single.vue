@@ -1,5 +1,5 @@
 <template>
-	<q-page class="flex flex-center">
+	<q-page class="flex blackBack text-white">
 		Single Doc
 	</q-page>
 </template>

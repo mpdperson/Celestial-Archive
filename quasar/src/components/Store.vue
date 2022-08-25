@@ -47,7 +47,9 @@
 			parseMe: null,
 			domainFilter: [],
 			unfiltered: perkListv1,
+			loadedFile: [],
 			filtered: [],
+			cfVer: "v1",
 			filteredDomain: [],
 			costDomain: [],
 			sourceFilter: [],
@@ -103,6 +105,7 @@
 			else if(obj.type=="Forge") {
 				if(!isNull(obj.data)) {
 					this.loadVersion(obj.data);
+					this.state.loadedFile = obj.data;
 					return "Gacha";
 				}
 				else {
@@ -124,21 +127,30 @@
 			this.init();
 			if(str=="v1") {
 				this.state.unfiltered = perkListv1;
+				this.state.cfVer = "v1";
 			}
 			else if(str=="v2") {
 				this.state.unfiltered = perkListv2;
+				this.state.cfVer = "v2";
 			}
 			else if(str=="v3") {
 				this.state.unfiltered = perkListv3;
+				this.state.cfVer = "v3";
 			}
 			else if(str=="a1") {
 				this.state.unfiltered = perkList;
+				this.state.cfVer = "a1";
+			}
+			else if(str=="File") {
+				this.state.unfiltered = this.state.loadedFile;
+				this.state.cfVer = "a1";
 			}
 			else {
 				/*/
 					var filePath = path.join(app.getPath('../../../public/json/'), str+".json");
 					var jsonObj = JSON.parse(filePath);
 				//*/
+				this.state.cfVer = str;
 			}
 			this.resetForge();
 			this.createDefaultFilters();
