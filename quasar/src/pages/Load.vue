@@ -14,9 +14,10 @@
 </template>
 
 <script>
-	import { defineComponent, ref } from 'vue';
+	import { defineComponent, ref, onMounted } from 'vue';
 	import { useQuasar } from 'quasar';
 	import Store from 'components/Store.vue';
+	const forgeTemplate = require('../../../public/json/Forge/forgeTemplate.json');
 	
 	export default defineComponent({
 		name: 'LoadPage',
@@ -56,6 +57,10 @@
 					});
 				}
 			}
+			const getDisplayList = async () => {
+				listenFile();
+			}
+			onMounted(getDisplayList);
 			return {
 				model: ref(null),
 				dense: ref(true),
@@ -86,7 +91,8 @@
 					triggerFreeNote(freebies);
 					var loadedPerks = Store.state.tempBuild;
 					triggerLoadedNote(loadedPerks);
-					nav(pageTo);
+					console.log("data",data);
+					//nav(pageTo);
 				},
 			}
 		}
@@ -94,7 +100,7 @@
 	
 	var importFile = [];
 	var loadedJson = {};
-	sleep(300).then(() => {
+	function listenFile() {
 		var eFile = document.getElementsByName("myFile");
 		var input = eFile[0];
 		input.addEventListener('change', () => {
@@ -129,7 +135,7 @@
 			reader.onerror = (e) => console.log(e.target.error.name);
 			reader.readAsText(iFile);
 		});
-	});
+	}
 	
 	function nav(url) {
 		var first = window.location.href;
@@ -139,6 +145,8 @@
 	}
 	
 	function readFile(fname) {
+		if(isNull(fname)) fname = getFileName();
+		if(fname=="") return null;
 		var fileName = fname;
 		var ext = fileName.split(".")[1];
 		
@@ -173,10 +181,6 @@
 		return false;
 	}
 	
-	function sleep(ms) {
-		return new Promise(resolve => setTimeout(resolve, ms));
-	}
-	
 	function getFileName() {
 		var fullPath = document.getElementsByName("myFile")[0].value;
 		if(fullPath) {
@@ -188,5 +192,17 @@
 			return filename;
 		}
 		return "";
+	}
+	
+	function download(content, fileName, contentType) {
+		var a = document.createElement("a");
+		var file = new Blob([content], {type: contentType});
+		a.href = URL.createObjectURL(file);
+		a.download = fileName;
+		a.click();
+	}
+	
+	function saveTemplate() {
+		download(JSON.stringify(forgeTemplate, null, 2), "forgeTemplate.json", 'text/plain');
 	}
 </script>

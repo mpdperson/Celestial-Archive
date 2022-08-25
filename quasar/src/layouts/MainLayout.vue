@@ -51,136 +51,132 @@
 				
 				<div>Copyright © 2022 Stained.Glass</div>
 			</q-toolbar>
-			</q-footer>
-		</q-layout>
-	</template>
+		</q-footer>
+	</q-layout>
+</template>
+
+<script>
+	import { defineComponent, ref } from 'vue';
+	import Store from 'components/Store.vue';
 	
-	<script>
-		import { defineComponent, ref } from 'vue'
-		import Store from 'components/Store.vue'
+	const menuList = [
+	{
+		icon: 'save',
+		label: 'Save',
+		to: '/Save',
+		notes: 0,
+		separator: true
+	},
+	{
+		icon: 'upload',
+		label: 'Load',
+		to: '/Load',
+		notes: 0,
+		separator: false
+	},
+	{
+		icon: 'search',
+		label: 'Search',
+		to: '/Search',
+		notes: 0,
+		separator: false
+	},
+	{
+		icon: 'tune',
+		label: 'Filter',
+		to: '/Filter',
+		notes: 0,
+		separator: false
+	},
+	{
+		icon: 'card_giftcard',
+		label: 'Freebies',
+		to: '/Free',
+		notes: 0,
+		separator: false
+	},
+	{
+		icon: 'link',
+		label: 'Conjoin',
+		to: '/Conjoin',
+		notes: 0,
+		separator: false
+	},
+	{
+		icon: 'store',
+		label: 'Store',
+		to: '/Store',
+		notes: 0,
+		separator: false
+	},
+	{
+		icon: 'settings',
+		label: 'Settings',
+		to: '/',
+		notes: 0,
+		separator: false
+	},
+	{
+		icon: 'help',
+		iconColor: 'primary',
+		label: 'Help',
+		to: '/Help',
+		notes: 0,
+		separator: false
+	},
+	{
+		icon: 'code',
+		label: 'Source Code',
+		to: '/Code',
+		notes: 0,
+		separator: false
+	}];
+	
+	export default defineComponent({
+		name: 'MainLayout',
 		
-		const menuList = [
-		{
-			icon: 'save',
-			label: 'Save',
-			to: '/Save',
-			notes: 0,
-			separator: true
+		components: {
+			Store
 		},
-		{
-			icon: 'upload',
-			label: 'Load',
-			to: '/Load',
-			notes: 0,
-			separator: false
-		},
-		{
-			icon: 'search',
-			label: 'Search',
-			to: '/Search',
-			notes: 0,
-			separator: false
-		},
-		{
-			icon: 'tune',
-			label: 'Filter',
-			to: '/Filter',
-			notes: 0,
-			separator: false
-		},
-		{
-			icon: 'card_giftcard',
-			label: 'Freebies',
-			to: '/Free',
-			notes: 0,
-			separator: false
-		},
-		{
-			icon: 'link',
-			label: 'Conjoin',
-			to: '/Conjoin',
-			notes: 0,
-			separator: false
-		},
-		{
-			icon: 'store',
-			label: 'Store',
-			to: '/Store',
-			notes: 0,
-			separator: false
-		},
-		{
-			icon: 'settings',
-			label: 'Settings',
-			to: '/',
-			notes: 0,
-			separator: false
-		},
-		{
-			icon: 'help',
-			iconColor: 'primary',
-			label: 'Help',
-			to: '/Help',
-			notes: 0,
-			separator: false
-		},
-		{
-			icon: 'code',
-			label: 'Source Code',
-			to: '/Code',
-			notes: 0,
-			separator: false
-		}];
 		
-		export default defineComponent({
-			name: 'MainLayout',
+		data() {
+			return {
+				link: ref('')
+			}
+		},
+		
+		setup() {
+			const leftDrawerOpen = ref(false);
 			
-			components: {
-				Store
-			},
-			
-			data() {
-				return {
-					link: ref('')
-				}
-			},
-			
-			setup() {
-				const leftDrawerOpen = ref(false);
-				
-				return {
-					leftDrawerOpen,
-					menuList,
-					toggleLeftDrawer () {
-						leftDrawerOpen.value = !leftDrawerOpen.value;
-						//*/
-						for(var i=0; i<menuList.length; i++) {
-							var menuItem = menuList[i];
-							if(menuItem.label=="Free") {
-								menuList[i].notes = Store.state.currentFreebies.length;
-							}
-							if(menuItem.label=="Conjoin") {
-								menuList[i].notes = Store.state.currentPerks.length;
-							}
+			return {
+				leftDrawerOpen,
+				menuList,
+				toggleLeftDrawer () {
+					leftDrawerOpen.value = !leftDrawerOpen.value;
+					//*/
+					for(var i=0; i<menuList.length; i++) {
+						var menuItem = menuList[i];
+						if(menuItem.label=="Free") {
+							menuList[i].notes = Store.state.currentFreebies.length;
 						}
-						//*/
-						
-					},
-					update(notes) {
-						//*/
-						for(var i=0; i<menuList.length; i++) {
-							var menuItem = menuList[i];
-							if(menuItem.label==notes.label) {
-								menuList[i].notes = notes.notes;
-							}
+						if(menuItem.label=="Conjoin") {
+							menuList[i].notes = Store.state.currentPerks.length;
 						}
-						//*/
 					}
+					//*/
+					
+				},
+				update(notes) {
+					//*/
+					for(var i=0; i<menuList.length; i++) {
+						var menuItem = menuList[i];
+						if(menuItem.label==notes.label) {
+							menuList[i].notes = notes.notes;
+						}
+					}
+					//*/
 				}
 			}
-		})
-		
-		function getUrl() {
-			return "/Help";
 		}
-	</script>
+	})
+</script>

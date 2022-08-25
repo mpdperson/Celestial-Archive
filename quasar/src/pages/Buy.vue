@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { defineComponent } from 'vue'
-	import BuyViewer from 'components/BuyViewer.vue'
+	import { defineComponent } from 'vue';
+	import BuyViewer from 'components/BuyViewer.vue';
 	
 	export default defineComponent({
 		name: 'BuyPage',

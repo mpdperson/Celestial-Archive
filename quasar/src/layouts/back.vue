@@ -68,8 +68,8 @@
 </template>
 
 <script>
-	import { defineComponent, ref } from 'vue'
-	import PerkViewer from 'components/PerkViewer.vue'
+	import { defineComponent, ref } from 'vue';
+	import PerkViewer from 'components/PerkViewer.vue';
 	
 	const menuList = [{
 		icon: 'save',

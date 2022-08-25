@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { defineComponent } from 'vue'
-	import FreeViewer from 'components/FreeViewer.vue'
+	import { defineComponent } from 'vue';
+	import FreeViewer from 'components/FreeViewer.vue';
 	
 	export default defineComponent({
 		name: 'FreePage',

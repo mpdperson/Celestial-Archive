@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { defineComponent } from 'vue'
-	import ProcessViewer from 'components/ProcessViewer.vue'
+	import { defineComponent } from 'vue';
+	import ProcessViewer from 'components/ProcessViewer.vue';
 	
 	export default defineComponent({
 		name: 'ProcessSavePage',

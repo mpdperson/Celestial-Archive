@@ -49,8 +49,8 @@
 </template>
 
 <script>
-	import { defineComponent, ref } from 'vue'
-	import ViewCarousel from 'components/ViewCarousel.vue'
+	import { defineComponent, ref } from 'vue';
+	import ViewCarousel from 'components/ViewCarousel.vue';
 	
 	const menuList = [{
 		icon: 'save',

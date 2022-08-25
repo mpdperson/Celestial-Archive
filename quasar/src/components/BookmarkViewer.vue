@@ -74,10 +74,10 @@
 </template>
 
 <script>
-	import { defineComponent, ref, onMounted } from 'vue'
-	import Domain from 'components/Domain.vue'
-	import Perk from 'components/Perk.vue'
-	import Store from 'components/Store.vue'
+	import { defineComponent, ref, onMounted } from 'vue';
+	import Domain from 'components/Domain.vue';
+	import Perk from 'components/Perk.vue';
+	import Store from 'components/Store.vue';
 	
 	export default defineComponent({
 		name: 'BuildViewer',

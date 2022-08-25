@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { defineComponent } from 'vue'
-	import SearchViewer from 'components/SearchViewer.vue'
+	import { defineComponent } from 'vue';
+	import SearchViewer from 'components/SearchViewer.vue';
 	
 	export default defineComponent({
 		name: 'BuildPerks',

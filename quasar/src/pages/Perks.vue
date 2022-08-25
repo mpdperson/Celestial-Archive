@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { defineComponent } from 'vue'
-	import BuildViewer from 'components/BuildViewer.vue'
+	import { defineComponent } from 'vue';
+	import BuildViewer from 'components/BuildViewer.vue';
 	
 	export default defineComponent({
 		name: 'BuildPerks',

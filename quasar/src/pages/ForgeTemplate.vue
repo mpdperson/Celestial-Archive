@@ -1,6 +1,6 @@
 <template>
 	<q-page class="flex flex-center">
-		Help
+		Forge Template
 	</q-page>
 </template>
 
@@ -8,6 +8,6 @@
 	import { defineComponent } from 'vue';
 	
 	export default defineComponent({
-		name: 'HelpPage'
+		name: 'ForgeTemplate'
 	})
 </script>

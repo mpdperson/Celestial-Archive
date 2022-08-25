@@ -2,12 +2,13 @@
 	<div></div>
 </template>
 <script>
-	import { reactive } from 'vue'
+	import { reactive } from 'vue';
 	
 	const perkListv1 = require('../../../public/json/Forge/cfv1_final.json');
 	const perkListv2 = require('../../../public/json/Forge/cfv1_final.json');
 	const perkListv3 = require('../../../public/json/Forge/cfv1_final.json');
 	const perkListvA = require('../../../public/json/Forge/archive.json');
+	const forgeTemplate = require('../../../public/json/Forge/forgeTemplate.json');
 	
 	const originPerks = require('../../../public/json/Forge/origins.json');
 	const storeItems = require('../../../public/json/Forge/store_items.json');
@@ -100,8 +101,13 @@
 				return "Process";
 			}
 			else if(obj.type=="Forge") {
-				this.loadVersion(obj.data);
-				return "";
+				if(!isNull(obj.data)) {
+					this.loadVersion(obj.data);
+					return "Gacha";
+				}
+				else {
+					return "ForgeTemplate";
+				}
 			}
 			else if(obj.type=="Progress") {
 				if(isNull(obj.data.Gained_Perks[0].Perks)) {
@@ -136,6 +142,10 @@
 			}
 			this.resetForge();
 			this.createDefaultFilters();
+		},
+		
+		getTemplate() {
+			return forgeTemplate;
 		},
 		
 		loadVersion(obj) {
@@ -198,6 +208,33 @@
 			};
 			var com = this.state.displayValue;
 			return (com.Title==meh.Title);
+		},
+		
+		launchForge(obj) {
+			if(isNull(obj)) {
+				obj = {
+					"Forge":"v1",
+					"Mode":"Forge",
+					"Starters":[],
+					"Options":[],
+				}
+			}
+			this.setVersion(obj.Forge);
+			this.setMode(obj.Mode);
+			this.setStarters(obj.Starters);
+			this.setOptions(obj.Options);
+		},
+		
+		setMode(selected) {
+			if(isNull(selected)) selected = "Forge";
+		},
+		
+		setStarters(arr) {
+			if(isNull(arr)) return;
+		},
+		
+		setOptions(arr) {
+			if(isNull(arr)) return;
 		},
 		
 		resetForge() {
@@ -670,9 +707,6 @@
 			if(isNull(jsonObj.Restrict_Title)) {
 				jsonObj["Restrict_Title"] = "";
 			}
-			if(isNull(jsonObj.Exclude)) {
-				jsonObj["Exclude"] = false;
-			}
 			if(isNull(jsonObj.Exclude_Title)) {
 				jsonObj["Exclude_Title"] = "";
 			}
@@ -685,7 +719,7 @@
 						jsonObj["Over_Domain"] = "Add";
 					}
 					else {
-						jsonObj["Over_Domain"] = jsonObj.Domain;
+						jsonObj["Over_Domain"] = jsonObj.Domain.split(":")[0];
 					}
 				}
 				else {
@@ -710,8 +744,15 @@
 			if(isNull(jsonObj.Taken)) {
 				jsonObj["Taken"] = false;
 			}
-			if(isNull(jsonObj.Lewd)) {
-				jsonObj["Lewd"] = false;
+			if(isNull(jsonObj.Tags)) {
+				jsonObj["Tags"] = [];
+			}
+			if(!isNull(jsonObj.Tags)) {
+				if(jsonObj.Tags.length == 1) {
+					if(jsonObj.Tags[0]=="") {
+						jsonObj["Tags"] = [];
+					}
+				}
 			}
 			if(isNull(jsonObj.Discount_Title)) {
 				jsonObj["Discount_Title"] = "";
@@ -719,20 +760,11 @@
 			if(isNull(jsonObj.Discount_Multiplier)) {
 				jsonObj["Discount_Multiplier"] = 0.5;
 			}
-			if(isNull(jsonObj.Discount)) {
-				jsonObj["Discount"] = false;
-			}
 			if(isNull(jsonObj.Free_Title)) {
 				jsonObj["Free_Title"] = "";
 			}
-			if(isNull(jsonObj.Free_Req)) {
-				jsonObj["Free"] = false;
-			}
 			if(isNull(jsonObj.Prereq_Title)) {
 				jsonObj["Prereq_Title"] = "";
-			}
-			if(isNull(jsonObj.Prereq)) {
-				jsonObj["Prereq"] = "";
 			}
 			if(isNull(jsonObj.Cost)) {
 				jsonObj["Cost"] = 0;
@@ -2336,6 +2368,7 @@
 		resetPerkList: store.resetPerkList,
 		resetFilters: store.createDefaultFilters,
 		loadVersion: store.loadVersion,
+		getTemplate: store.getTemplate,
 		setDisplay: store.setDisplayValue,
 		setCostFilter: store.setCostFilter,
 		setDomainFilter: store.setDomainFilter,
@@ -2366,6 +2399,10 @@
 		hasPerk: store.hasPerk,
 		hasDisplayPerk: store.hasDisplayPerk,
 		isNullPerk: store.isNullPerk,
+		launchForge: store.launchForge,
+		setMode: store.setMode,
+		setStarters: store.setStarters,
+		setOptions: store.setOptions,
 		isThisNull: store.isThisNull,
 		canBuy: store.canBuy,
 		

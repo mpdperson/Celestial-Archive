@@ -97,7 +97,7 @@
 	</div>
 </template>
 <script>
-	import { defineComponent, ref, onMounted } from 'vue'
+	import { defineComponent, ref, onMounted } from 'vue';
 	import { useQuasar } from 'quasar';
 	import Domain from 'components/Domain.vue';
 	import Perk from 'components/Perk.vue';

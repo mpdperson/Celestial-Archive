@@ -445,11 +445,6 @@
                 "Taken": false,
                 "Over_Domain": "Starters",
                 "Delete": false,
-                "Restrict": false,
-                "Exclude": false,
-                "Lewd": false,
-                "Discount": false,
-                "Free": false,
                 "Prereq": ""
             }
         ]

@@ -1,0 +1,35 @@
+[
+	{
+		"Domain": "Template: Example",
+		"Over_Domain": "Template",
+		"Perks": [
+			{
+				"Title": "Some Title",
+				"Cost": 100,
+				"Description": "Some Description",
+				"Dice": "1d1",
+				"Discount_Multiplier": 0.5,
+				"Discount_Cost": 0,
+				"Discount_Title": "",
+				"Domain": "Template: Example",
+				"Domain_Number": null,
+				"Exclude_Title": "Example Title",
+				"Free_Title": "",
+				"Conjoin_Title": "White Title && Yellow Title",
+				"Perk_Number": null,
+				"Prereq_Title": "(Some other title && Another Title && (Red Title || Blue Title))",
+				"Restrict_Title": "",
+				"Retake": false,
+				"Retake_Cost": 0,
+				"Retake_Multiplier": 1,
+				"Retake_Limit": null,
+				"Source": "Some Source",
+				"Upper_Source": "Some Fandom",
+				"Taken": false,
+				"Tags": ["Keyword","Other Keyword"],
+				"Over_Domain": "Example",
+				"Delete": false
+			}
+		]
+	}
+]

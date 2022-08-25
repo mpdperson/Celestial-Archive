@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { defineComponent } from 'vue'
-	import ListViewer from 'components/ListViewer.vue'
+	import { defineComponent } from 'vue';
+	import ListViewer from 'components/ListViewer.vue';
 	
 	export default defineComponent({
 		name: 'GachaPage',

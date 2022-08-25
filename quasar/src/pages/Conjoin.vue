@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { defineComponent } from 'vue'
-	import ConjoinViewer from 'components/ConjoinViewer.vue'
+	import { defineComponent } from 'vue';
+	import ConjoinViewer from 'components/ConjoinViewer.vue';
 	
 	export default defineComponent({
 		name: 'FreePage',

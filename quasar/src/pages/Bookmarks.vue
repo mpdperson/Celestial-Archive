@@ -5,8 +5,8 @@
 </template>
 
 <script>
-	import { defineComponent } from 'vue'
-	import BookmarkViewer from 'components/BookmarkViewer.vue'
+	import { defineComponent } from 'vue';
+	import BookmarkViewer from 'components/BookmarkViewer.vue';
 	
 	export default defineComponent({
 		name: 'BookmarkPage',
