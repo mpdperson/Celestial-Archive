@@ -184,13 +184,13 @@
 					saveDocFilt.value = JSON.parse(JSON.stringify(docList.value));
 				},
 				filterFandomFilter(selected) {
-					console.log("filterFandomFilter",selected);
 					var newFilter = Store.updateFandomFilter(fanFilt.value);
 					fandomList.value = newFilter;
 				},
 				filterCostFilter(selected) {
 					console.log("filterCostFilter",selected);
-					
+					var newFilter = Store.filterCostUpdate(parseInt(selected));
+					costFilt.value = newFilter;
 				},
 				filterDomainFilter(selected) {
 					if(!isNull(domFilt.value)) {

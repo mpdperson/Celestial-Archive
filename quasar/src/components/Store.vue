@@ -240,9 +240,6 @@
 			if(isNull(this.state.domainFilter)) {
 				this.resetPerkList();
 			}
-			if(this.debug) {
-				console.log('store.setDisplayValue called with', newValue)
-			}
 			this.state.displayValue = newValue
 		},
 		
@@ -337,7 +334,6 @@
 			this.state.sourceString = search.filters.Source;
 			this.searchPerk(search.search,search.filters,search.att,search.margin);
 			var results = this.state.searchResults;
-			console.log("results",results);
 			var newList = {};
 			var returnList = [];
 			results.forEach(function(n) {
@@ -391,7 +387,6 @@
 			var filterSource = filters.Source;
 			var filterUSource = filters.Upper_Source;
 			var searchPerkList = this.fetchFilteredDomains();
-			console.log("searchPerkList",searchPerkList);
 			
 			var results = [];
 			searchPerkList.forEach(function(d) {
@@ -584,9 +579,6 @@
 		},
 		
 		clearDisplayValue() {
-			if(this.debug) {
-				console.log('store.clearDisplayValue called with', newValue)
-			}
 			this.state.displayValue = {
 				"ID": "N/A",
 				"Title": "None",
@@ -647,8 +639,6 @@
 			else {
 				var added = false;
 				for(var i=0; i<curBuild.length; i++) {
-					console.log("curBuild["+i+"]",curBuild[i]);
-					console.log(curBuild[i].Domain+"=="+addPerk.Domain,curBuild[i].Domain==addPerk.Domain);
 					if(curBuild[i].Domain==addPerk.Domain && !added) {
 						curBuild[i].Perks.push(addPerk);
 						added = true;
@@ -945,12 +935,31 @@
 			return null;
 		},
 		
+		filterCostUpdate(selected) {
+			var newToggle = this.state.costToggle;
+			var newFilter = [];
+			newToggle.forEach(function(n) {
+				if(n.Cost<=selected) {
+					newFilter.push(n.Cost);
+				}
+				else {
+					n.Enabled = false;
+				}
+			});
+			this.state.costFilter = newFilter;
+			this.state.costToggle = newToggle;
+			
+			this.updateBuildList();
+			this.updatePerkList();
+			
+			return newToggle;
+		},
+		
 		updateCostFilter(selected) {
 			var newFilter = this.state.costFilter;
 			var newToggle = this.state.costToggle;
 			if(selected.Cost=="All") {
 				var newBool = !selected.Enabled;
-				console.log("updateCostFilter",newBool);
 				newToggle.forEach(function(n) {
 					n.Enabled = newBool;
 					if(newBool) {
@@ -958,7 +967,6 @@
 					}
 				});
 				if(!newBool) {
-					console.log("Reset Cost Filter");
 					newFilter = [];
 				}
 			}
@@ -1275,17 +1283,14 @@
 		
 		setSearchString(newString) {
 			this.state.searchString = newString;
-			console.log("Store ", newString);
 		},
 		
 		setCostFilter(newFilter) {
 			this.state.costFilter = newFilter;
-			console.log("Store costFilter ", newFilter);
 		},
 		
 		setDomainFilter(newFilter) {
 			this.state.domainFilter = newFilter;
-			console.log("Store domainFilter ", newFilter);
 		},
 		
 		fetchRandomPerk(isCost) {
@@ -1446,6 +1451,8 @@
 				tmp["Documents"] = newArr;
 				newUpperToggle.push(tmp);
 			}
+			var tmpAll = {"Fandom":"All","Enabled":true,"Documents":[{"Fandom":"All","Document":"All","Enabled":true}]};
+			newUpperToggle.unshift(tmpAll);
 			this.state.allUppers = sortedAllUppers;
 			this.state.upperToggle = newUpperToggle;
 			newSourceFilter.forEach(function(n) {
@@ -2338,6 +2345,7 @@
 		trimPerk: store.trimPerk,
 		fetchFilters: store.fetchFilters,
 		updateCostFilter: store.updateCostFilter,
+		filterCostUpdate: store.filterCostUpdate,
 		updateFandomFilter: store.updateFandomFilter,
 		updateDocsFilter: store.updateDocsFilter,
 		updateDocsFilterAll: store.updateDocsFilterAll,

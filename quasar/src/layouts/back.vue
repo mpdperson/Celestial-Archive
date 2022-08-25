@@ -118,10 +118,6 @@
 	export default defineComponent({
 		name: 'MainLayout',
 		
-		gotoSlide: function(meh){
-			console.log("gotoSlide",meh);
-		},
-		
 		components: {
 			PerkViewer
 		},
