@@ -45,7 +45,7 @@
 							</q-item-label>
 						</q-item-section>
 						<q-item-section side>
-							<q-btn dark label="bookmark" v-show="bookVis" outline ripple color="blue-grey-12" @click="buy(storeState.displayValue)" >
+							<q-btn dark label="accept" v-show="acceptVis" outline ripple color="blue-grey-12" @click="accept(storeState.displayValue)" >
 							</q-btn>
 							<q-btn dark label="reject" v-show="rejectVis" outline ripple color="blue-grey-12" @click="reject(storeState.displayValue)" >
 							</q-btn>
@@ -66,6 +66,9 @@
 					<q-item dark>
 						<p>ID: {{ storeState.displayValue.ID }}</p>
 					</q-item>
+					<q-item dark>
+						<p>Order: {{ storeState.displayValue.Order }}</p>
+					</q-item>
 				</q-list>
 				<q-scroll-observer />
 			</q-scroll-area>
@@ -74,10 +77,11 @@
 </template>
 
 <script>
-	import { defineComponent, ref, onMounted } from 'vue'
-	import Domain from 'components/Domain.vue'
-	import Perk from 'components/Perk.vue'
-	import Store from 'components/Store.vue'
+	import { defineComponent, ref, onMounted } from 'vue';
+	import { useQuasar } from 'quasar';
+	import Domain from 'components/Domain.vue';
+	import Perk from 'components/Perk.vue';
+	import Store from 'components/Store.vue';
 	
 	export default defineComponent({
 		name: 'BuildViewer',
@@ -90,40 +94,84 @@
 			
 		},
 		setup (props) {
-			const domainList = ref(null)
-			const perkList = ref(null)
-			const bookVis = ref(!Store.state.canGet)
-			const rejectVis = ref(Store.state.canGet)
-			const acceptVis = ref(Store.state.canGet)
+			const displayList = ref(null);
+			const perkList = ref(null);
+			const bookVis = ref(!Store.state.canGet);
+			const rejectVis = ref(Store.state.canGet);
+			const acceptVis = ref(Store.state.canGet);
 			
 			const getDisplayList = async () => {
-				domainList.value = await Store.fetchBookmarks();
-				acceptVis.value = await !Store.hasCurrent();
-				bookVis.value = await !Store.isNullPerk();
+				displayList.value = Store.state.tempBuild;
+				var canAccept = await Store.hasDisplayPerk();
+				var isNull = await Store.isNullPerk();
+				if(!isNull) {
+					acceptVis.value = true;
+					rejectVis.value = true;
+				}
 				setHeight();
 			}
 			
 			onMounted(getDisplayList);
 			
+			const $q = useQuasar();
+			const triggerFreeNote = (perks) => {
+				var count = perks.length;
+				if(count>0) {
+					$q.notify({
+						icon: 'card_giftcard',
+						progress: true,
+						color: 'green',
+						textColor: 'white',
+						classes: 'glossy',
+						message: 'You have '+count+' free Perks.'
+					});
+				}
+			}
+			const triggerConjoinNote = (perks) => {
+				var count = perks.length;
+				count--;
+				if(count>0) {
+					Notify.create({
+						icon: 'link',
+						progress: true,
+						color: 'green',
+						textColor: 'white',
+						classes: 'glossy',
+						message: 'You have '+count+' Conjoined Perks.'
+					});
+				}
+			}
+			
 			return {
-				domainList: domainList,
+				domainList: displayList,
 				perkList: perkList,
+				bookVis: bookVis,
+				rejectVis: rejectVis,
+				acceptVis: acceptVis,
 				updateDisplay(perk) {
 					Store.setDisplay(perk);
-				},
-				updateView() {
-					domainList.value = Store.fetchBookmarks();
+					var canAccept = Store.hasDisplayPerk();
+					var isNull = Store.isNullPerk();
+					if(!isNull) {
+						acceptVis.value = true;
+						rejectVis.value = true;
+					}
+					else {
+						acceptVis.value = false;
+						rejectVis.value = false;
+					}
 				},
 				updateList(selected) {
-					domainList.value = Store.fetchBookmarks();
-					perkList.value = selected.Perks;
+					perkList.value = Store.fetchUnfilteredPerkList(selected);
 				},
-				buy(selected) {
-					
+				reject(selected) {
+					Store.rejectPerk(selected);
 				},
+				accept(selected) {
+					Store.acceptPerk(selected);
+				},
+				displayList,
 				getDisplayList,
-				bookVis,
-				rejectVis,
 				query: Store.searchString,
 			}
 		},

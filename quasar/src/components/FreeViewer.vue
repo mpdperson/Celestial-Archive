@@ -75,7 +75,7 @@
 	</div>
 </template>
 <script>
-	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
+	import { defineComponent, ref, onMounted } from 'vue'
 	import Domain from 'components/Domain.vue'
 	import Perk from 'components/Perk.vue'
 	import Store from 'components/Store.vue'

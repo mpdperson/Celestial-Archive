@@ -8,7 +8,7 @@ $.getJSON('public/json/Docs/body_mod.json', function(data) {
     body_mod = data;
 });
 var celestial_forge = [];
-$.getJSON('public/json/Forge/archive.json', function(data) {
+$.getJSON('public/json/Forge/starters.json', function(data) {
     celestial_forge = data;
 });
 var craft_list = [];
@@ -687,6 +687,10 @@ function savePerks() {
 	//sendJSON(celestial_forge,"celestial_forge.js");
 	saveJson(celestial_forge,"celestial_forge.js");
 	//reloadPage();
+}
+
+function createCF(arr) {
+	
 }
 
 function doUnder(meh) {

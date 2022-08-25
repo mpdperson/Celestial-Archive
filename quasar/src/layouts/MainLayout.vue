@@ -9,9 +9,9 @@
 			</q-toolbar>
 			
 			<q-tabs align="left" >
-				<q-route-tab to="/" label="Main" />
 				<q-route-tab to="/Gacha" label="Gacha" />
 				<q-route-tab to="/Buy" label="Buy" />
+				<q-route-tab to="/Drawback" label="Drawback" />
 				<q-route-tab to="/Perks" label="Perks" />
 				<q-route-tab to="/Bookmarks" label="Bookmarks" />
 			</q-tabs>
@@ -100,9 +100,16 @@
 		separator: false
 	},
 	{
+		icon: 'store',
+		label: 'Store',
+		to: '/Store',
+		notes: 0,
+		separator: false
+	},
+	{
 		icon: 'settings',
 		label: 'Settings',
-		to: '/Settings',
+		to: '/',
 		notes: 0,
 		separator: false
 	},

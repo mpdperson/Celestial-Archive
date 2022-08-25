@@ -15,6 +15,7 @@
 
 <script>
 	import { defineComponent, ref } from 'vue';
+	import { useQuasar } from 'quasar';
 	import Store from 'components/Store.vue';
 	
 	export default defineComponent({
@@ -26,13 +27,41 @@
 			
 		},
 		setup (props) {
+			const $q = useQuasar();
 			const loadType = ref(null);
+			const triggerFreeNote = (perks) => {
+				var count = perks.length;
+				if(count>0) {
+					$q.notify({
+						icon: 'card_giftcard',
+						progress: true,
+						color: 'green',
+						textColor: 'white',
+						classes: 'glossy',
+						message: 'You have '+count+' free Perks.'
+					});
+				}
+			}
+			const triggerLoadedNote = (perks) => {
+				var count = perks.length;
+				count--;
+				if(count>0) {
+					$q.notify({
+						icon: 'file_download',
+						progress: true,
+						color: 'green',
+						textColor: 'white',
+						classes: 'glossy',
+						message: 'You have '+count+' Loaded Perks.'
+					});
+				}
+			}
 			return {
 				model: ref(null),
 				dense: ref(true),
 				loadType: loadType,
 				options: [
-					'Forge', 'Document', 'Progress'
+				'Forge', 'Document', 'Progress'
 				],
 				myFile: ref(null),
 				loadProgress() {
@@ -53,8 +82,12 @@
 						}
 					}
 					var pageTo = Store.loadItem(data);
-					//nav(pageTo);
-				}
+					var freebies = Store.state.currentFreebies;
+					triggerFreeNote(freebies);
+					var loadedPerks = Store.state.tempBuild;
+					triggerLoadedNote(loadedPerks);
+					nav(pageTo);
+				},
 			}
 		}
 	})

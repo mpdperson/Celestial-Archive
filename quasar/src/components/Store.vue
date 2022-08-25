@@ -8,10 +8,18 @@
 	const perkListv2 = require('../../../public/json/Forge/cfv1_final.json');
 	const perkListv3 = require('../../../public/json/Forge/cfv1_final.json');
 	const perkListvA = require('../../../public/json/Forge/archive.json');
+	
+	const originPerks = require('../../../public/json/Forge/origins.json');
+	const storeItems = require('../../../public/json/Forge/store_items.json');
+	const starterPerks = require('../../../public/json/Forge/starters.json');
+	const bodyPerks = require('../../../public/json/Docs/body_mod.json');
+	const realityPerks = require('../../../public/json/Docs/reality_mod.json');
+	
 	const sourceDict = require('../../../public/json/Ref/source_origins.json');
 	const upperDict = require('../../../public/json/Ref/all_upper.json');
 	const sourceList = require('../../../public/json/Ref/source_origins.json');
 	const commons = require('../../../public/dictionaries/common_phrases.json');
+	
 	var cTitles = [];
 	var ctPerks = [];
 	
@@ -81,6 +89,7 @@
 		}),
 		
 		loadItem(obj) {
+			this.init();
 			var page = this.handleLoad(obj[0]);
 			return page;
 		},
@@ -106,6 +115,7 @@
 		},
 		
 		setVersion(str) {
+			this.init();
 			if(str=="v1") {
 				this.state.unfiltered = perkListv1;
 			}
@@ -137,6 +147,20 @@
 		hasCurrent() {
 			if(isNull(this.state.currentBuild)) return false;
 			return this.state.currentBuild.includes(this.state.currentPerk);
+		},
+		
+		hasPerk(selPerk) {
+			var hasThisPerk = this.state.currentBuild.includes(selPerk);
+			var tp = trimPerk(selPerk);
+			var hasTPerk = hasTP(tp);
+			return (hasThisPerk || hasTPerk);
+		},
+		
+		hasDisplayPerk() {
+			var hasThisPerk = this.state.currentBuild.includes(this.state.displayValue);
+			var tp = trimPerk(this.state.displayValue);
+			var hasTPerk = hasTP(tp);
+			return (hasThisPerk || hasTPerk);
 		},
 		
 		isThisNull(perk) {
@@ -813,6 +837,14 @@
 			return filterList;
 		},
 		
+		fetchUnfilteredPerkList(selected) {
+			var filterList = [];
+			selected.Perks.forEach(function(p) {
+				filterList.push(p);
+			});
+			return filterList;
+		},
+		
 		createFilteredList() {
 			if(isNull(this.state.domainFilter)) {
 				this.resetPerkList();
@@ -1173,6 +1205,12 @@
 				}
 			}
 			this.state.filteredBuild = filterList;
+		},
+		
+		init() {
+			if(isNull(this.state.domainFilter)) {
+				this.createDefaultFilters();
+			}
 		},
 		
 		updatePerkList() {
@@ -2155,6 +2193,14 @@
 			saveJson(prog,"progress.js",false);
 		},
 		
+		acceptPerk(selPerk) {
+			this.state.rejectedPerks.push(selPerk);
+			this.state.currentPerk = selPerk;
+			this.addToBuild(selPerk);
+			this.fetchFreebies(selPerk);
+			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
+		},
+		
 		loadFlatProgress(jsonObj) {
 			if(isNull(jsonObj)) return;
 			this.state.currentCP = jsonObj.Current_CP;
@@ -2277,6 +2323,7 @@
 		costFilteredDomains: store.costFilteredDomains,
 		fetchList: store.fetchList,
 		fetchPerkList: store.fetchPerkList,
+		fetchUnfilteredPerkList: store.fetchUnfilteredPerkList,
 		getRoll: store.getRoll,
 		removeDupes: store.removeDupes,
 		resetPerkList: store.resetPerkList,
@@ -2302,11 +2349,14 @@
 		loadItem: store.loadItem,
 		resetForge: store.resetForge,
 		rejectPerk: store.rejectPerk,
+		acceptPerk: store.acceptPerk,
 		searchPerk: store.searchPerk,
 		doSearch: store.doSearch,
 		fetchSearchResults: store.fetchSearchResults,
 		setCurrentCP: store.setCurrentCP,
 		hasCurrent: store.hasCurrent,
+		hasPerk: store.hasPerk,
+		hasDisplayPerk: store.hasDisplayPerk,
 		isNullPerk: store.isNullPerk,
 		isThisNull: store.isThisNull,
 		canBuy: store.canBuy,
@@ -2325,6 +2375,7 @@
 		findTitles: store.findTitles,
 		updateBuildList: store.updateBuildList,
 		updatePerkList: store.updatePerkList,
+		init: store.init,
 		saveProgress: store.saveProgress,
 		loadProgress: store.loadProgress,
 		loadFlatProgress: store.loadFlatProgress,
@@ -2823,6 +2874,7 @@
 	}
 	
 	function stripString(a) {
+		if(isNull(a)) return "";
 		a = a.toLowerCase();
 		a = a.replace(/[^a-z\- ]/g, '');
 		a = a.replace(/\s+/g, ' ');
@@ -3055,7 +3107,6 @@
 		}
 		if(!isNull(obj.unfiltered)) {
 			_unfiltered = obj.unfiltered;
-			console.log("_unfiltered",_unfiltered);
 		}
 	}
 	

@@ -85,7 +85,7 @@
 </template>
 
 <script>
-	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue';
+	import { defineComponent, ref, onMounted } from 'vue';
 	import { Cookies } from 'quasar';
 	import DomainFilter from 'components/DomainFilter.vue';
 	import Cost from 'components/Cost.vue';

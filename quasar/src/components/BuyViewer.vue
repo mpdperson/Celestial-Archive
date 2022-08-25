@@ -46,7 +46,7 @@
 									</q-btn>
 								</div>
 								<div class="cstWidth q-pa-md">
-									<q-btn-toggle dark :options="[{ label: cp, value: cp }]" outline ripple color="blue-grey-12" @click="buy(cp, result)" >
+									<q-btn-toggle v-model="model" dark :options="[{ label: cp, value: cp }]" outline ripple color="blue-grey-12" @click="buy(cp, result)" >
 									</q-btn-toggle>
 								</div>
 								<div class="rsnWidth q-pa-md">
@@ -97,7 +97,7 @@
 	</div>
 </template>
 <script>
-	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue'
+	import { defineComponent, ref, onMounted } from 'vue'
 	import { useQuasar } from 'quasar';
 	import Domain from 'components/Domain.vue';
 	import Perk from 'components/Perk.vue';
@@ -115,6 +115,33 @@
 		},
 		setup (props) {
 			const $q = useQuasar();
+			const triggerFreeNote = (perks) => {
+				var count = perks.length;
+				if(count>0) {
+					$q.notify({
+						icon: 'card_giftcard',
+						progress: true,
+						color: 'green',
+						textColor: 'white',
+						classes: 'glossy',
+						message: 'You have '+count+' free Perks.'
+					});
+				}
+			}
+			const triggerConjoinNote = (perks) => {
+				var count = perks.length;
+				count--;
+				if(count>0) {
+					Notify.create({
+						icon: 'link',
+						progress: true,
+						color: 'green',
+						textColor: 'white',
+						classes: 'glossy',
+						message: 'You have '+count+' Conjoined Perks.'
+					});
+				}
+			}
 			const cp = ref(Store.state.currentCP);
 			const result = ref("Press Gacha! button for 100 CP and a chance to pull a random perk");
 			const displayList = ref(null);
@@ -140,6 +167,7 @@
 			onMounted(getDisplayList);
 			
 			return {
+				model: ref(null),
 				cp,
 				result,
 				domainList: displayList,
@@ -198,25 +226,6 @@
 					Store.increment();
 					cp.value = Store.state.currentCP;
 					displayList.value = Store.costPerkList();
-				},
-				triggerFreeNote(perks) {
-					var count = perks.length;
-					if(count>0) {
-						$q.notify({
-							type: 'positive',
-							message: 'You have '+count+' free Perks.'
-						});
-					}
-				},
-				triggerConjoinNote(perks) {
-					var count = perks.length;
-					count--;
-					if(count>0) {
-						$q.notify({
-							type: 'positive',
-							message: 'You have '+count+' Conjoined Perks.'
-						});
-					}
 				},
 				accept(selected) {
 					Store.setCurrentCP(cp.value - selected.Cost);

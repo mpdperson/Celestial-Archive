@@ -1,13 +1,17 @@
 <template>
-	<q-page class="flex flex-center">
-		Process Save
+	<q-page class="flex blackBack">
+		<ProcessViewer />
 	</q-page>
 </template>
 
 <script>
 	import { defineComponent } from 'vue'
+	import ProcessViewer from 'components/ProcessViewer.vue'
 	
 	export default defineComponent({
-		name: 'ProcessSavePage'
+		name: 'ProcessSavePage',
+		components: {
+			ProcessViewer
+		}
 	})
 </script>

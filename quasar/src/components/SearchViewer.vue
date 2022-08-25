@@ -117,7 +117,7 @@
 </template>
 
 <script>
-	import { defineComponent, ref, onMounted, watch, toRefs, computed} from 'vue';
+	import { defineComponent, ref, onMounted } from 'vue';
 	import { useQuasar } from 'quasar';
 	import Domain from 'components/Domain.vue';
 	import Perk from 'components/Perk.vue';
@@ -135,6 +135,33 @@
 		},
 		setup (props) {//["Title","Description","Source","Upper_Source"];
 			const $q = useQuasar();
+			const triggerFreeNote = (perks) => {
+				var count = perks.length;
+				if(count>0) {
+					$q.notify({
+						icon: 'card_giftcard',
+						progress: true,
+						color: 'green',
+						textColor: 'white',
+						classes: 'glossy',
+						message: 'You have '+count+' free Perks.'
+					});
+				}
+			}
+			const triggerConjoinNote = (perks) => {
+				var count = perks.length;
+				count--;
+				if(count>0) {
+					Notify.create({
+						icon: 'link',
+						progress: true,
+						color: 'green',
+						textColor: 'white',
+						classes: 'glossy',
+						message: 'You have '+count+' Conjoined Perks.'
+					});
+				}
+			}
 			const displayList = ref(null);
 			const perkList = ref(null);
 			const titleSearch = ref(true);
@@ -213,25 +240,6 @@
 					};
 					search["search"] = searchTxt.value;
 					displayList.value = Store.doSearch(search);
-				},
-				triggerFreeNote(perks) {
-					var count = perks.length;
-					if(count>0) {
-						$q.notify({
-							type: 'positive',
-							message: 'You have '+count+' free Perks.'
-						});
-					}
-				},
-				triggerConjoinNote(perks) {
-					var count = perks.length;
-					count--;
-					if(count>0) {
-						$q.notify({
-							type: 'positive',
-							message: 'You have '+count+' Conjoined Perks.'
-						});
-					}
 				},
 				displayList,
 				getDisplayList,
