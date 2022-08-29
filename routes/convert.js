@@ -25,14 +25,16 @@ var commons = require('../public/dictionaries/commons.json');
 var dictionary = require('../public/dictionaries/new_dict.js');
 var wordList = require('../public/dictionaries/wordList.json');
 var ending = require('../public/dictionaries/ending.json');
+var os = require("os");
+var hostname = os.hostname();
 
 //var celestial_forge = require('../public/json/Forge/celestial_forge.json');
 
 const TOKEN_PATH = './certs/token.json';
 const API_KEY = fs.readFileSync("./certs/API_KEY.txt").toString('UTF8');
 const scopes = [
-  'https://www.googleapis.com/auth/drive',
-  'https://www.googleapis.com/auth/documents',
+	'https://www.googleapis.com/auth/drive',
+	'https://www.googleapis.com/auth/documents',
 ];
 
 var word_list = wordList;
@@ -122,7 +124,7 @@ router.get('/json/*', function(req, res, next) {
 	res.redirect(req.url);
 });
 
-router.get('/', function(req, res, next){	
+router.get('/', function(req, res, next) {
 	message = "Convert Files";
 	res.render('convert', {
 		title:message,
@@ -308,14 +310,14 @@ function getDoc(auth) {
 			console.log("googleDoc",googleDoc);
 			if(!isNull(googleDoc)) {
 				/*/
-				var downfile = fs.createWriteStream(curdir + "/" + fileID + ".pdf");//googleDoc.name
-				googleDoc.response.pipe(downfile);
-				
-				downfile.on("finish", () => {
+					var downfile = fs.createWriteStream(curdir + "/" + fileID + ".pdf");//googleDoc.name
+					googleDoc.response.pipe(downfile);
+					
+					downfile.on("finish", () => {
 					downfile.close();
 					console.log("Download Completed");
 					//uploadFile
-				});
+					});
 				//*/
 			}
 		});
@@ -383,26 +385,26 @@ async function uploadFile(file) {
 		
 		switch(extension) {
 			case "pdf":
-				pdfToTxt(newFile);
-				pdfParser.loadPDF(newPath2);
-				break;
+			pdfToTxt(newFile);
+			pdfParser.loadPDF(newPath2);
+			break;
 			case "txt":
-				readFileTxt(newFile);
-				break;
+			readFileTxt(newFile);
+			break;
 			default:
-				fs.writeFile(newPath, rawData, function(err){
-					if(err) {
-						console.log(err);
-						stat = "Fail";
-						message = "Failed upload";
-					}
-					else {
-						console.log("Success");
-						stat = "Success";
-						message = "Successfully uploaded";
-					}
-				});
-				break;
+			fs.writeFile(newPath, rawData, function(err){
+				if(err) {
+					console.log(err);
+					stat = "Fail";
+					message = "Failed upload";
+				}
+				else {
+					console.log("Success");
+					stat = "Success";
+					message = "Successfully uploaded";
+				}
+			});
+			break;
 		}
 	}
 }
@@ -420,16 +422,16 @@ function processFile(file) {
 		
 		switch(extension) {
 			case "json":
-				return jsonToArray(file);
-				break;
+			return jsonToArray(file);
+			break;
 			case "pdf":
-				return pdfToTxtFinal(file);
-				break;
+			return pdfToTxtFinal(file);
+			break;
 			case "txt":
-				return readFileTxtFinal(file);
-				break;
+			return readFileTxtFinal(file);
+			break;
 			default:
-				break;
+			break;
 		}
 	}
 }
@@ -1075,88 +1077,88 @@ function parseLines(txts,fileName) {
 		if(titleType) {
 			switch(titleType) {
 				case 0:
-					break;
+				break;
 				case 1://(
-					var ts = t.match(title1);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title1);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 2://[
-					var ts = t.match(title2);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title2);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 3:
-					var ts = t.match(title3);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title3);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 4:
-					var ts = t.match(title4);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title4);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 5:
-					var ts = t.match(title5);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title5);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 6:
-					var ts = t.match(title6);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title6);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 7:
-					var ts = t.match(title7);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title7);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 8:
-					var ts = t.match(title8);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title8);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 9:
-					var ts = t.match(title9);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title9);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 10:
-					var ts = t.match(title0);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title0);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 11:
-					var ts = t.match(title11);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title11);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 12:
-					var ts = t.match(title12);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title12);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 13:
-					var ts = t.match(title13);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title13);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 14:
-					var ts = t.match(title14);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title14);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 15:
-					var ts = t.match(title15);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title15);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 16:
-					var ts = t.match(title16);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title16);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 17:
-					var ts = t.match(title17);
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.match(title17);
+				t = createTitle(ts,fileName,t);
+				break;
 				case 99:
-					var ts = t.split("-");
-					t = createTitle(ts,fileName,t);
-					break;
+				var ts = t.split("-");
+				t = createTitle(ts,fileName,t);
+				break;
 				default:
-					t = t.replace(/\[/g," [");
-					t = t.replace(/\(/g," (");
-					t = t.replace(/\{/g," {");
-					t = t.replace(/\</g," <");
-					t = t.replace(/ ([ ]+)/g," ");
-					var ts = t.split(" ");
-					t = createTitle(ts,fileName,t);
-					break;
+				t = t.replace(/\[/g," [");
+				t = t.replace(/\(/g," (");
+				t = t.replace(/\{/g," {");
+				t = t.replace(/\</g," <");
+				t = t.replace(/ ([ ]+)/g," ");
+				var ts = t.split(" ");
+				t = createTitle(ts,fileName,t);
+				break;
 			}
 		}
 		else if(isBullet(t)) {
@@ -1278,56 +1280,56 @@ function respaceDoc(txt) {
 		if(isSection(txts[i])) {
 			switch(previous) {
 				default:
-					result+="\n\n"+txts[i]+"\n\n";
-					break;
+				result+="\n\n"+txts[i]+"\n\n";
+				break;
 			}
 			previous="Section";
 		}
 		else if(isTitle(txts[i])) {
 			switch(previous) {
 				default:
-					result+="\n\n"+txts[i];
-					break;
+				result+="\n\n"+txts[i];
+				break;
 			}
 			previous="Title";
 		}
 		else if(isBullet(txts[i])) {
 			switch(previous) {
 				default:
-					result+=" "+txts[i];
-					break;
+				result+=" "+txts[i];
+				break;
 			}
 			previous="Bullet";
 		}
 		else if(isPrereq(txts[i])) {
 			switch(previous) {
 				default:
-					result+="\n"+txts[i];
-					break;
+				result+="\n"+txts[i];
+				break;
 			}
 			previous="Prereq";
 		}
 		else if(isFreereq(txts[i])) {
 			switch(previous) {
 				default:
-					result+="\n"+txts[i];
-					break;
+				result+="\n"+txts[i];
+				break;
 			}
 			previous="Prereq";
 		}
 		else if(isDiscountreq(txts[i])) {
 			switch(previous) {
 				default:
-					result+="\n"+txts[i];
-					break;
+				result+="\n"+txts[i];
+				break;
 			}
 			previous="Prereq";
 		}
 		else {
 			switch(previous) {
 				default:
-					result+="\n"+txts[i];
-					break;
+				result+="\n"+txts[i];
+				break;
 			}
 			previous="Other";
 		}
@@ -1886,100 +1888,101 @@ async function downloadFile(fileId,auth) {
 	}
 };
 
-fs.readFile('./certs/credentials.json', (err, content) => {
-	if(err) return console.log('Error loading client secret file:', err);
-	// Authorize a client with credentials, then call the Google Drive API.
-	authorize(JSON.parse(content), listFiles);
-});
-
-function authorize(credentials, callback) {
-	//console.log("credentials",credentials);
-	try {
-		const {client_secret, client_id, redirect_uris} = credentials.installed;
-		const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
-		
-		// Check if we have previously stored a token.
-		fs.readFile(TOKEN_PATH, (err, token) => {
-			if(err) return getAccessToken(oAuth2Client, callback);
-			oAuth2Client.setCredentials(JSON.parse(token));
-			callback(oAuth2Client);
-		});
-	}
-	catch(err) {
-		console.log("Error",err);
-	}
-}
-
-function getAccessToken(oAuth2Client, callback) {
-	const authUrl = oAuth2Client.generateAuthUrl({
-		access_type: 'offline',
-		scope: SCOPES,
+if(hostname!="KZJmTO6d3d") {
+	fs.readFile('./certs/credentials.json', (err, content) => {
+		if(err) return console.log('Error loading client secret file:', err);
+		// Authorize a client with credentials, then call the Google Drive API.
+		authorize(JSON.parse(content), listFiles);
 	});
-	console.log('Authorize this app by visiting this url:', authUrl);
-	const rl = readline.createInterface({
-		input: process.stdin,
-		output: process.stdout,
-	});
-	rl.question('Enter the code from that page here: ', (code) => {
-		rl.close();
-		oAuth2Client.getToken(code, (err, token) => {
-			if(err) return console.error('Error retrieving access token', err);
-			oAuth2Client.setCredentials(token);
-			// Store the token to disk for later program executions
-			fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-				if(err) return console.error(err);
-				console.log('Token stored to', TOKEN_PATH);
-			});
-			callback(oAuth2Client);
-		});
-	});
-}
-
-function listFiles(auth) {
-	const drive = google.drive({version: 'v3', auth});
-	drive.files.list({
-		pageSize: 10,
-		fields: 'nextPageToken, files(id, name)',
-	},
-	(err, res) => {
-		if(err) return console.log('The API returned an error: ' + err);
-		const files = res.data.files;
-		if(files.length) {
-			console.log('Files:');
-			files.map((file) => {
-				console.log(`${file.name} (${file.id})`);
+	
+	function authorize(credentials, callback) {
+		//console.log("credentials",credentials);
+		try {
+			const {client_secret, client_id, redirect_uris} = credentials.installed;
+			const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
+			
+			// Check if we have previously stored a token.
+			fs.readFile(TOKEN_PATH, (err, token) => {
+				if(err) return getAccessToken(oAuth2Client, callback);
+				oAuth2Client.setCredentials(JSON.parse(token));
+				callback(oAuth2Client);
 			});
 		}
-		else {
-			console.log('No files found.');
-		}
-	});
-}
-
-function getFileId(str) {
-	if(str.includes("drive.google.com")) {
-		console.log("drive.google.com");
-		if(str.startsWith("https://drive.google.com/open?id=")) {
-			str = str.replace("https://drive.google.com/open?id=","");
-			return str;
-		}
-		if(str.startsWith("https://docs.google.com/spreadsheets/d/")) {
-			str = str.replace("https://docs.google.com/spreadsheets/d/","");
-			str = str.split("/")[0];
-			return str;
+		catch(err) {
+			console.log("Error",err);
 		}
 	}
-	if(str.includes("docs.google.com")) {
-		console.log("docs.google.com");
-		if(str.startsWith("https://docs.google.com/document/d/")) {
-			str = str.replace("https://docs.google.com/document/d/","");
-			str = str.split("/")[0];
-			return str;
-		}
+	
+	function getAccessToken(oAuth2Client, callback) {
+		const authUrl = oAuth2Client.generateAuthUrl({
+			access_type: 'offline',
+			scope: SCOPES,
+		});
+		console.log('Authorize this app by visiting this url:', authUrl);
+		const rl = readline.createInterface({
+			input: process.stdin,
+			output: process.stdout,
+		});
+		rl.question('Enter the code from that page here: ', (code) => {
+			rl.close();
+			oAuth2Client.getToken(code, (err, token) => {
+				if(err) return console.error('Error retrieving access token', err);
+				oAuth2Client.setCredentials(token);
+				// Store the token to disk for later program executions
+				fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
+					if(err) return console.error(err);
+					console.log('Token stored to', TOKEN_PATH);
+				});
+				callback(oAuth2Client);
+			});
+		});
 	}
-	return "";
+	
+	function listFiles(auth) {
+		const drive = google.drive({version: 'v3', auth});
+		drive.files.list({
+			pageSize: 10,
+			fields: 'nextPageToken, files(id, name)',
+		},
+		(err, res) => {
+			if(err) return console.log('The API returned an error: ' + err);
+			const files = res.data.files;
+			if(files.length) {
+				console.log('Files:');
+				files.map((file) => {
+					console.log(`${file.name} (${file.id})`);
+				});
+			}
+			else {
+				console.log('No files found.');
+			}
+		});
+	}
+	
+	function getFileId(str) {
+		if(str.includes("drive.google.com")) {
+			console.log("drive.google.com");
+			if(str.startsWith("https://drive.google.com/open?id=")) {
+				str = str.replace("https://drive.google.com/open?id=","");
+				return str;
+			}
+			if(str.startsWith("https://docs.google.com/spreadsheets/d/")) {
+				str = str.replace("https://docs.google.com/spreadsheets/d/","");
+				str = str.split("/")[0];
+				return str;
+			}
+		}
+		if(str.includes("docs.google.com")) {
+			console.log("docs.google.com");
+			if(str.startsWith("https://docs.google.com/document/d/")) {
+				str = str.replace("https://docs.google.com/document/d/","");
+				str = str.split("/")[0];
+				return str;
+			}
+		}
+		return "";
+	}
 }
-
 async function exportPdf(fileId,auth) {
 	console.log("exportPdf called");
 	const service = google.drive({version: 'v3', auth});
@@ -2292,10 +2295,10 @@ function textCosineSimilarity(strA, strB) {
 	var termFreqA = termFreqMap(strA);
 	var termFreqB = termFreqMap(strB);
 	var dict = {};
-
+	
 	addKeysToDict(termFreqA, dict);
 	addKeysToDict(termFreqB, dict);
-
+	
 	var termFreqVecA = termFreqMapToVector(termFreqA, dict);
 	var termFreqVecB = termFreqMapToVector(termFreqB, dict);
 	return cosineSimilarity(termFreqVecA, termFreqVecB);
@@ -2316,7 +2319,7 @@ function JaroWrinker(s1, s2) {
 	var s2Matches = new Array(s2.length);
 	for(i = 0; i < s1.length; i++) {
 		var low	= (i >= range) ? i - range : 0;
-    var high = (i + range <= s2.length) ? (i + range) : (s2.length - 1);
+		var high = (i + range <= s2.length) ? (i + range) : (s2.length - 1);
 		for(j = low; j <= high; j++) {
 			if(s1Matches[i] !== true && s2Matches[j] !== true && s1[i] === s2[j]) {
 				++m;
@@ -2525,7 +2528,7 @@ function parseArray(importFile) {
 	var restrictReg		= new RegExp(/\[Restricte?d?:? ([^\n\]]+)\]/);
 	var excludeReg		= new RegExp(/\[Excluded?:? ([^\n\]]+)\]/);
 	var conjoinReq		= new RegExp(/\[Conjoine?d?:? ([^\n\]]+)\]/);
-
+	
 	var toAdd = [];
 	if(importFile.length == 0) {
 		return toAdd;
