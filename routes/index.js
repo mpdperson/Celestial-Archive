@@ -50,7 +50,8 @@ router.get('/json/*', function(req, res, next) {
 var error = "";
 
 router.get('/', function(req, res, next){	
-	res.render('root', {});
+	//res.render('root', {});
+	res.redirect("/forge");
 });
 
 function isNull(meh) {
