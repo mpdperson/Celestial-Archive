@@ -77,7 +77,7 @@ app.use('/', indexRouter);
 app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/builder', express.static(resolve('..\builder')));
 app.use('/archive', express.static(resolve('..\archive')));
-//app.use('/forge', express.static(resolve('..\forge')));
+app.use('/format', express.static(resolve('..\forge')));
 app.use('/forge', express.static(resolve('..\quasar\dist\spa')));
 
 app.get('/public/*', function(req, res, next) {
@@ -88,15 +88,17 @@ app.get('/public/*', function(req, res, next) {
 	res.redirect("/"+newUrl);
 });
 
-/*
-app.get('/forge/*', function(req, res, next) {
-	var newUrl = req.url.replace("/forge/","");
+//*/
+app.get('/format/*', function(req, res, next) {
+	var newUrl = req.url.replace("/format/","");
 	newUrl = newUrl.replace(/\//g,"\\");
 	res.sendFile(resolve(".\\forge\\"+newUrl));
 });
+//*/
 
-app.get('/forge', function(req, res, next) {
-	res.sendFile(resolve(".\\forge\\celestial_archive.html"));
+/*/
+app.get('/format', function(req, res, next) {
+	res.sendFile(resolve(".\\format\\celestial_archive.html"));
 });
 //*/
 	

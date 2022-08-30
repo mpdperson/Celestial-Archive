@@ -48,6 +48,7 @@
 			domainFilter: [],
 			unfiltered: perkListv1,
 			loadedFile: [],
+			loadedDoc: [],
 			filtered: [],
 			cfVer: "v1",
 			filteredDomain: [],
@@ -99,8 +100,21 @@
 		
 		handleLoad(obj) {
 			if(obj.type=="Document") {
-				
-				return "Process";
+				var ext = obj.value.split(".").pop();
+				if(ext=="txt") {
+					//this.state.loadedDoc = obj.data;
+					return "Process";
+				}
+				else if(ext=="pdf") {
+					return "Process";
+				}
+				else if(ext=="json") {
+					this.state.loadedDoc = obj.data;
+					return "Process";
+				}
+				else {
+					return "Load";
+				}
 			}
 			else if(obj.type=="Forge") {
 				if(!isNull(obj.data)) {
@@ -143,7 +157,11 @@
 			}
 			else if(str=="File") {
 				this.state.unfiltered = this.state.loadedFile;
-				this.state.cfVer = "a1";
+				this.state.cfVer = "File";
+			}
+			else if(str=="Doc") {
+				this.state.unfiltered = this.state.loadedDoc;
+				this.state.cfVer = "Doc";
 			}
 			else {
 				/*/

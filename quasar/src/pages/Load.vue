@@ -30,6 +30,7 @@
 		setup (props) {
 			const $q = useQuasar();
 			const loadType = ref(null);
+			const myFile = ref(null);
 			const triggerFreeNote = (perks) => {
 				var count = perks.length;
 				if(count>0) {
@@ -66,9 +67,9 @@
 				dense: ref(true),
 				loadType: loadType,
 				options: [
-				'Forge', 'Document', 'Progress'
+					'Forge', 'Document', 'Progress'
 				],
-				myFile: ref(null),
+				myFile: myFile,
 				loadProgress() {
 					Store.loadProgress();
 				},
@@ -83,7 +84,8 @@
 								value: value.name,
 								data: readFile(value.name),
 								type: loadType.value,
-							})
+								file: value,
+							});
 						}
 					}
 					var pageTo = Store.loadItem(data);
