@@ -23,6 +23,26 @@
 	
 	var cTitles = [];
 	var ctPerks = [];
+	var sourceReg		= new RegExp(/<([^>\n]+)>/g);
+	var titleReg		= new RegExp(/^([^<\n]+)/g);
+	var costReg			= new RegExp(/{([0-9]+)}/g);
+	var domainReg		= new RegExp(/^\[Domain:? ([^\r\n\]]+)\]/);
+	var prereqReg		= new RegExp(/^\[Requires:? ([^\n\]]+)\]/);
+	var freereqReg		= new RegExp(/^\[Free:? ([^\n\]]+)\]/);
+	var discountreqReg	= new RegExp(/^\[Discounte?d?:? ([^\n\]]+)\]/);
+	var prereqReg1		= new RegExp(/\[Requires:? ([^\n\]]+)\]/);
+	var freereqReg1		= new RegExp(/\[Free:? ([^\n\]]+)\]/);
+	var discountreqReg1	= new RegExp(/\[Discounte?d?:? ([^\n\]]+)\]/);
+	var restrictreqReg1	= new RegExp(/\[Restricte?d?:? ([^\n\]]+)\]/);
+	var excludereqReg1	= new RegExp(/\[Excluded?:? ([^\n\]]+)\]/);
+	var maxcountReg		= new RegExp(/\[Retake Limit:? ([^\n\]]+)\]/);
+	var pointsReg		= new RegExp(/\[([A-Z]*)P:? ([^\n\]]+)\]/);
+	var reg				= new RegExp(/:? /g);
+	
+	var allDomains = [];
+	var allFandoms = [];
+	var allSources = [];
+	var minDomains = {};
 	
 	const store = {
 		debug: true,
@@ -57,6 +77,7 @@
 			misses: [],
 			allRolls: [],
 			allMisses: [],
+			additionalPoints: [],
 			sourceOrigins: sourceList,
 			tempBuild: [],
 			currentFreebies: [],
@@ -3304,5 +3325,404 @@
 			});
 		});
 		return freeList;
+	}
+	
+	function parseFile(importFile) {
+		toAdd = [];
+		if(importFile.length == 0) {
+			return toAdd;
+		}
+		var nOver_Domain = "";
+		var trimedPerk = emptyPerk();
+		for(var i=0; i<importFile.length; i++) {
+			var parseLine = importFile[i].trim();
+			if(isDomain(parseLine)) {
+				nOver_Domain = parseLine.replaceAll("=","");
+				if(nOver_Domain == "Unknown") nOver_Domain = "";
+				trimedPerk = emptyPerk();
+			}
+			else if(domainReg.test(parseLine)) {
+				nOver_Domain = parseLine.match(domainReg)[1].trim();
+				if(nOver_Domain == "Unknown") nOver_Domain = "";
+				trimedPerk = emptyPerk();
+			}
+			else if(isTitle(parseLine)) {
+				var titleMatch = parseLine.match(titleReg);
+				var sourceMatch = parseLine.match(sourceReg);
+				var title = titleMatch[0];
+				title = title.trim();
+				
+				var source = sourceMatch[0];
+				source = source.replaceAll("<","");
+				source = source.replaceAll(">","");
+				source = source.trim();
+				
+				var overSource = findBestMatch(source);
+				
+				var cost = parseLine.match(costReg)[0].trim();
+				cost = cost.replaceAll("{","");
+				cost = cost.replaceAll("}","");
+				cost = parseInt(cost);
+				var ovDom = nOver_Domain.split(":")[0];
+				if(isNull(ovDom)) {
+					ovDom = nOver_Domain;
+				}
+				if(!nOver_Domain.includes(ovDom)) {
+					ovDom = nOver_Domain;
+				}
+				
+				title = capitalSentance(title);
+				
+				trimedPerk["Cost"] = roundCost(cost);
+				trimedPerk["Title"] = title;
+				trimedPerk["Source"] = source;
+				trimedPerk["Domain"] = nOver_Domain;
+				trimedPerk["Over_Domain"] = ovDom;
+				trimedPerk["Upper_Source"] = overSource;
+			}
+			else if(isBullet(parseLine)) {
+				if(isNull(trimedPerk["Description"])) {
+					trimedPerk["Description"] = parseLine.trim();
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+				else {
+					trimedPerk["Description"] = trimedPerk["Description"] + " \n&emsp; " + parseLine.trim();
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+			}
+			else if(multiReq(parseLine)) {
+				if(isNull(trimedPerk["Description"])) {
+					trimedPerk["Description"] = parseLine.trim();
+					if(prereqReg1.test(parseLine)) {
+						if(isNull(trimedPerk["Prereq_Title"])) {
+							trimedPerk["Prereq_Title"] = parseLine.match(prereqReg1)[1].trim();
+						}
+						else {
+							trimedPerk["Prereq_Title"] = trimedPerk["Prereq_Title"] + " && " + parseLine.match(prereqReg1)[1].trim();
+						}
+					}
+					if(freeReg.test(parseLine)) {
+						if(isNull(trimedPerk["Free_Title"])) {
+							trimedPerk["Free_Title"] = parseLine.match(freeReg)[1].trim();
+						}
+						else {
+							trimedPerk["Free_Title"] = trimedPerk["Free_Title"] + " && " + parseLine.match(freeReg)[1].trim();
+						}
+					}
+					if(discountReg.test(parseLine)) {
+						if(isNull(trimedPerk["Discount_Title"])) {
+							trimedPerk["Discount_Title"] = parseLine.match(discountReg)[1].trim();
+						}
+						else {
+							trimedPerk["Discount_Title"] = trimedPerk["Discount_Title"] + " && " + parseLine.match(discountReg)[1].trim();
+						}
+					}
+					if(restrictReg.test(parseLine)) {
+						if(isNull(trimedPerk["Restrict_Title"])) {
+							trimedPerk["Restrict_Title"] = parseLine.match(restrictReg)[1].trim();
+						}
+						else {
+							trimedPerk["Restrict_Title"] = trimedPerk["Restrict_Title"] + " && " + parseLine.match(restrictReg)[1].trim();
+						}
+					}
+					if(excludeReg.test(parseLine)) {
+						if(isNull(trimedPerk["Exclude_Title"])) {
+							trimedPerk["Exclude_Title"] = parseLine.match(excludeReg)[1].trim();
+						}
+						else {
+							trimedPerk["Exclude_Title"] = trimedPerk["Exclude_Title"] + " && " + parseLine.match(excludeReg)[1].trim();
+						}
+					}
+					if(conjoinReq.test(parseLine)) {
+						if(isNull(trimedPerk["Conjoin_Title"])) {
+							trimedPerk["Conjoin_Title"] = parseLine.match(conjoinReq)[1].trim();
+						}
+						else {
+							trimedPerk["Conjoin_Title"] = trimedPerk["Conjoin_Title"] + " && " + parseLine.match(conjoinReq)[1].trim();
+						}
+					}
+					if(maxcountReg.test(parseLine)) {
+						if(isNull(trimedPerk["Retake_Limit"])) {
+							trimedPerk["Retake_Limit"] = parseInt(parseLine.match(maxcountReg)[1].trim());
+						}
+						else {
+							trimedPerk["Retake_Limit"] = trimedPerk["Retake_Limit"] + parseInt(parseLine.match(maxcountReg)[1].trim());
+						}
+					}
+					if(pointsReg.test(parseLine)) {
+						var key = parseLine.match(pointsReg)[1];
+						if(isNull(trimedPerk["Points"])) {
+							trimedPerk["Points"] = [{key:parseInt(parseLine.match(pointsReg)[2].trim())}];
+						}
+						else {
+							trimedPerk["Points"].push({key:parseInt(parseLine.match(pointsReg)[2].trim())});
+						}
+					}
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+				else {
+					trimedPerk["Description"] = trimedPerk["Description"] + " \\n&emsp; " + parseLine.trim();
+					if(prereqReg1.test(parseLine)) {
+						if(isNull(trimedPerk["Prereq_Title"])) {
+							trimedPerk["Prereq_Title"] = parseLine.match(prereqReg1)[1].trim();
+						}
+						else {
+							trimedPerk["Prereq_Title"] = trimedPerk["Prereq_Title"] + " && " + parseLine.match(prereqReg1)[1].trim();
+						}
+						trimedPerk["Prereq"] = true;
+					}
+					if(freeReg.test(parseLine)) {
+						if(isNull(trimedPerk["Prereq_Title"])) {
+							trimedPerk["Free_Title"] = parseLine.match(freeReg)[1].trim();
+						}
+						else {
+							trimedPerk["Free_Title"] = trimedPerk["Free_Title"] + " && " + parseLine.match(freeReg)[1].trim();
+						}
+						trimedPerk["Free"] = true;
+					}
+					if(discountReg.test(parseLine)) {
+						if(isNull(trimedPerk["Prereq_Title"])) {
+							trimedPerk["Discount_Title"] = parseLine.match(discountReg)[1].trim();
+						}
+						else {
+							trimedPerk["Discount_Title"] = trimedPerk["Discount_Title"] + " && " + parseLine.match(discountReg)[1].trim();
+						}
+						trimedPerk["Discount"] = true;
+					}
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+			}
+			else if(isPrereq(parseLine)) {
+				if(isNull(trimedPerk["Description"])) {
+					trimedPerk["Description"] = parseLine.replace(/\[ /g,"[").replace(/ \]/g,"]").trim();
+					trimedPerk["Prereq_Title"] = parseLine.match(prereqReg)[1].trim();
+					trimedPerk["Prereq"] = true;
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+				else {
+					trimedPerk["Description"] = trimedPerk["Description"] + " \\n&emsp; " + parseLine.trim();
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+			}
+			else if(isFreereq(parseLine)) {
+				if(isNull(trimedPerk["Description"])) {
+					trimedPerk["Description"] = parseLine.replace(/\[ /g,"[").replace(/ \]/g,"]").trim();
+					trimedPerk["Free_Title"] = parseLine.match(freereqReg)[1].trim();
+					trimedPerk["Free"] = true;
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+				else {
+					trimedPerk["Description"] = trimedPerk["Description"] + " \\n&emsp; " + parseLine.trim();
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+			}
+			else if(isDiscountreq(parseLine)) {
+				if(isNull(trimedPerk["Description"])) {
+					trimedPerk["Description"] = parseLine.replace(/\[ /g,"[").replace(/ \]/g,"]").trim();
+					trimedPerk["Discount_Title"] = parseLine.match(discountreqReg)[1].trim();
+					trimedPerk["Discount"] = true;
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+				else {
+					trimedPerk["Description"] = trimedPerk["Description"] + " \\n&emsp; " + parseLine.trim();
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+			}
+			else if(parseLine != '') {
+				if(isNull(trimedPerk["Description"])) {
+					trimedPerk["Description"] = parseLine.trim();
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+				else {
+					trimedPerk["Description"] = trimedPerk["Description"] + " " + parseLine.trim();
+					if(getMulti(trimedPerk["Description"])) {
+						trimedPerk["Retake"] = true;
+					}
+				}
+			}
+			else {
+				if(!isNull(trimedPerk.Discount_Title)) {
+					if(trimedPerk.Discount_Title.includes("&&") && trimedPerk.Discount_Title.includes("||")) {
+						if(!trimedPerk.Discount_Title.startsWith("(") && !trimedPerk.Discount_Title.endsWith("(")) {
+							trimedPerk.Discount_Title = "("+trimedPerk.Discount_Title+")";
+						}
+					}
+				}
+				if(!isNull(trimedPerk.Free_Title)) {
+					if(trimedPerk.Free_Title.includes("&&") && trimedPerk.Free_Title.includes("||")) {
+						if(!trimedPerk.Free_Title.startsWith("(") && !trimedPerk.Free_Title.endsWith("(")) {
+							trimedPerk.Free_Title = "("+trimedPerk.Free_Title+")";
+						}
+					}
+				}
+				if(!isNull(trimedPerk.Prereq_Title)) {
+					if(trimedPerk.Prereq_Title.includes("&&") && trimedPerk.Prereq_Title.includes("||")) {
+						if(!trimedPerk.Prereq_Title.startsWith("(") && !trimedPerk.Prereq_Title.endsWith("(")) {
+							trimedPerk.Prereq_Title = "("+trimedPerk.Prereq_Title+")";
+						}
+					}
+				}
+				if(!isNull(trimedPerk.Exclude_Title)) {
+					if(trimedPerk.Exclude_Title.includes("&&") && trimedPerk.Exclude_Title.includes("||")) {
+						if(!trimedPerk.Exclude_Title.startsWith("(") && !trimedPerk.Exclude_Title.endsWith("(")) {
+							trimedPerk.Exclude_Title = "("+trimedPerk.Exclude_Title+")";
+						}
+					}
+				}
+				if(!isNull(trimedPerk.Conjoin_Title)) {
+					if(trimedPerk.Conjoin_Title.includes("&&") && trimedPerk.Conjoin_Title.includes("||")) {
+						if(!trimedPerk.Conjoin_Title.startsWith("(") && !trimedPerk.Conjoin_Title.endsWith("(")) {
+							trimedPerk.Conjoin_Title = "("+trimedPerk.Conjoin_Title+")";
+						}
+					}
+				}
+				if(!isNull(trimedPerk.Restrict_Title)) {
+					if(trimedPerk.Restrict_Title.includes("&&") && trimedPerk.Restrict_Title.includes("||")) {
+						if(!trimedPerk.Restrict_Title.startsWith("(") && !trimedPerk.Restrict_Title.endsWith("(")) {
+							trimedPerk.Restrict_Title = "("+trimedPerk.Restrict_Title+")";
+						}
+					}
+				}
+				toAdd.push(trimedPerk);
+				trimedPerk = emptyPerk();
+			}
+			if(i==(importFile.length-1)) {
+				if(trimedPerk.Description!="") {
+					toAdd.push(trimedPerk);
+					trimedPerk = emptyPerk();
+				}
+			}
+		}
+		return sortForge(checkPerksOut(formatPerks(toAdd)));
+	}
+	
+	function sortForge(obj) {
+		if(isNull(obj)) return obj;
+		obj.sort(function(a, b) {
+			if(a.Domain.toLowerCase() < b.Domain.toLowerCase()) {
+				return -1;
+			}
+			if(a.Domain.toLowerCase() > b.Domain.toLowerCase()) {
+				return 1;
+			}
+			return 0;
+		});
+		var simP = [];
+		var domainCount = 0;
+		obj.forEach(function(d) {
+			var perkCount = 0;
+			d.Perks = d.Perks.sort(function(a, b) {
+				if(a.Title.toLowerCase() < b.Title.toLowerCase()) {
+					return -1;
+				}
+				if(a.Title.toLowerCase() > b.Title.toLowerCase()) {
+					return 1;
+				}
+				return 0;
+			});
+			d.Perks.forEach(function(p,idx,theArr) {
+				p.Domain_Number = domainCount;
+				p.Perk_Number = perkCount;
+				var tmpP = Object.keys(p).sort().reduce((obj, key) => {
+					obj[key] = p[key];
+					return obj;
+				},{});
+				var tTitle = tmpP.Title;
+				var tTaken = tmpP.Taken;
+				var newP = {};
+				newP["Title"] = tTitle;
+				var keys = Object.keys(tmpP);
+				for(var i=0; i<keys.length; i++) {
+					if(keys[i]!="Title" && keys[i]!="Taken") {
+						newP[keys[i]] = tmpP[keys[i]];
+					}
+				}
+				newP["Domain"] = d.Domain;
+				newP["Taken"] = tTaken;
+				theArr[idx] = newP;
+				perkCount++;
+				if(d.Over_Domain=="Origins") {
+					addOrigin(newP);
+				}
+			});
+			d.Perks = d.Perks.filter(function(p) {
+				return (!isNull(p));
+			});
+			domainCount++;
+		});
+		return obj;
+	}
+	
+	function checkPerksOut(obj) {
+		obj.forEach(function(d) {
+			d.Perks.forEach(function(p,idx,theArr) {
+				theArr[idx] = checkPerk(p,d.Over_Domain);
+			});
+		});
+		return obj;
+	}
+	
+	function isBullet(txt) {
+		if(txt.startsWith("-") || txt.startsWith("+") || txt.startsWith("●") || txt.startsWith("*")) {
+			return true;
+		}
+		var regex = new RegExp(/^([A-Za-z0-9]+):/);
+		return regex.test(txt);
+	}
+	
+	function multiReq(txt) {
+		return (
+			prereqReg1.test(txt)
+			|| freeReg.test(txt)
+			|| discountReg.test(txt)
+			|| restrictReg.test(txt)
+			|| excludeReg.test(txt)
+			|| conjoinReq.test(txt)
+			|| maxcountReg.test(txt)
+			|| pointsReg.test(txt)
+		);
+	}
+	
+	function isPrereq(txt) {
+		if(txt.startsWith("[Require")) {
+			return true;
+		}
+		return prereqReg.test(txt);
+	}
+	
+	function isFreereq(txt) {
+		if(txt.startsWith("[Free")) {
+			return true;
+		}
+		return freereqReg.test(txt);
+	}
+	
+	function isDiscountreq(txt) {
+		if(txt.startsWith("[Discount")) {
+			return true;
+		}
+		return discountreqReg.test(txt);
 	}
 </script>

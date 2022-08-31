@@ -27,6 +27,8 @@ var discountReg		= new RegExp(/\[Discounte?d?:? ([^\n\]]+)\]/);
 var restrictReg		= new RegExp(/\[Restricte?d?:? ([^\n\]]+)\]/);
 var excludeReg		= new RegExp(/\[Excluded?:? ([^\n\]]+)\]/);
 var conjoinReq		= new RegExp(/\[Conjoine?d?:? ([^\n\]]+)\]/);
+var maxcountReg		= new RegExp(/\[Retake Limit:? ([^\n\]]+)\]/);
+var pointsReg		= new RegExp(/\[([A-Z]*)P:? ([^\n\]]+)\]/);
 var reg				= new RegExp(/:? /g);
 
 var input		= document.getElementById('myFile');
@@ -1079,6 +1081,8 @@ function multiReq(txt) {
 		|| restrictReg.test(txt)
 		|| excludeReg.test(txt)
 		|| conjoinReq.test(txt)
+		|| maxcountReg.test(txt)
+		|| pointsReg.test(txt)
 	);
 }
 
@@ -1199,6 +1203,23 @@ function parseFile() {
 					}
 					else {
 						trimedPerk["Conjoin_Title"] = trimedPerk["Conjoin_Title"] + " && " + parseLine.match(conjoinReq)[1].trim();
+					}
+				}
+				if(maxcountReg.test(parseLine)) {
+					if(isNull(trimedPerk["Retake_Limit"])) {
+						trimedPerk["Retake_Limit"] = parseInt(parseLine.match(maxcountReg)[1].trim());
+					}
+					else {
+						trimedPerk["Retake_Limit"] = trimedPerk["Retake_Limit"] + parseInt(parseLine.match(maxcountReg)[1].trim());
+					}
+				}
+				if(pointsReg.test(parseLine)) {
+					var key = parseLine.match(pointsReg)[1];
+					if(isNull(trimedPerk["Points"])) {
+						trimedPerk["Points"] = [{key:parseInt(parseLine.match(pointsReg)[2].trim())}];
+					}
+					else {
+						trimedPerk["Points"].push({key:parseInt(parseLine.match(pointsReg)[2].trim())});
 					}
 				}
 				if(getMulti(trimedPerk["Description"])) {

@@ -98,14 +98,16 @@ var sourceReg		= new RegExp(/<([^>\n]+)>/g);
 var titleReg		= new RegExp(/^([^<\n]+)/g);
 var costReg			= new RegExp(/{([0-9]+)}/g);
 var domainReg		= new RegExp(/^\[Domain:? ([^\r\n\]]+)\]/);
-var prereqReg		= new RegExp(/^\[?Requires:? ([^\n\]]+)\]/);
-var freereqReg		= new RegExp(/^\[?Free:? ([^\n\]]+)\]/);
-var discountreqReg	= new RegExp(/^\[?Discounte?d?:? ([^\n\]]+)\]/);
-var prereqReg1		= new RegExp(/\[?Requires:? ([^\n\]]+)\]/);
-var freereqReg1		= new RegExp(/\[?Free:? ([^\n\]]+)\]/);
-var discountreqReg1	= new RegExp(/\[?Discounte?d?:? ([^\n\]]+)\]/);
-var restrictreqReg1	= new RegExp(/\[?Restricte?d?:? ([^\n\]]+)\]/);
-var excludereqReg1	= new RegExp(/\[?Excluded?:? ([^\n\]]+)\]/);
+var prereqReg		= new RegExp(/^\[Requires:? ([^\n\]]+)\]/);
+var freereqReg		= new RegExp(/^\[Free:? ([^\n\]]+)\]/);
+var discountreqReg	= new RegExp(/^\[Discounte?d?:? ([^\n\]]+)\]/);
+var prereqReg1		= new RegExp(/\[Requires:? ([^\n\]]+)\]/);
+var freereqReg1		= new RegExp(/\[Free:? ([^\n\]]+)\]/);
+var discountreqReg1	= new RegExp(/\[Discounte?d?:? ([^\n\]]+)\]/);
+var restrictreqReg1	= new RegExp(/\[Restricte?d?:? ([^\n\]]+)\]/);
+var excludereqReg1	= new RegExp(/\[Excluded?:? ([^\n\]]+)\]/);
+var maxcountReg		= new RegExp(/\[Retake Limit:? ([^\n\]]+)\]/);
+var pointsReg		= new RegExp(/\[([A-Z]*)P:? ([^\n\]]+)\]/);
 var reg				= new RegExp(/:? /g);
 var reloadStarters	= true;
 
@@ -1339,7 +1341,6 @@ function parseFile() {
 					else {
 						trimedPerk["Prereq_Title"] = trimedPerk["Prereq_Title"] + " && " + parseLine.match(prereqReg1)[1].trim();
 					}
-					trimedPerk["Prereq"] = true;
 				}
 				if(freereqReg1.test(parseLine)) {
 					if(isNull(trimedPerk["Free_Title"])) {
@@ -1348,7 +1349,6 @@ function parseFile() {
 					else {
 						trimedPerk["Free_Title"] = trimedPerk["Free_Title"] + " && " + parseLine.match(freereqReg1)[1].trim();
 					}
-					trimedPerk["Free"] = true;
 				}
 				if(discountreqReg1.test(parseLine)) {
 					if(isNull(trimedPerk["Discount_Title"])) {
@@ -1357,7 +1357,6 @@ function parseFile() {
 					else {
 						trimedPerk["Discount_Title"] = trimedPerk["Discount_Title"] + " && " + parseLine.match(discountreqReg1)[1].trim();
 					}
-					trimedPerk["Discount"] = true;
 				}
 				if(restrictreqReg1.test(parseLine)) {
 					if(isNull(trimedPerk["Restrict_Title"])) {
@@ -1366,7 +1365,6 @@ function parseFile() {
 					else {
 						trimedPerk["Restrict_Title"] = trimedPerk["Restrict_Title"] + " && " + parseLine.match(restrictreqReg1)[1].trim();
 					}
-					trimedPerk["Restrict"] = true;
 				}
 				if(excludereqReg1.test(parseLine)) {
 					if(isNull(trimedPerk["Exclude_Title"])) {
@@ -1375,7 +1373,22 @@ function parseFile() {
 					else {
 						trimedPerk["Exclude_Title"] = trimedPerk["Exclude_Title"] + " && " + parseLine.match(excludereqReg1)[1].trim();
 					}
-					trimedPerk["Restrict"] = true;
+				}
+				if(maxcountReg.test(parseLine)) {
+					if(isNull(trimedPerk["Retake_Limit"])) {
+						trimedPerk["Retake_Limit"] = parseInt(parseLine.match(maxcountReg)[1].trim());
+					}
+					else {
+						trimedPerk["Retake_Limit"] = trimedPerk["Retake_Limit"] + parseInt(parseLine.match(maxcountReg)[1].trim());
+					}
+				}
+				if(pointsReg.test(parseLine)) {
+					if(isNull(trimedPerk["Points"])) {
+						trimedPerk["Points"] = [{parseLine.match(pointsReg)[1]:parseInt(parseLine.match(pointsReg)[2].trim())}];
+					}
+					else {
+						trimedPerk["Points"].push({parseLine.match(pointsReg)[1]:parseInt(parseLine.match(pointsReg)[2].trim())});
+					}
 				}
 				if(getMulti(trimedPerk["Description"])) {
 					trimedPerk["Retake"] = true;
@@ -1390,7 +1403,6 @@ function parseFile() {
 					else {
 						trimedPerk["Prereq_Title"] = trimedPerk["Prereq_Title"] + " && " + parseLine.match(prereqReg1)[1].trim();
 					}
-					trimedPerk["Prereq"] = true;
 				}
 				if(freereqReg1.test(parseLine)) {
 					if(isNull(trimedPerk["Prereq_Title"])) {
@@ -1399,7 +1411,6 @@ function parseFile() {
 					else {
 						trimedPerk["Free_Title"] = trimedPerk["Free_Title"] + " && " + parseLine.match(freereqReg1)[1].trim();
 					}
-					trimedPerk["Free"] = true;
 				}
 				if(discountreqReg1.test(parseLine)) {
 					if(isNull(trimedPerk["Prereq_Title"])) {
@@ -1408,7 +1419,6 @@ function parseFile() {
 					else {
 						trimedPerk["Discount_Title"] = trimedPerk["Discount_Title"] + " && " + parseLine.match(discountreqReg1)[1].trim();
 					}
-					trimedPerk["Discount"] = true;
 				}
 				if(getMulti(trimedPerk["Description"])) {
 					trimedPerk["Retake"] = true;
@@ -1451,7 +1461,6 @@ function parseFile() {
 			if(isNull(trimedPerk["Description"])) {
 				trimedPerk["Description"] = parseLine.replace(/\[ /g,"[").replace(/ \]/g,"]").trim();
 				trimedPerk["Discount_Title"] = parseLine.match(discountreqReg)[1].trim();
-				trimedPerk["Discount"] = true;
 				if(getMulti(trimedPerk["Description"])) {
 					trimedPerk["Retake"] = true;
 				}
@@ -1529,6 +1538,8 @@ function multiReq(txt) {
 		|| discountreqReg1.test(txt)
 		|| restrictreqReg1.test(txt)
 		|| excludereqReg1.test(txt)
+		|| maxcountReg.test(txt)
+		|| pointsReg.test(txt)
 	);
 }
 
