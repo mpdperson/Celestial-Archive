@@ -54,7 +54,7 @@
 				"Cost": "Perk value in creation points, abbreviated",
 				"Domain": "Clusters of conceptually similar perks",
 				"Description": "General, functional perk definition",
-				"Order":"N/A"
+				"Order":"N/A",
 			},
 			filteredBuild: [],
 			currentBuild: [],
@@ -124,9 +124,11 @@
 				var ext = obj.value.split(".").pop();
 				if(ext=="txt") {
 					//this.state.loadedDoc = obj.data;
+					this.state.loadedDoc = parseFile(obj.data);
 					return "Process";
 				}
 				else if(ext=="pdf") {
+					//this.state.loadedDoc = obj.data;
 					return "Process";
 				}
 				else if(ext=="json") {
@@ -255,7 +257,7 @@
 				"Cost": "Perk value in creation points, abbreviated",
 				"Domain": "Clusters of conceptually similar perks",
 				"Description": "General, functional perk definition",
-				"Order":"N/A"
+				"Order": "N/A",
 			};
 			var com = this.state.displayValue;
 			return (com.Title==meh.Title);
@@ -268,7 +270,7 @@
 					"Mode":"Forge",
 					"Starters":[],
 					"Options":[],
-				}
+				};
 			}
 			this.setVersion(obj.Forge);
 			this.setMode(obj.Mode);
@@ -328,7 +330,7 @@
 			if(isNull(this.state.domainFilter)) {
 				this.resetPerkList();
 			}
-			this.state.displayValue = newValue
+			this.state.displayValue = newValue;
 		},
 		
 		fetchMaxValue() {
@@ -369,7 +371,7 @@
 					p.Perk_Number = perkCount;
 					var tmpP = Object.keys(p).sort().reduce(
 					(obj, key) => {
-						obj[key] = p[key]; 
+						obj[key] = p[key];
 						return obj;
 					}, {});
 					var tTitle = tmpP.Title;
@@ -674,7 +676,7 @@
 				"Cost": 0,
 				"Domain": "None",
 				"Description": "None",
-				"Order":"N/A"
+				"Order":"N/A",
 			};
 		},
 		
@@ -2206,7 +2208,9 @@
 					}
 					if(isNull(this.state.unfiltered[minDomains[addThis.Domain]])) {
 						this.state.unfiltered[minDomains[perk.Domain]] = {
-							"Domain": addThis.Domain, "Over_Domain": addThis.Over_Domain, "Perks":[]
+							"Domain": addThis.Domain,
+							"Over_Domain": addThis.Over_Domain,
+							"Perks":[],
 						};
 					}
 					this.state.unfiltered[minDomains[perk.Domain]].Perks.push(addThis);
@@ -2278,7 +2282,7 @@
 				"Current_Rolls":this.state.currentRolls,
 				"All_Rolls":this.state.allRolls,
 				"Roll_Count":this.state.allRollCount,
-				"All_Misses":this.state.allMisses
+				"All_Misses":this.state.allMisses,
 			};
 			saveJson(prog,"progress.js",false);
 		},
@@ -2918,7 +2922,7 @@
 		}
 		
 		var result = similarity(a,b);
-		var keys = ["ld", "cs", "jw", "as"]
+		var keys = ["ld", "cs", "jw", "as"];
 		var val = 0;
 		
 		keys.forEach(function (d) {
@@ -2982,17 +2986,17 @@
 		if(a.length == 0) return b.length;
 		if(b.length == 0) return a.length;
 		var matrix = [];
-		// increment along the first column of each row
+		//increment along the first column of each row
 		var i;
 		for(i = 0; i <= b.length; i++){
 			matrix[i] = [i];
 		}
-		// increment each column in the first row
+		//increment each column in the first row
 		var j;
 		for(j = 0; j <= a.length; j++){
 			matrix[0][j] = j;
 		}
-		// Fill in the rest of the matrix
+		//Fill in the rest of the matrix
 		for(i = 1; i <= b.length; i++){
 			for(j = 1; j <= a.length; j++){
 				if(b.charAt(i-1) == a.charAt(j-1)){
@@ -3000,9 +3004,12 @@
 				}
 				else {
 					matrix[i][j] = Math.min(
-					matrix[i-1][j-1] + 1, // substitution
-					Math.min(matrix[i][j-1] + 1, // insertion
-					matrix[i-1][j] + 1) // deletion
+						//substitution
+						matrix[i-1][j-1] + 1,
+						//insertion
+						Math.min(matrix[i][j-1] + 1,
+						//deletion
+						matrix[i-1][j] + 1)
 					);
 				}
 			}
@@ -3068,11 +3075,11 @@
 	
 	function JaroWrinker(s1, s2) {
 		var m = 0;
-		// Exit early if either are empty.
+		//Exit early if either are empty.
 		if(s1.length === 0 || s2.length === 0) {
 			return 0;
 		}
-		// Exit early if they're an exact match.
+		//Exit early if they're an exact match.
 		if(s1 === s2) {
 			return 1;
 		}
@@ -3090,11 +3097,13 @@
 				}
 			}
 		}
-		// Exit early if no matches were found.
+		
+		//Exit early if no matches were found.
 		if(m === 0) {
 			return 0;
 		}
-		// Count the transpositions.
+		
+		//Count the transpositions.
 		var k = 0;
 		var n_trans = 0;
 		for(var i = 0; i < s1.length; i++) {
@@ -3110,6 +3119,7 @@
 				}
 			}
 		}
+		
 		var weight = (m / s1.length + m / s2.length + (m - (n_trans / 2)) / m) / 3;
 		var l = 0;
 		var p = 0.1;
@@ -3145,6 +3155,7 @@
 				return obj;
 			}
 		}
+		
 		var domains = {};
 		var allDoms = [];
 		obj.forEach(function(n) {
@@ -3616,6 +3627,35 @@
 			}
 		}
 		return sortForge(checkPerksOut(formatPerks(toAdd)));
+	}
+	
+	function emptyPerk() {
+		var meh = {
+			"Title": "",
+			"Source": "",
+			"Cost": "",
+			"Description": "",
+		}
+		return meh;
+	}
+	
+	function findBestMatch(res) {
+		var bMatch = "";
+		var lm = 0;
+		var matched = {};
+		for(var pm of allFandoms) {
+			var per = similarity(pm,res);
+			if(per.as>lm) {
+				lm = per.as;
+				bMatch = pm;
+				matched = per;
+				matched["source"] = pm;
+			}
+		}
+		if(lm = 0) {
+			bMatch = res;
+		}
+		return bMatch;
 	}
 	
 	function sortForge(obj) {
