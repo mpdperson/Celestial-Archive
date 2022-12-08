@@ -89,6 +89,13 @@
 		separator: false
 	},
 	{
+		icon: 'sim_card_download',
+		label: 'Progress',
+		to: '/Progress',
+		notes: 0,
+		separator: false
+	},
+	{
 		icon: 'card_giftcard',
 		label: 'Freebies',
 		to: '/Free',

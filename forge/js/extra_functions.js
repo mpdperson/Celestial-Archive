@@ -68,9 +68,9 @@ function LevenshteinDistance(a, b){
 			}
 			else {
 				matrix[i][j] = Math.min(
-					matrix[i-1][j-1] + 1, // substitution
-					Math.min(matrix[i][j-1] + 1, // insertion
-					matrix[i-1][j] + 1) // deletion
+					matrix[i-1][j-1] + 1, //substitution
+					Math.min(matrix[i][j-1] + 1, //insertion
+					matrix[i-1][j] + 1) //deletion
 				);
 			}
 		}
@@ -125,10 +125,10 @@ function textCosineSimilarity(strA, strB) {
 	var termFreqA = termFreqMap(strA);
 	var termFreqB = termFreqMap(strB);
 	var dict = {};
-
+	
 	addKeysToDict(termFreqA, dict);
 	addKeysToDict(termFreqB, dict);
-
+	
 	var termFreqVecA = termFreqMapToVector(termFreqA, dict);
 	var termFreqVecB = termFreqMapToVector(termFreqB, dict);
 	return cosineSimilarity(termFreqVecA, termFreqVecB);
@@ -149,7 +149,7 @@ function JaroWrinker(s1, s2) {
 	var s2Matches = new Array(s2.length);
 	for(i = 0; i < s1.length; i++) {
 		var low	= (i >= range) ? i - range : 0;
-    var high = (i + range <= s2.length) ? (i + range) : (s2.length - 1);
+		var high = (i + range <= s2.length) ? (i + range) : (s2.length - 1);
 		for(j = low; j <= high; j++) {
 			if(s1Matches[i] !== true && s2Matches[j] !== true && s1[i] === s2[j]) {
 				++m;
@@ -187,4 +187,18 @@ function JaroWrinker(s1, s2) {
 		weight = weight + l * p * (1 - weight);
 	}
 	return weight;
+}
+
+function sortWordList(arr) {
+	arr = [...new Set(arr)];
+	arr.sort(function(a, b) {
+		if(a.length < b.length) return -1;
+		else if(a.length > b.length) return 1;
+		else if(a.toLowerCase() < b.toLowerCase()) return -1;
+		else if(a.toLowerCase() > b.toLowerCase()) return 1;
+		else if(a < b) return 1;
+		else if(a > b) return -1;
+		else return 0;
+	});
+	return arr;
 }

@@ -20,6 +20,7 @@ const routes = [
 			{ path: 'Help', component: () => import('pages/Help.vue') },
 			{ path: 'Bookmarks', component: () => import('pages/Bookmarks.vue') },
 			{ path: 'Process', component: () => import('pages/Process.vue') },
+			{ path: 'Progress', component: () => import('pages/Progress.vue') },
 			{ path: 'ProcessSave', component: () => import('pages/ProcessSave.vue') },
 			{ path: 'Drawback', component: () => import('pages/Drawback.vue') },
 			{ path: 'Store', component: () => import('pages/Store.vue') },

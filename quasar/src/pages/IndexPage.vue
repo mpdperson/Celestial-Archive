@@ -46,7 +46,25 @@
 								Type of Celestial Archive
 							</q-tooltip>
 						</q-icon>
-						Mode
+						<div class="q-gutter-sm">
+							<q-radio dark v-model="mtype" val="m1" label="Empty Start" color="blue" @click="fileModeNotVis">
+							</q-radio>
+							<q-radio dark v-model="mtype" val="m2" label="CYOA Start" color="blue" @click="fileModeNotVis">
+							</q-radio>
+							<q-radio dark v-model="mtype" val="m3" label="Single Document" color="blue" @click="fileModeNotVis">
+							</q-radio>
+							<q-radio dark v-model="mtype" val="File" label="Custom Mode" color="blue" @click="fileModeVis">
+							</q-radio>
+						</div>
+						<div v-show="visibleMode">
+							<q-form name="myFormMode" dark>
+								<q-file style="width:200px;" color="teal" name="myFileMode" v-model="myFileMode" filled label="Load"  dark accept=".json" >
+									<template v-slot:prepend>
+										<q-icon name="cloud_upload" />
+									</template>
+								</q-file>
+							</q-form>
+						</div>
 					</div>
 				</q-carousel-slide>
 				<q-carousel-slide name="Starters" class="no-wrap text-center">
@@ -101,11 +119,13 @@
 		},
 		setup () {
 			const vtype = ref('v1');
+			const mtype = ref('m1');
 			const vmode = ref('Forge');
 			const optArr = ref([]);
 			const startArr = ref([]);
 			const $q = useQuasar();
 			const visible = ref(false);
+			const visibleMode = ref(false);
 			const confirm = async () => {
 				$q.dialog({ 
 					title: 'Confirm', 
@@ -122,8 +142,8 @@
 						obj["File"] = readFile();
 					}
 					console.log("launchForge",obj);
-					//Store.launchForge(obj);
-					//nav("Gacha"); 
+					Store.launchForge(obj);
+					nav("Gacha"); 
 				})
 			}
 			
@@ -139,7 +159,9 @@
 				startArr: startArr,
 				slide: ref('Version'),
 				visible: visible,
+				visibleMode: visibleMode,
 				myFile: ref(null),
+				myFileMode: ref(null),
 				resetNgo() {
 					confirm();
 				},
@@ -147,6 +169,12 @@
 					visible.value = true;
 				},
 				fileNotVis() {
+					visible.value = false;
+				},
+				fileModeVis() {
+					visible.value = true;
+				},
+				fileModeNotVis() {
 					visible.value = false;
 				}
 			}

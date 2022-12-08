@@ -67,7 +67,7 @@
 				dense: ref(true),
 				loadType: loadType,
 				options: [
-					'Forge', 'Document', 'Progress'
+				'Forge', 'Document', 'Progress'
 				],
 				myFile: myFile,
 				loadProgress() {

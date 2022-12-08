@@ -386,25 +386,25 @@ document.onkeydown = function(e) {
 	e = e || window.event;
 	var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
 	if(document.activeElement.nodeName!="INPUT" && document.activeElement.nodeName!="TEXTAREA") {
-		switch (event.keyCode) {
+		switch(event.keyCode) {
 			case 37:
-			//Left key pressed
-			prevPerk();
-			break;
+				//Left key pressed
+				prevPerk();
+				break;
 			case 38:
-			//Up key pressed
-			break;
+				//Up key pressed
+				break;
 			case 39:
-			//Right key pressed'
-			nextPerk();
-			break;
+				//Right key pressed'
+				nextPerk();
+				break;
 			case 40:
-			//Down key pressed
-			break;
+				//Down key pressed
+				break;
 			case 13:
-			//Enter key pressed
-			saveCurrentPerk();
-			break;
+				//Enter key pressed
+				saveCurrentPerk();
+				break;
 		}
 	}
 };
@@ -2974,26 +2974,26 @@ function doSubRoll(res,TakenList) {
 	var result = "";
 	switch(res.Dice) {
 		case "all_skills":
-		result = getRandom(allSkills);
-		break;
+			result = getRandom(allSkills);
+			break;
 		case "craft_list":
-		result = getRandom(craft_list);
-		break;
+			result = getRandom(craft_list);
+			break;
 		case "deities_list":
-		result = getRandom(deities);
-		break;
+			result = getRandom(deities);
+			break;
 		case "magic_skills":
-		result = getRandom(magic_skills);
-		break;
+			result = getRandom(magic_skills);
+			break;
 		case "sciences":
-		result = getRandom(sciences);
-		break;
+			result = getRandom(sciences);
+			break;
 		case "science_skills":
-		result = getRandom(science_skills);
-		break;
+			result = getRandom(science_skills);
+			break;
 		default:
-		result = getDice(res);
-		break;
+			result = getDice(res);
+			break;
 	}
 	if(TakenList.includes(result)) {
 		if(TakenList.length<getListLength(res.Dice)) {
@@ -3011,32 +3011,32 @@ function doSubRoll(res,TakenList) {
 function getListLength(obj) {
 	switch(obj) {
 		case "all_skills":
-		return allSkills.length;
-		break;
+			return allSkills.length;
+			break;
 		case "craft_list":
-		return craft_list.length;
-		break;
+			return craft_list.length;
+			break;
 		case "deities_list":
-		var dLength = 0;
-		deities.forEach(function(d) {
-			d.Gods.forEach(function(g) {
-				dLength++;
+			var dLength = 0;
+			deities.forEach(function(d) {
+				d.Gods.forEach(function(g) {
+					dLength++;
+				});
 			});
-		});
-		return dLength;
-		break;
+			return dLength;
+			break;
 		case "magic_skills":
-		return magic_skills.length;
-		break;
+			return magic_skills.length;
+			break;
 		case "sciences":
-		return sciences.length;
-		break;
+			return sciences.length;
+			break;
 		case "science_skills":
-		return science_skills.length;
-		break;
+			return science_skills.length;
+			break;
 		default:
-		return 0;
-		break;
+			return 0;
+			break;
 	}
 }
 

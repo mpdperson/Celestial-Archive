@@ -66,7 +66,8 @@
 			actDomainFilter: [],
 			parseMe: null,
 			domainFilter: [],
-			unfiltered: perkListv1,
+			//unfiltered: perkListv1,
+			unfiltered: perkListvA,
 			loadedFile: [],
 			loadedDoc: [],
 			filtered: [],
@@ -175,7 +176,7 @@
 				this.state.cfVer = "v3";
 			}
 			else if(str=="a1") {
-				this.state.unfiltered = perkList;
+				this.state.unfiltered = perkListvA;
 				this.state.cfVer = "a1";
 			}
 			else if(str=="File") {
@@ -402,11 +403,18 @@
 			this.state.sourceOrigins = sourceTemp;
 		},
 		
-		rejectPerk(selPerk) {
+		rejectPerk(selPerk, rollIt) {
 			this.state.rejectedPerks.push(selPerk);
-			doRoll(0,true);
-			this.fetchFreebies(this.state.currentPerk);
-			return {"Add":this.state.canGet,"Perk":this.state.currentPerk,"Free":this.state.currentFreebies};
+			if(isNull(rollIt)) rollIt = false;
+			if(rollIt) {
+				doRoll(0,true);
+				this.fetchFreebies(this.state.currentPerk);
+				return {
+					"Add":this.state.canGet,
+					"Perk":this.state.currentPerk,
+					"Free": this.state.currentFreebies
+				};
+			}
 		},
 		
 		doSearch(search) {
@@ -2093,6 +2101,26 @@
 			return returnList;
 		},
 		
+		fetchTempPerks() {
+			var curTemp = this.state.tempBuild;
+			var newList = {};
+			var returnList = [];
+			curTemp.forEach(function(n) {
+				if(newList.hasOwnProperty(n.Domain)) {
+					newList[n.Domain].Perks.push(n);
+				}
+				else {
+					newList[n.Domain] = {"Domain":n.Domain,"Over_Domain":n.Over_Domain,"Perks":[n]};
+				}
+			});
+			var keys = Object.keys(newList);
+			for(var i=0; i<keys.length; i++) {
+				var tmp = {"Domain":keys[i],"Over_Domain":newList[keys[i]].Over_Domain,"Perks":newList[keys[i]].Perks};
+				returnList.push(tmp);
+			}
+			return returnList;
+		},
+		
 		fetchConjoinPerks() {
 			var curPerks = this.state.currentPerks;
 			var newList = {};
@@ -2288,7 +2316,6 @@
 		},
 		
 		acceptPerk(selPerk) {
-			this.state.rejectedPerks.push(selPerk);
 			this.state.currentPerk = selPerk;
 			this.addToBuild(selPerk);
 			this.fetchFreebies(selPerk);
@@ -2471,6 +2498,7 @@
 		fetchFreebies: store.fetchFreebies,
 		fetchConjoinPerks: store.fetchConjoinPerks,
 		fetchFreePerks: store.fetchFreePerks,
+		fetchTempPerks: store.fetchTempPerks,
 		fetchRandomPerk: store.fetchRandomPerk,
 		findTitles: store.findTitles,
 		updateBuildList: store.updateBuildList,

@@ -132,6 +132,12 @@
 				query: Store.searchString,
 				cp,
 				result,
+				accept(selected) {
+					Store.acceptPerk(selected);
+				},
+				reject(selected) {
+					Store.rejectPerk(selected);
+				},
 				roll() {
 					let randomPerk = Store.getRoll();
 					var actPerk = randomPerk.Perk;
